@@ -1,0 +1,11 @@
+footer {
+    background-color: #0081B8;
+    color: #FFFF;
+    border-radius: 15px;
+    margin: 15px;
+    padding: 8px;
+}
+#footer-title {
+    text-align: center;
+    font-size: 14px;
+}
