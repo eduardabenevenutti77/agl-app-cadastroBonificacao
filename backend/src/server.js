@@ -2,9 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const database = require("./config/database");
 
-const authMiddleware = require("./middleware/authMiddleware");
 const UserApi = require("./api/user");
 const UserRouter = require("./routes/user");
+const authMiddleware = require("./middleware/authMiddleware");
 
 const app = express();
 app.use(express.json());
@@ -16,8 +16,8 @@ app.get("/", (req, res) => {
 });
 
 // rotas sem validação
-app.post("/api/v1/login", UserApi.login);
-app.post("/api/v1/cadastro", UserApi.createUser);
+app.post("/api/v1/user/cadastro", UserApi.createUser);
+app.post("/api/v1/user/login", UserApi.login);
 
 // rota com autenticação
 app.use("/api/v1/user", authMiddleware(), UserRouter)

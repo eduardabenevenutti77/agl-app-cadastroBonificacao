@@ -8,12 +8,14 @@ class UserApi {
             const user = await UserController.createUser(email, senha)
             return res.status(201).send(user)
         } catch (e) {
-            return res.status(400).send({ error: `Erro ao criar usuário` })
+            res.status(400).send({ error: e.message })
+            // return res.status(400).send({ error: `Erro ao criar usuário` })error: e.message
         }
     }
+    
     async login(req, res) {
         const { email, senha } = req.body
-        console.log(req.body)
+        // console.log(req.body)
         try {
             const token = await UserController.login(email, senha)
             res.status(200).send({token})
@@ -22,7 +24,15 @@ class UserApi {
         }
     }
 
-    // criar função para cadastro de regra
+    async cadastroRegra(req, res) {
+        const { remuneracaoFixa, remuneracaoVariavel } = req.body
+        try {
+            const regra = await RegraController.cadastroRegra(remuneracaoFixa, remuneracaoVariavel) 
+            return res.status(201).send(regra)
+        } catch (e) {
+            res.status(400).send({ error: e.message })
+        }
+    }
 }
 
 module.exports = new UserApi()
