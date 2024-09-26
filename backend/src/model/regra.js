@@ -1,4 +1,4 @@
-const database = require("../config/databese")
+const database = require("../config/database")
 
 class Regra {
     constructor() {
