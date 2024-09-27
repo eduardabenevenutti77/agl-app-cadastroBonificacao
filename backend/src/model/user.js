@@ -1,6 +1,6 @@
 const database = require("../config/database")
 
-class User{
+class User {
     constructor() {
         this.model = database.db.define("users", {
             id: {
@@ -20,7 +20,7 @@ class User{
                 validate: {
                     isIn: [["admin", "user"]],
                 },
-            },
+            }
         });
     }
 }
