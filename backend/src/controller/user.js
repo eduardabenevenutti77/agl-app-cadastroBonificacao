@@ -12,6 +12,69 @@ const validando = (email) => {
 
 class UserController {
     
+    /*
+        como desmembrar um webhook 
+                const axios = require('axios');
+        const mysql = require('mysql2');
+
+        // Configurações do banco de dados
+        const db = mysql.createConnection({
+        host: 'localhost',
+        user: 'usuario',
+        password: 'senha',
+        database: 'seubanco'
+        });
+
+        // Função para buscar leads no Bitrix
+        async function fetchLeads() {
+        const webhookUrl = 'https://seusite.bitrix24.com/rest/1/SEU_WEBHOOK_ID/crm.lead.list';
+
+        try {
+            const response = await axios.get(webhookUrl, {
+            params: {
+                select: ['ID', 'TITLE', 'STATUS']
+            }
+            });
+
+            const leads = response.data.result;
+
+            // Desmembrar e armazenar no banco de dados
+            leads.forEach(lead => {
+            const id = lead.ID;
+            const title = lead.TITLE;
+            const status = lead.STATUS;
+
+            saveToDatabase(id, title, status);
+            });
+        } catch (error) {
+            console.error('Erro ao buscar leads:', error);
+        }
+        }
+
+        // Função para salvar no banco de dados
+        function saveToDatabase(id, title, status) {
+        const query = 'INSERT INTO leads (id, title, status) VALUES (?, ?, ?)';
+        db.execute(query, [id, title, status], (error, results) => {
+            if (error) {
+            console.error('Erro ao inserir no banco de dados:', error);
+            } else {
+            console.log('Lead inserido:', results.insertId);
+            }
+        });
+        }
+
+        // Conectar ao banco de dados e buscar leads
+        db.connect(err => {
+        if (err) {
+            console.error('Erro ao conectar ao banco de dados:', err);
+            return;
+        }
+        console.log('Conectado ao banco de dados.');
+        fetchLeads();
+        });
+
+    */
+
     async createUser( email, senha ) {
         if (!email || !senha) {
             throw new Error("Os campos são obrigatório!");
