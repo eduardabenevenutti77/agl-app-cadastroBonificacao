@@ -30,7 +30,7 @@
     color: #01638C; 
     font-weight: bold; 
 }
-input {
+.input {
     width: calc(100% - 40px); 
     max-width: 300px; 
     height: 30px; 
@@ -41,7 +41,7 @@ input {
     padding: 0 15px; 
     transition: border 0.3s; 
 }
-input:focus {
+.input:focus {
     border-color: #01638C; 
     outline: none; 
 }

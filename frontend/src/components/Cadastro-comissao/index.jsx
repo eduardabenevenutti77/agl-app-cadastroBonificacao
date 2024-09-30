@@ -9,27 +9,27 @@ export default function Cadastrocomissao() {
                 <div id="display-campos">
                     <div>
                         <p className="campos-title">Remuneração fixa <strong className="importante">*</strong></p>
-                        <input type="text" />
+                        <input className="input" type="text" />
                     </div>
                     <div>
                         <p className="campos-title">Remuneração variável <strong className="importante">*</strong></p>
-                        <input type="text" />
+                        <input className="input" type="text" />
                     </div>
                     <div>
                         <p className="campos-title">% por critério <strong className="importante">*</strong></p>
-                        <input type="text" />
+                        <input className="input" type="text" />
                     </div>
                     <div>
                         <p className="campos-title">Critério 01 (valor) <strong className="importante">*</strong></p>
-                        <input type="text" />
+                        <input className="input" type="text" />
                     </div>
                     <div>
                         <p className="campos-title">Critério 02 (valor)</p>
-                        <input type="text" />
+                        <input className="input" type="text" />
                     </div>
                     <div>
                         <p className="campos-title">Multiplicadores <strong className="importante">*</strong></p>
-                        <input type="text" />
+                        <input className="input" type="text" />
                     </div>
                     <div>
                         <p className="campos-title">Selecione o time <strong className="importante">*</strong></p>
