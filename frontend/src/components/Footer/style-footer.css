@@ -1,9 +1,12 @@
 footer {
-    background-color: #0081B8;
+    background-color: #5aaaca;
     color: #FFFF;
     border-radius: 15px;
     margin: 15px;
     padding: 8px;
+    width: 100%;
+    max-width: 1440px;
+    margin-left: 25px;
 }
 #footer-title {
     text-align: center;

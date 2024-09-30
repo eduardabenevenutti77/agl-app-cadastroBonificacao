@@ -1,0 +1,103 @@
+#card-regra {
+    background-color: rgba(255, 255, 255, 0.9); 
+    width: 90%; 
+    max-width: 1291px; 
+    height: auto; 
+    border-radius: 15px; 
+    margin: auto; 
+    margin-top: 0px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); 
+    padding: 30px; 
+}
+#title-regra {
+    text-align: center;
+    font-size: 28px; 
+    font-weight: 300;
+    color: #333; 
+    margin: 20px 0; 
+}
+#display-campos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+.campos-title {
+    font-weight: 400;
+    color: #01638C;
+    font-size: 18px; 
+    margin-left: 20px; 
+}
+.importante {
+    color: #01638C; 
+    font-weight: bold; 
+}
+.input {
+    width: calc(100% - 40px); 
+    max-width: 300px; 
+    height: 30px; 
+    border-radius: 8px; 
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    /* margin: 10px 0;  */
+    margin-left: 40px;
+    padding: 0 15px; 
+    transition: border 0.3s; 
+}
+.input:focus {
+    border-color: #01638C; 
+    outline: none; 
+}
+select {
+    width: calc(100% - 40px); 
+    max-width: 337px; 
+    height: 30px; 
+    border-radius: 8px; 
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    /* margin: 10px 0;  */
+    margin-left: 40px;
+    padding: 0 15px; 
+    transition: border 0.3s; 
+    font-family: "Jost";
+}
+select {
+    border-color: #01638C; 
+    outline: none; 
+}
+#display-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+    gap: 15px;
+}
+#cancelar {
+    width: 200px;
+    height: 30px;
+    background-color: #0081b8;
+    color: #ffff;
+    border-radius: 5px;
+    border: none;
+    font-weight: 400;
+    font-family: "Jost";
+    font-size: 16px;
+    cursor: pointer; 
+    transition: background-color 0.3s, transform 0.2s; 
+}
+#cadastrar {
+    width: 200px;
+    height: 30px;
+    background-color: #004B6B;
+    color: #ffff;
+    border-radius: 5px;
+    border: none;
+    font-weight: 400;
+    font-family: "Jost";
+    font-size: 16px;
+    cursor: pointer; 
+    transition: background-color 0.3s, transform 0.2s; 
+}
+#cancelar:hover {
+    background-color: #0070a2; 
+    transform: scale(1.0); 
+}
+#cadastrar:hover {
+    background-color: #003D54; 
+    transform: scale(1.0); 
+}

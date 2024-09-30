@@ -14,6 +14,9 @@ export default function Header(){
                     <Link to="/cadastrogestor" style={{textDecoration: 'none'}}>
                         <p id="cadastrar-regra">Cadastrar regra</p>
                     </Link>
+                    <Link to="/login" style={{textDecoration: 'none'}}>
+                        {/* <p id="cadastrar-regra">Cadastrar regra</p> */}
+                    </Link>
                 </div>
                 <div>
                     <Link>
