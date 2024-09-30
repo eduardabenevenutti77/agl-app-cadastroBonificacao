@@ -45,10 +45,16 @@
   flex-direction: column;
   min-height: 100vh;
   justify-content: space-between;
+  /* margin-bottom: 0px; */
 }
 .jost {
   font-family: "Jost", sans-serif;
   font-optical-sizing: auto;
   /* font-weight: <weight>; */
+  font-style: normal;
+}
+.khula-bold {
+  font-family: "Khula", sans-serif;
+  font-weight: 700;
   font-style: normal;
 }

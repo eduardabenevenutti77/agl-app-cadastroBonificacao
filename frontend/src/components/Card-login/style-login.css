@@ -1,0 +1,47 @@
+* {
+    background-color: #51BDEB;
+}
+#position {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    height: 100vh; 
+}
+#logo-zopu {
+    margin-right: 40px; 
+}
+#login {
+    display: flex;
+    flex-direction: column; 
+    background-color: #FBFBFB;
+    width: 705px;
+    height: 600px;
+    border-radius: 24px;
+}
+#login-title {
+    font-weight: bold;
+    color: #0081B8;
+    font-family: "Khula", sans-serif; 
+    text-transform: uppercase;
+    font-size: 30px; 
+    margin-bottom: 20px;
+    text-align: center; 
+    background-color: #FBFBFB;
+    margin-top: 60px;
+}
+#campos {
+    margin-left: 40px;
+    background-color: #FBFBFB;
+}
+.campo {
+    font-weight: 600;
+    color: #5B5B5B;
+    font-family: "Jost";
+    font-size: 18px;
+    background-color: #FBFBFB;
+}
+.khula-bold {
+  font-family: "Khula", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
