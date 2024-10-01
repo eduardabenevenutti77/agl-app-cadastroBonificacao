@@ -11,6 +11,11 @@ export default function Header(){
             </Link>
             <div className="icon-container">
                 <div>
+                    <Link to="/dashboardgestor" style={{textDecoration: 'none'}}>
+                        <p id="dashboardGestor">Dashboard</p>                    
+                    </Link>
+                </div>
+                <div>
                     <Link to="/cadastrogestor" style={{textDecoration: 'none'}}>
                         <p id="cadastrar-regra">Cadastrar regra</p>
                     </Link>

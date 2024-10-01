@@ -30,7 +30,7 @@ p {
     align-items: center;
     gap: 20px;
 }
-#cadastrar-regra {
+#cadastrar-regra, #dashboardGestor {
     font-size: 17px;
 }
 .jost {

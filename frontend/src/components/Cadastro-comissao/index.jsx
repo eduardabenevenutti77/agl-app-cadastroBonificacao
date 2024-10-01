@@ -47,7 +47,6 @@ export default function Cadastrocomissao() {
                     </div>
                     <div>
                         <p className="campos-title">Selecione o produto <strong className="importante">*</strong></p>
-                        {/* <input type="text" /> */}
                         <select>
                             <option value="someOption">Some option</option>
                             <option value="otherOption">Other option</option>
