@@ -1,11 +1,11 @@
-body {
+/* body {
     background-color: #FBFBFB;
-}
+} */
 #display-download {
     display: flex;
     justify-content: end;
-    align-items: flex-start; /* Alinhar ao topo */
-    height: auto; /* Certifique-se de que a altura é apropriada */
+    align-items: flex-start; 
+    height: auto; 
 }
 #button-download {
     background-color: #01638C;

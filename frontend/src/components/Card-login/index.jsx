@@ -38,7 +38,7 @@ export default function CardLogin() {
         <>
             <div id="position">
                 <div id="logo-zopu">
-                    <img src={logoZopu} alt="" style={{width:"400px"}}/>
+                    <img className="logoZopu" src={logoZopu} alt="" style={{width:"400px"}}/>
                 </div>
                 <div id="login">
                     <p id="login-title">Gestão de bonificação</p>
@@ -68,7 +68,7 @@ export default function CardLogin() {
                         </div>
                     </form>
                     <p id="cadastro-link">Ainda não tem uma conta? <span style={{ textDecoration: 'underline' }}>Cadastre-se agora.</span></p>
-                    <img src={logoAgl} style={{width: "150px", marginLeft:"276px"}} />
+                    <img className="logoAGL" src={logoAgl} />
                 </div>
             </div>
         </>
