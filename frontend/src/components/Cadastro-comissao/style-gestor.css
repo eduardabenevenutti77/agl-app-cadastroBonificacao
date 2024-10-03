@@ -1,5 +1,43 @@
+.campos-title {
+    font-weight: 400;
+    color: #01638C;
+    font-size: 18px; 
+    margin-left: 20px; 
+}
+.importante {
+    color: #01638C; 
+    font-weight: bold; 
+}
+.input {
+    width: calc(100% - 40px); 
+    max-width: 300px; 
+    height: 30px; 
+    border-radius: 8px; 
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin-left: 40px;
+    padding: 0 15px; 
+    transition: border 0.3s; 
+}
+.input:focus {
+    border-color: #01638C; 
+    outline: none; 
+}
+select {
+    width: calc(100% - 40px); 
+    max-width: 337px; 
+    height: 30px; 
+    border-radius: 8px; 
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin-left: 40px;
+    padding: 0 15px; 
+    transition: border 0.3s; 
+    font-family: "Jost";
+}
+select {
+    border-color: #01638C; 
+    outline: none; 
+}
 #card-regra {
-    /* background-color: rgba(255, 255, 255, 0.9);  */
     width: 90%; 
     max-width: 1291px; 
     height: auto; 
@@ -19,47 +57,6 @@
 #display-campos {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-}
-.campos-title {
-    font-weight: 400;
-    color: #01638C;
-    font-size: 18px; 
-    margin-left: 20px; 
-}
-.importante {
-    color: #01638C; 
-    font-weight: bold; 
-}
-.input {
-    width: calc(100% - 40px); 
-    max-width: 300px; 
-    height: 30px; 
-    border-radius: 8px; 
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    /* margin: 10px 0;  */
-    margin-left: 40px;
-    padding: 0 15px; 
-    transition: border 0.3s; 
-}
-.input:focus {
-    border-color: #01638C; 
-    outline: none; 
-}
-select {
-    width: calc(100% - 40px); 
-    max-width: 337px; 
-    height: 30px; 
-    border-radius: 8px; 
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    /* margin: 10px 0;  */
-    margin-left: 40px;
-    padding: 0 15px; 
-    transition: border 0.3s; 
-    font-family: "Jost";
-}
-select {
-    border-color: #01638C; 
-    outline: none; 
 }
 #display-button {
     display: flex;
