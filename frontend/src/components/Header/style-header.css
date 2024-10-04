@@ -9,7 +9,7 @@
     padding: 10px;
     width: 100%;
     max-width: 1440px;
-    display: none;
+    /* display: none; */
 }
 Link {
     text-decoration: none;

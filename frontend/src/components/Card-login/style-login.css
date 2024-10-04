@@ -1,6 +1,6 @@
-body {
+/* body {
     background-color: #51BDEB;
-}
+} */
 #position {
     display: flex;
     justify-content: center;
@@ -109,7 +109,7 @@ body {
   align-items: center;
   gap: 15px;
 }
-.logoAGL {
+.logoAGL-login {
     margin-left: 276px;
     width: 150px;
 }
@@ -125,7 +125,7 @@ body {
         width: 90%; 
         height: auto; 
     }
-    .logoAGL {
+    .logoAGL-login {
         margin-left: 50px;
     }
     .email {
@@ -151,7 +151,7 @@ body {
     #cadastro-link {
         font-size: 14px;
     }
-    .logoAGL {
+    /* .logoAGL {
         margin-left: 150px;
-    }
+    } */
 }    

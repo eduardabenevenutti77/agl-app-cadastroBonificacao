@@ -77,7 +77,9 @@ export default function CardCadastro() {
                             {error && <p>{error}</p>} {/* caso ocorra erro será notificado aqui */}
                         </div>
                     </form>
-                    <img src={logoAgl} style={{width: "140px", marginLeft:"280px", marginTop: "0px"}} />
+                    <div id="position-logo">
+                        <img id="logoAGL" src={logoAgl} />
+                    </div>
                 </div>
             </div>
         </>

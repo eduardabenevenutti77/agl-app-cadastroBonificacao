@@ -67,8 +67,8 @@ export default function CardLogin() {
                             {error && <p>{error}</p>} {/* caso ocorra erro será notificado aqui */}
                         </div>
                     </form>
-                    <p id="cadastro-link">Ainda não tem uma conta? <span style={{ textDecoration: 'underline' }}>Cadastre-se agora.</span></p>
-                    <img className="logoAGL" src={logoAgl} />
+                    <p id="cadastro-link">Ainda não tem uma conta? <a style={{textDecoration: "underline"}}>Cadastre-se agora.</a></p>
+                    <img className="logoAGL-login" src={logoAgl} />
                 </div>
             </div>
         </>

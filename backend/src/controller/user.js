@@ -13,18 +13,6 @@ const validando = (email) => {
 class UserController {
     
     /*
-        como desmembrar um webhook 
-        const axios = require('axios');
-        const mysql = require('mysql2');
-
-        // Configurações do banco de dados
-        const db = mysql.createConnection({
-        host: 'localhost',
-        user: 'usuario',
-        password: 'senha',
-        database: 'seubanco'
-        });
-
         // Função para buscar leads no Bitrix
         async function fetchLeads() {
         const webhookUrl = 'https://seusite.bitrix24.com/rest/1/SEU_WEBHOOK_ID/crm.lead.list';
