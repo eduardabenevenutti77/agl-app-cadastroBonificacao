@@ -1,5 +1,6 @@
 const database = require("../config/database")
-// const criterioID = require("../models/criterio");
+const criterioID = require("../model/criterio");
+const grupoID = require('../model/grupo')
 
 class Regra {
     constructor() {

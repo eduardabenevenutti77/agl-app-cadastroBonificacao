@@ -1,4 +1,5 @@
 const database = require("../config/database")
+// const { Sequelize } = require('sequelize');
 
 class User {
     constructor() {

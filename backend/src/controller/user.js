@@ -91,18 +91,22 @@ class UserController {
     }
 
     async login(email, senha) {
-        if (email === undefined || senha === undefined) {
-            throw new Error("Os campos são obrigatórios");
-        }
-        const userValue = await user.findOne({ where: {email} });
-        if (!userValue) {
-            throw new Error("[1] Usuário e senha inválidos.");
-        }
-        const senhaValida = bcrypt.compare(String(senha), userValue.senha);
-        if (!senhaValida) {
-            throw new Error("[2] Usuário e senha inválidos.");
-        }
-        return jwt.sign({ id: userValue.id }, SECRET_KEY, {expiresIn: 60 * 60});
+    if (email === undefined || senha === undefined) {
+      throw new Error("Email e senha são obrigatórios.");
+    }
+    const userValue = await user.findOne({ where: { email } });
+    if (!userValue) {
+      throw new Error("[1] Usuário e senha inválidos.");
+    }
+    const senhaValida = bcrypt.compare(String(senha), userValue.senha);
+    if (!senhaValida) {
+      throw new Error("[2] Usuário e senha inválidos.");
+    }
+    return jwt.sign({ id: userValue.id }, SECRET_KEY, { expiresIn: 120 * 120 });
+  }
+
+    async findUsers() {
+        return user.findAll();
     }
 }
 
