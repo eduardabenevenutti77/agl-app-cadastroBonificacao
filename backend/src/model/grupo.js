@@ -1,4 +1,6 @@
 const database = require("../config/database")
+const timeID = require('../model/time')
+const produtoID = require('../model/produto')
 
 class Grupo {
     constructor() {

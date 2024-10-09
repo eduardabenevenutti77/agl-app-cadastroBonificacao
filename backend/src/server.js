@@ -15,12 +15,16 @@ app.get("/", (req, res) => {
     res.status(200).json({ message: "Ok, a requesição está funcionado" });
 });
 
+
+// delimitando o parâmetro das rotas
+app.use('/api/v1/user', UserRouter)
+
 // rotas sem validação
 app.post("/api/v1/user/cadastro", UserApi.createUser);
 app.post("/api/v1/user/login", UserApi.login);
 
-// rota com autenticação
-app.use("/api/v1/user", authMiddleware(), UserRouter)
+// // rota com autenticação
+// app.use("/api/v1/user", authMiddleware(), UserRouter)
 
 database.db
     .sync({ force: false})
