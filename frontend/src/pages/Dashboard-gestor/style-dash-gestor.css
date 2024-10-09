@@ -1,0 +1,12 @@
+/* body {
+    background-color: #FBFBFB;
+} */
+#display-download {
+    display: flex;
+    justify-content: end;
+    align-items: flex-start; 
+    height: auto; 
+}
+#button-download {
+    background-color: #01638C;
+}
