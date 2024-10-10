@@ -70,14 +70,22 @@ class UserController {
         if (!validando(email)) {
             throw new Error("O e-mail deve ser da AGL Telecom.");
         } else {
-            if (email === "fernanda.lopes@agltelecom.com" || email === "diego@agltelecom.com" || email === "Rose@agltelecom.com" || email === "Shayenne@agltelecom.com" || email === "barbara@agltelecom.com") {
-                const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE); 
-                const userValue = await user.create({
-                    email,
-                    senha: cypherSenha,
-                    permissao: "admin"
-                });
-                return userValue;
+            const response = await axios.get(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/user.search?filter[EMAIL]=${email}`, {
+                timeout: 5000 
+            });
+            if (response.data.result && response.data.result.length > 0) {
+                const webhookEmail = response.data.result[0].EMAIL[0].VALUE;
+                if (email === webhookEmail) {
+                    const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE); 
+                    const userValue = await user.create({
+                        email,
+                        senha: cypherSenha,
+                        permissao: "admin"
+                    });
+                    return userValue;
+                } else {
+                    console.log('Não deu certo -> ', error);
+                }
             } else {
                 const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE); 
                 const userValue = await user.create({
