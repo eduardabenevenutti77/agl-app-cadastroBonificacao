@@ -1,8 +1,8 @@
-.campos-title {
-    font-weight: 400;
+.title{
+    font-weight: 700;
     color: #01638C;
-    font-size: 18px; 
-    margin-left: 20px; 
+    font-size: 20px; 
+    text-align: center;
 }
 .importante {
     color: #01638C; 
