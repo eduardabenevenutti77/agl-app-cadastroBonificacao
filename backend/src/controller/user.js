@@ -2,10 +2,8 @@ const user = require("../model/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const axios = require("axios");
-
 const SECRET_KEY = "bonificacao"
 const SALT_VALUE = 10;
-
 const validando = (email) => {
     return email.endsWith('@agltelecom.com');
 };
@@ -20,17 +18,13 @@ class UserController {
             if (!validando(email)) {
                 throw new Error("O e-mail deve ser da AGL Telecom.");
             }
-
             const response = await axios.get(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/user.search?filter[EMAIL]=${email}`, {
                 timeout: 5000
             });
-
             let permissao = "user";
-
             if (response.data.result && response.data.result.length > 0) {
                 const webhookUser = response.data.result[0];
                 const webhookEmail = webhookUser.EMAIL[0]?.VALUE?.toLowerCase();
-
                 if (email.toLowerCase() === webhookEmail) {
                     const position = webhookUser.POSITION?.toLowerCase() || "";
                     const isSupervisor = position.includes("supervisora de vendas") ||
@@ -41,17 +35,13 @@ class UserController {
                     }
                 }
             }
-
             const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE);
-
             const userValue = await user.create({
                 email,
                 senha: cypherSenha,
                 permissao
             });
-
             return userValue;
-
         } catch (error) {
             if (error.name === 'SequelizeValidationError') {
                 const validationErrors = error.errors.map(err => err.message);

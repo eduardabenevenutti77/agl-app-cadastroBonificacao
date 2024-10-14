@@ -9,7 +9,7 @@ router.use(session({
     secret: 'exemplo',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Defina como true se você estiver usando HTTPS
+    cookie: { secure: false } 
 }));
 
 // rotas para ADM
