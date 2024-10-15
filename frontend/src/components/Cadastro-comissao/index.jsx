@@ -54,15 +54,19 @@ export default function Cadastrocomissao() {
     };
 
     const fetchFuncionario = async () => {
-        setLoadingFuncionario(true); // Comece o carregamento
+        setLoadingFuncionario(true); 
         try {
             const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/user.get');
             if (!response.ok) {
                 throw new Error('Erro ao buscar os funcionários');
             }
             const data = await response.json();
-            console.log(data.result); // Verifique a estrutura aqui
-            setFuncionario(data.result || []);
+            const funcionariosCompletos = data.result.map(funcionario => ({
+                id: funcionario.id,
+                fullName: `${funcionario.NAME} ${funcionario.LAST_NAME}` // Juntando o nome completo
+            }));
+            console.log(funcionariosCompletos.result); 
+            setFuncionario(funcionariosCompletos || []);
         } catch (err) {
             setErrorFuncionario(err.message);
         } finally {
@@ -122,21 +126,30 @@ export default function Cadastrocomissao() {
                         </div>
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                                <TextField label="Selecione o funcionário" variant="outlined" size="small" fullWidth margin="normal" select value={selectFuncionario || ''} onChange={(e) => setSelectedFuncionario(e.target.value)}>
-                                    <MenuItem value="">
-                                        <em>Nenhum funcionário selecionado</em>
-                                    </MenuItem>
-                                    {errorFuncionario && <MenuItem disabled>{errorFuncionario}</MenuItem>}
-                                    {!loadingFuncionario && !errorFuncionario && funcionario > 0 ? (
-                                        funcionario.map((funcionarios) => (
-                                            <MenuItem key={funcionarios.id} value={funcionarios.id}>
-                                                {funcionarios.NAME}
-                                            </MenuItem>
-                                        ))
-                                    ) : (
-                                        <MenuItem disabled>Nenhum funcionário encontrado</MenuItem>
-                                    )}
-                                </TextField>
+                            <TextField 
+                                label="Selecione o funcionário" 
+                                variant="outlined" 
+                                size="small" 
+                                fullWidth 
+                                margin="normal" 
+                                select 
+                                value={selectFuncionario || ''} 
+                                onChange={(e) => setSelectedFuncionario(e.target.value)}
+                            >
+                                <MenuItem value="">
+                                    <em>Nenhum funcionário selecionado</em>
+                                </MenuItem>
+                                {errorFuncionario && <MenuItem disabled>{errorFuncionario}</MenuItem>}
+                                {!loadingFuncionario && !errorFuncionario && funcionario.length > 0 ? (
+                                    funcionario.map((funcionarios) => (
+                                        <MenuItem key={funcionarios.id} value={funcionarios.id}>
+                                            {funcionarios.fullName}
+                                        </MenuItem>
+                                    ))
+                                ) : (
+                                    <MenuItem disabled>Nenhum funcionário encontrado</MenuItem>
+                                )}
+                            </TextField>
                                 <div>
                                     <p id='aviso'>Funcionário Selecionado: {selectFuncionario ? funcionario.find(f => f.id === Number(selectFuncionario))?.NAME : 'Nenhum funcionário selecionado'}</p>
                                 </div>
