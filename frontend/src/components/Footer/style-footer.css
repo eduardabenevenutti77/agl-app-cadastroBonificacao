@@ -1,12 +1,12 @@
 footer {
-    background-color: #5aaaca;
-    color: #FFFF;
-    border-radius: 15px;
-    margin: 15px;
-    padding: 8px;
-    width: 100%;
-    max-width: 1440px;
-    margin-left: 25px;
+  margin-top: auto; /* Isso vai "empurrar" o footer para o final */
+  background-color: #5aaaca;
+  color: #FFFF;
+  border-radius: 15px;
+  margin: 15px auto; /* Centraliza horizontalmente */
+  padding: 8px;
+  width: 100%;
+  max-width: 1440px;
 }
 #footer-title {
     text-align: center;

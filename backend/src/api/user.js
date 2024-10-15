@@ -8,8 +8,7 @@ class UserApi {
             const user = await UserController.createUser(email, senha)
             return res.status(201).send(user)
         } catch (e) {
-            error: `Problema na hora de criar usuários -> ${e.message}`
-            // return res.status(400).send({ error: `Erro ao criar usuário` })error: e.message
+            return res.status(400).send({ error: `Erro ao criar usuário -> ${e.message}` })
         }
     }
     
@@ -20,7 +19,7 @@ class UserApi {
             const token = await UserController.login(email, senha)
             res.status(200).send({token})
         } catch (e) {
-            res.status(400).send({ eerror: `Problema na hora de logar -> ${e.message}` })
+            res.status(400).send({ error: `Problema na hora de logar -> ${e.message}` })
         }
     }
 

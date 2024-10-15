@@ -27,11 +27,9 @@ export default function CardCadastro() {
             setError('Login falhou');
         }
     };
-
     const toggleVisibility = () => {
         setShow(!show);
     };
-
     return(
         <>
             <div id="position">
@@ -68,13 +66,13 @@ export default function CardCadastro() {
                                         className="senha"
                                         placeholder="digite a sua senha novamente"
                                     />
-                                    <img src={show? eye : eyes} onClick={toggleVisibility} style={{cursor: 'pointer'}} alt="" />{/* Ícone (usando Font Awesome como exemplo) */}
+                                    <img src={show? eye : eyes} onClick={toggleVisibility} style={{cursor: 'pointer'}} alt="" />
                                 </div>
                             </div>
                         </div>
                         <div id="button">
                             <button id="acesso">Acesse a sua conta</button>
-                            {error && <p>{error}</p>} {/* caso ocorra erro será notificado aqui */}
+                            {error && <p>{error}</p>} 
                         </div>
                     </form>
                     <div id="position-logo">

@@ -58,13 +58,13 @@ export default function CardLogin() {
                                         className="senha"
                                         placeholder="digite a sua senha"
                                     />
-                                    <img src={show? eye : eyes} onClick={toggleVisibility} style={{cursor: 'pointer'}} alt="" />{/* Ícone (usando Font Awesome como exemplo) */}
+                                    <img src={show? eye : eyes} onClick={toggleVisibility} style={{cursor: 'pointer'}} alt="" />
                                 </div>
                             </div>
                         </div>
                         <div id="button">
                             <button type="submit" id="acesso">Acesse a sua conta</button>
-                            {error && <p>{error}</p>} {/* caso ocorra erro será notificado aqui */}
+                            {error && <p>{error}</p>} 
                         </div>
                     </form>
                     <p id="cadastro-link">Ainda não tem uma conta? <a style={{textDecoration: "underline"}}>Cadastre-se agora.</a></p>

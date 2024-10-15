@@ -7,24 +7,19 @@ function authMiddleware(roles = []) {
         if (!token) {
             return res.status(400).json({ mensagem: "Token não fornecido" });
         }
-
         try {
             const decoded = jwt.verify(token, "bonificacao");
             const userLoggedArray = await user.findUsers(decoded.id);
-            const userLogged = userLoggedArray[0]; // Acessa o primeiro usuário
-
+            const userLogged = userLoggedArray[0]; 
             console.log("Usuário encontrado: ", userLogged ? userLogged.dataValues : "Nenhum usuário encontrado");
-
             if (!userLogged) {
                 return res.status(404).json({ mensagem: "Usuário não encontrado" });
             }
-
             if (roles.length && !roles.includes(userLogged.dataValues.permissao)) {
                 console.log(`Acesso negado para ${userLogged.dataValues.email}. Permissões: ${userLogged.dataValues.permissao}`);
                 return res.status(403).json({ mensagem: "Sem permissão" });
             }
-
-            req.session = userLogged.dataValues; // Armazena na sessão
+            req.session = userLogged.dataValues; 
             next();
         } catch (err) {
             console.error(err);
