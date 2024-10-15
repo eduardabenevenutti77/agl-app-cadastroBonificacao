@@ -7,3 +7,18 @@ body {
     font-size: 20px; 
     text-align: center;
 }
+footer {
+  margin-top: auto; /* Isso vai "empurrar" o footer para o final */
+  background-color: #5aaaca;
+  color: #FFFF;
+  border-radius: 15px;
+  margin: 15px auto; /* Centraliza horizontalmente */
+  padding: 8px;
+  width: 100%;
+  max-width: 1440px;
+}
+#aviso {
+    font-size: small;
+    color: #b2b2b2;
+    font-weight: 400;
+}

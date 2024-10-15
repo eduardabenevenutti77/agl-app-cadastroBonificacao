@@ -6,28 +6,76 @@ import SendIcon from '@mui/icons-material/Send';
 
 export default function Cadastrocomissao() {
     const [time, setTime] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [selectedTime, setSelectedTime] = useState('');
+    const [loadingTime, setLoadingTime] = useState(true);
+    const [errorTime, setErrorTime] = useState(null);
+    // const selectedTimeId = Number(selectedTime);
+
+    const [produto, setProduto] = useState([]);
+    const [selectedProduto, setSelectedProduto] = useState('');
+    const [loadingProduto, setLoadingProduto] = useState(true);
+    const [errorProduto, setErrorProduto] = useState(null);
+
+    const [funcionario, setFuncionario] = useState([]);
+    const [selectFuncionario, setSelectedFuncionario] = useState('');
+    const [loadingFuncionario, setLoadingFuncionario] = useState(true);
+    const [errorFuncionario, setErrorFuncionario] = useState(null);
+
     const fetchTimes = async () => {
         try {
-            const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/department.get?NAME');
+            const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/department.get?select[]=name');
             if (!response.ok) {
                 throw new Error('Erro ao buscar os times');
             }
             const data = await response.json();
-            setTime(data);
+            console.log(data.result);
+            setTime(data.result || []);
         } catch (err) {
-             setError(err.message);
+            setErrorTime(err.message);
         } finally {
-            setLoading(false);
+            setLoadingTime(false);
         }
     };
+
+    const fetchProduto = async () => {
+        try {
+            const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/catalog.document.list');
+            if (!response.ok) {
+                throw new Error('Erro ao buscar os produtos');
+            }
+            const data = await response.json();
+            // console.log(data.result);
+            setProduto(data.result || []);
+        } catch (err) {
+            setErrorProduto(err.message);
+        } finally {
+            setLoadingProduto(false);
+        }
+    };
+
+    const fetchFuncionario = async () => {
+        setLoadingFuncionario(true); // Comece o carregamento
+        try {
+            const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/user.get');
+            if (!response.ok) {
+                throw new Error('Erro ao buscar os funcionários');
+            }
+            const data = await response.json();
+            console.log(data.result); // Verifique a estrutura aqui
+            setFuncionario(data.result || []);
+        } catch (err) {
+            setErrorFuncionario(err.message);
+        } finally {
+            setLoadingFuncionario(false);
+        }
+    };    
+
     useEffect(() => {
-        fetchTimes(); 
+        fetchTimes(),
+        fetchProduto(),
+        fetchFuncionario();
     }, []);
     return (
-        <body>
-            
             <Card variant="outlined" style={{ maxWidth: '1000px', margin: 'auto', background: '#FCFCF4', borderRadius: '10px' }}>
                 <CardContent>
                     <p className='title-cadastro'>Cadastro de Regra de Comissionamento</p>
@@ -54,27 +102,56 @@ export default function Cadastrocomissao() {
                     </Grid>
                     <Grid container spacing={1}>
                         <Grid item xs={12} sm={4}>
-                                <TextField label="Selecione o time *" variant="outlined" size="small" fullWidth margin="normal" select>
-                                    {loading && <MenuItem disabled>Carregando...</MenuItem>}
-                                    {error && <MenuItem disabled>{error}</MenuItem>}
-                                    {!loading && !error && time.map((times) => (
-                                        <MenuItem key={times.id} value={times.id}> 
-                                            {times.nome} 
-                                        </MenuItem>
-                                    ))}
+                            <TextField label="Selecione o time *" variant="outlined" size="small" fullWidth margin="normal" select value={selectedTime || ''} onChange={(e) => setSelectedTime(e.target.value)}>
+                            <MenuItem value="">
+                                <em>Nenhum time selecionado</em>
+                            </MenuItem>
+                            {errorTime && <MenuItem disabled>{errorTime}</MenuItem>}
+                            {!loadingTime && !errorTime && time.length > 0 ? (
+                                time.map((times) => (
+                                    <MenuItem key={times.id} value={times.id}>
+                                        {times.NAME}
+                                    </MenuItem>
+                                ))
+                            ) : (
+                                <MenuItem disabled>Nenhum time encontrado</MenuItem>
+                            )}
+                        </TextField>
+                        <div>
+                             <p id='aviso'>Time Selecionado: {selectedTime ? time.find(t => t.id === Number(selectedTime))?.NAME : 'Nenhum time selecionado'}</p>
+                        </div>
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                                <TextField label="Selecione o funcionário" variant="outlined" size="small" fullWidth margin="normal" select value={selectFuncionario || ''} onChange={(e) => setSelectedFuncionario(e.target.value)}>
+                                    <MenuItem value="">
+                                        <em>Nenhum funcionário selecionado</em>
+                                    </MenuItem>
+                                    {errorFuncionario && <MenuItem disabled>{errorFuncionario}</MenuItem>}
+                                    {!loadingFuncionario && !errorFuncionario && funcionario > 0 ? (
+                                        funcionario.map((funcionarios) => (
+                                            <MenuItem key={funcionarios.id} value={funcionarios.id}>
+                                                {funcionarios.NAME}
+                                            </MenuItem>
+                                        ))
+                                    ) : (
+                                        <MenuItem disabled>Nenhum funcionário encontrado</MenuItem>
+                                    )}
                                 </TextField>
-                            </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <TextField label="Selecione o funcionário" variant="outlined" size="small" fullWidth margin="normal" select>
-                                    {/* Options */}
-                                </TextField>
+                                <div>
+                                    <p id='aviso'>Funcionário Selecionado: {selectFuncionario ? funcionario.find(f => f.id === Number(selectFuncionario))?.NAME : 'Nenhum funcionário selecionado'}</p>
+                                </div>
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <TextField label="Selecione o produto *" variant="outlined" size="small" fullWidth margin="normal" select>
-                                    {/* Options */}
+                                    {/* {loadingProduto && <MenuItem disabled>Carregando...</MenuItem>}
+                                    {errorProduto && <MenuItem disabled>{errorProduto}</MenuItem>}
+                                    {!loadingProduto && !errorProduto && produto.map((produtos) => (
+                                        <MenuItem key={produtos.id} value={produtos.id}> 
+                                            {produtos.name} 
+                                        </MenuItem>
+                                    ))} */}
                                 </TextField>
                             </Grid>
-                            
                         </Grid>
                         <div style={{ textAlign: 'center', marginTop: '16px' }}>
                             <Button size="small" variant="contained" color="error" style={{ marginRight: '8px', background: '#5EA8C8' }} startIcon={<DeleteIcon />}>Cancelar o cadastro</Button>
@@ -83,6 +160,5 @@ export default function Cadastrocomissao() {
                     </form>
                 </CardContent>
             </Card>
-        </body>
     );
 }
