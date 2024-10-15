@@ -3,10 +3,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #0081B8;
+    background-color: #5aaaca;
     border-radius: 15px;
-    margin: 15px;
-    padding: 15px;
+    margin: 15px auto;
+    padding: 10px;
     width: 100%;
     max-width: 1440px;
 }
@@ -14,17 +14,15 @@ Link {
     text-decoration: none;
 }
 p {
-    /* display: none; */
-    color: #FFFFFF;
+    color: #111111;
     font-size: 20px;
     font-family: "Jost";
     font-weight: bold;
     padding-left: 15px;
-    /* text-decoration: none; */
 }
 .logout-icon {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     padding-right: 15px;
 }
 .icon-container {
@@ -32,12 +30,20 @@ p {
     align-items: center;
     gap: 20px;
 }
-#cadastrar-regra {
-    font-size: 18px;
+#cadastrar-regra, #dashboardGestor {
+    font-size: 17px;
 }
 .jost {
     font-family: "Jost", sans-serif;
     font-optical-sizing: auto;
-    /* font-weight: <weight>; */
     font-style: normal;
+}
+footer {
+  background-color: #5aaaca;
+  color: #fff;
+  border-radius: 15px;
+  padding: 8px;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto 15px auto; 
 }

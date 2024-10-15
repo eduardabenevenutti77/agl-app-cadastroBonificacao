@@ -1,6 +1,7 @@
 const database = require("../config/database")
+// const { Sequelize } = require('sequelize');
 
-class User{
+class User {
     constructor() {
         this.model = database.db.define("users", {
             id: {
@@ -20,7 +21,7 @@ class User{
                 validate: {
                     isIn: [["admin", "user"]],
                 },
-            },
+            }
         });
     }
 }

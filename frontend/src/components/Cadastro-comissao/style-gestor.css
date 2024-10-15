@@ -1,3 +1,12 @@
+body {
+    background-color: #F2F2E8;
+}
+.title-cadastro{
+    font-weight: 400;
+    color: #01638C;
+    font-size: 20px; 
+    text-align: center;
+}
 footer {
   margin-top: auto; /* Isso vai "empurrar" o footer para o final */
   background-color: #5aaaca;
@@ -8,7 +17,8 @@ footer {
   width: 100%;
   max-width: 1440px;
 }
-#footer-title {
-    text-align: center;
-    font-size: 14px;
+#aviso {
+    font-size: small;
+    color: #b2b2b2;
+    font-weight: 400;
 }

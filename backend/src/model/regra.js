@@ -1,4 +1,6 @@
-const database = require("../config/databese")
+const database = require("../config/database")
+const criterioID = require("../model/criterio");
+const grupoID = require('../model/grupo')
 
 class Regra {
     constructor() {
@@ -16,8 +18,23 @@ class Regra {
             },
             porcentagem: {
                 type: database.db.Sequelize.INTEGER,
+            },
+            criterioID: {
+                type: database.db.Sequelize.INTEGER,
+                references: {
+                    model: "criterios",
+                    key: 'id'
+                }
+            },
+            grupoID: {
+                type: database.db.Sequelize.INTEGER,
+                references: {
+                    model: "grupos",
+                    key: 'id'
+                }
             }
-        })
+        });
     }
 }
+
 module.exports = new Regra().model;
