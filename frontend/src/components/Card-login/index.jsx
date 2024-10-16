@@ -1,7 +1,7 @@
 import "./style-login.css"
 import { useState } from "react";
 import axios from 'axios';
-import logoZopu from "../../assets/logoZopu.png"
+import logoZopu from "../../assets/newZopu.png"
 import logoAgl from "../../assets/logo.png"
 import eye from "../../assets/svg/olho.svg"
 import eyes from "../../assets/svg/olhos.svg"
@@ -37,9 +37,6 @@ export default function CardLogin() {
     return(
         <>
             <div id="position">
-                <div id="logo-zopu">
-                    <img className="logoZopu" src={logoZopu} alt="" style={{width:"400px"}}/>
-                </div>
                 <div id="login">
                     <p id="login-title">Gestão de bonificação</p>
                     <form onSubmit={handleSubmit}>
@@ -68,7 +65,11 @@ export default function CardLogin() {
                         </div>
                     </form>
                     <p id="cadastro-link">Ainda não tem uma conta? <a style={{textDecoration: "underline"}}>Cadastre-se agora.</a></p>
-                    <img className="logoAGL-login" src={logoAgl} />
+                    <div className="logo-container">
+                        <img className="logoAGL-login" src={logoAgl} alt="Logo AGL" />
+                        {/* <div className="divider"></div>
+                        <img className="logoZopu" src={logoZopu} alt="Logo Zopu" /> */}
+                    </div>
                 </div>
             </div>
         </>

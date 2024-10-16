@@ -39,7 +39,7 @@ export default function Cadastrocomissao() {
 
     const fetchProduto = async () => {
         try {
-            const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/catalog.document.list');
+            const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.product.list');
             if (!response.ok) {
                 throw new Error('Erro ao buscar os produtos');
             }
@@ -80,7 +80,7 @@ export default function Cadastrocomissao() {
         fetchFuncionario();
     }, []);
     return (
-            <Card variant="outlined" style={{ maxWidth: '1000px', margin: 'auto', background: '#FCFCF4', borderRadius: '10px' }}>
+            <Card variant="outlined" style={{ maxWidth: '1000px', marginTop: '50px', margin: 'auto', background: '#FCFCF4', borderRadius: '10px' }}>
                 <CardContent>
                     <p className='title-cadastro'>Cadastro de Regra de Comissionamento</p>
                     <form>
@@ -107,22 +107,22 @@ export default function Cadastrocomissao() {
                     <Grid container spacing={1}>
                         <Grid item xs={12} sm={4}>
                             <TextField label="Selecione o time *" variant="outlined" size="small" fullWidth margin="normal" select value={selectedTime || ''} onChange={(e) => setSelectedTime(e.target.value)}>
-                            <MenuItem value="">
-                                <em>Nenhum time selecionado</em>
-                            </MenuItem>
-                            {errorTime && <MenuItem disabled>{errorTime}</MenuItem>}
-                            {!loadingTime && !errorTime && time.length > 0 ? (
-                                time.map((times) => (
-                                    <MenuItem key={times.id} value={times.id}>
-                                        {times.NAME}
-                                    </MenuItem>
-                                ))
-                            ) : (
-                                <MenuItem disabled>Nenhum time encontrado</MenuItem>
-                            )}
-                        </TextField>
+                                <MenuItem value="">
+                                    <em>Nenhum time selecionado</em>
+                                </MenuItem>
+                                {errorTime && <MenuItem disabled>{errorTime}</MenuItem>}
+                                {!loadingTime && !errorTime && time.length > 0 ? (
+                                    time.map((times) => (
+                                        <MenuItem key={times.ID}>
+                                            {times.NAME}
+                                        </MenuItem>
+                                    ))
+                                ) : (
+                                    <MenuItem disabled>Nenhum time encontrado</MenuItem>
+                                )}
+                            </TextField>
                         <div>
-                             <p id='aviso'>Time Selecionado: {selectedTime ? time.find(t => t.id === Number(selectedTime))?.NAME : 'Nenhum time selecionado'}</p>
+                             <p id='aviso'>Time: {selectedTime ? time.find(t => t.id === Number(selectedTime))?.NAME : 'Nenhum time selecionado'}</p>
                         </div>
                         </Grid>
                         <Grid item xs={12} sm={4}>
@@ -142,7 +142,7 @@ export default function Cadastrocomissao() {
                                 {errorFuncionario && <MenuItem disabled>{errorFuncionario}</MenuItem>}
                                 {!loadingFuncionario && !errorFuncionario && funcionario.length > 0 ? (
                                     funcionario.map((funcionarios) => (
-                                        <MenuItem key={funcionarios.id} value={funcionarios.id}>
+                                        <MenuItem key={funcionarios.ID}>
                                             {funcionarios.fullName}
                                         </MenuItem>
                                     ))
@@ -151,19 +151,39 @@ export default function Cadastrocomissao() {
                                 )}
                             </TextField>
                                 <div>
-                                    <p id='aviso'>Funcionário Selecionado: {selectFuncionario ? funcionario.find(f => f.id === Number(selectFuncionario))?.NAME : 'Nenhum funcionário selecionado'}</p>
+                                    <p id='aviso'>Funcionário: {selectFuncionario ? funcionario.find(f => f.id === Number(selectFuncionario))?.NAME : 'Nenhum funcionário selecionado'}</p>
                                 </div>
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <TextField label="Selecione o produto *" variant="outlined" size="small" fullWidth margin="normal" select>
-                                    {/* {loadingProduto && <MenuItem disabled>Carregando...</MenuItem>}
-                                    {errorProduto && <MenuItem disabled>{errorProduto}</MenuItem>}
-                                    {!loadingProduto && !errorProduto && produto.map((produtos) => (
-                                        <MenuItem key={produtos.id} value={produtos.id}> 
-                                            {produtos.name} 
-                                        </MenuItem>
-                                    ))} */}
+                            <TextField 
+                                label="Selecione o produto *" 
+                                variant="outlined" 
+                                size="small" 
+                                fullWidth 
+                                margin="normal" 
+                                select 
+                                value={selectedProduto || ''} 
+                                onChange={(e) => setSelectedProduto(e.target.value)}
+                                >
+                                <MenuItem value="">
+                                    <em>Nenhum produto selecionado</em>
+                                </MenuItem>
+                                
+                                {errorProduto && <MenuItem disabled>{errorProduto}</MenuItem>}
+                                
+                                {!loadingProduto && !errorProduto && produto.length > 0 ? (
+                                    produto.map((produtos) => (
+                                    <MenuItem key={produtos.ID}>
+                                        {produtos.NAME}
+                                    </MenuItem>
+                                    ))
+                                ) : (
+                                    <MenuItem disabled>Nenhum produto encontrado</MenuItem>
+                                )}
                                 </TextField>
+                                <div>
+                                    <p id='aviso'>Produto: {selectedProduto ? produto.find(p => p.id === Number(selectedProduto))?.NAME : 'Nenhum produto selecionado'}</p>
+                                </div>
                             </Grid>
                         </Grid>
                         <div style={{ textAlign: 'center', marginTop: '16px' }}>
