@@ -1,30 +1,45 @@
 import "./style-cadastro.css"
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { createUser } from '../../api/user';
+import { toast } from 'react-toastify';
 import logoZopu from "../../assets/logoZopu.png"
 import logoAgl from "../../assets/logo.png"
 import eye from "../../assets/svg/olho.svg"
 import eyes from "../../assets/svg/olhos.svg"
 
 export default function CardCadastro() {
+    const navigate = useNavigate();
+
+    // const handleBackClick = () => {
+    //     navigate(-1);
+    // };
+
     const [show, setShow] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:3000/api/v1/user/login", {
-                email,
-                password
-            });
-            if (response.data.sucess) {
-                alert('Logado - teste');
-            } else {
-                setError(response.data.message);
-            }
-        } catch (err) {
-            setError('Login falhou');
+          e.preventDefault();
+    
+          const responseApi = await createUser({nome, email, senha})
+          console.log(responseApi)
+          if(responseApi.id){
+            navigate('/login')
+          } else {
+            console.log(responseApi)
+          }
+        } catch (error) {
+          console.log(error)
+          if (error.status === 403) {
+            return toast("Sem permissão.");
+          }
+          if (error.status === 401 || error.status === 404) {
+            return toast('Email ou senha inválido, tente novamente!');
+          }
+          toast('Erro inesperado, tente novamente mais tarde!');
         }
     };
     const toggleVisibility = () => {
@@ -38,7 +53,7 @@ export default function CardCadastro() {
                 </div>
                 <div id="cadastro">
                     <p id="cadastro-title">Gestão de bonificação</p>
-                    <form onSubmit={handleSubmit}>
+                    <form className="signup-form" onSubmit={handleSubmit}>
                         <div id="campos">
                             <div>
                                 <p className="campo">Informe o e-mail</p>
@@ -71,7 +86,7 @@ export default function CardCadastro() {
                             </div>
                         </div>
                         <div id="button">
-                            <button id="acesso">Acesse a sua conta</button>
+                            <button id="acesso" onClick={handleSubmit}>Acesse a sua conta</button>
                             {error && <p>{error}</p>} 
                         </div>
                     </form>

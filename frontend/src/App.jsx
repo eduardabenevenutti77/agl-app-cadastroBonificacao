@@ -7,6 +7,10 @@ import Footer from './components/Footer';
 import Cadastrogestor from './pages/Cadastro-gestor';
 import Login from './pages/Login';
 import DashboardGestor from './pages/Dashboard-gestor';
+import { AuthProvider } from '../src/auth/Context'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+import PrivateRoute from '../src/routes/PrivateRoute';
 
 function App() {
   const location = useLocation();
@@ -15,18 +19,34 @@ function App() {
 
   return (
     <>
+    <AuthProvider>
       <div className={isLoginOrCadastro ? 'login-background' : 'default-background'}>
         {!ocultarElementos && <Header />}
         <div className="content">
           <Routes>
             <Route path="/" element={<Cadastro />} />
-            <Route path="/cadastrogestor" element={<Cadastrogestor />} />
-            <Route path="/dashboardgestor" element={<DashboardGestor />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/cadastrogestor" element={<Cadastrogestor />} />
+              <Route path="/dashboardgestor" element={<DashboardGestor />} />
+            </Route>
             <Route path="/login" element={<Login />} />
           </Routes>
         </div>
+        <ToastContainer
+          position="bottom-center"
+          autoClose={3500}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          style={{ width: '50%' }}
+        />
         {!ocultarElementos && <Footer />}
       </div>
+    </AuthProvider>
     </>
   );
 }

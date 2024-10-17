@@ -1,7 +1,11 @@
 import "./style-login.css"
-import { useState } from "react";
+import { useContext, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../auth/Context';
+import { loginUser } from '../../api/user';
+import { toast } from 'react-toastify';
 import logoZopu from "../../assets/logoZopu.png"
 import logoAgl from "../../assets/logo.png"
 import eye from "../../assets/svg/olho.svg"
@@ -9,6 +13,10 @@ import eyes from "../../assets/svg/olhos.svg"
 
 
 export default function CardLogin() {
+
+    const { login } = useContext(AuthContext);
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -16,18 +24,27 @@ export default function CardLogin() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+    
+        if (!email || !senha) {
+            return toast('Informe o e-mail e a senha para continuar!');
+        }
+    
         try {
-            const response = await axios.post("http://localhost:3000/api/v1/user/login", {
-                email,
-                password
-            });
-            if (response.data.sucess) {
-                alert('Logado - teste');
-            } else {
-                setError(response.data.message);
+            // 7 - Usar Axios para fazer a requisição de login
+            const response = await loginUser(email, senha);
+            if (response.token) {
+                // 8 - Adicionar login ao AuthContext
+                login(response.token);
+                return navigate('/');
             }
-        } catch (err) {
-            setError('Login falhou');
+        } catch (error) {
+            if (error.response.status === 403) {
+              return toast("Sem permissão.");
+            }
+            if (error.response.status === 401 || error.response.status === 404) {
+              return toast('Email ou senha inválido, tente novamente!');
+            }
+            return toast('Erro inesperado, tente novamente mais tarde!');
         }
     };
 
@@ -64,7 +81,7 @@ export default function CardLogin() {
                             </div>
                         </div>
                         <div id="button">
-                            <button type="submit" id="acesso">Acesse a sua conta</button>
+                            <button type="submit" id="acesso" onClick={handleSubmit}>Acesse a sua conta</button>
                             {error && <p>{error}</p>} 
                         </div>
                     </form>

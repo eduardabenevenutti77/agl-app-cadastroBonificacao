@@ -10,44 +10,58 @@ const validando = (email) => {
 const validando_senha = (senha) => {
     const teste = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
     return teste.test(senha);
-}
+};
 
 class UserController {
 
+
+    // validar o motivo pelo qual o sistema não está fazendo a validação de nível
     async createUser(email, senha) {
         try {
+            // Validações dos campos
             if (!email || !senha) {
                 throw new Error("Os campos email e senha são obrigatórios!");
             }
             if (!validando(email)) {
                 throw new Error("O e-mail deve ser da AGL Telecom.");
             }
-            if(!validando_senha(senha)) {
+            if (!validando_senha(senha)) {
                 throw new Error("A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, símbolos e um número.");
             }
-            const response = await axios.get(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/user.search?filter[EMAIL]=${email}`, {
+    
+            // Busca pelos departamentos
+            const response = await axios.get(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/department.get`, {
                 timeout: 5000
             });
-            // let permissao = "user";
-            if (response.data.result && response.data.result.length > 0) {
-                const webhookUser = response.data.result[0];
-                const webhookEmail = webhookUser.EMAIL[0]?.VALUE?.toLowerCase();
-                if (email.toLowerCase() === webhookEmail) {
-                    const position = webhookUser.POSITION?.toLowerCase() || "";
-                    const isSupervisor = position.includes("supervisora de vendas") ||
-                        position.includes("supervisora suporte/bko") ||
-                        position.includes("supervisor de vendas");
-                    if (isSupervisor) {
-                        const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE);
-                        const userValue = await user.create({
-                            email,
-                            senha: cypherSenha,
-                            permissao: 'admin'
-                        });
-                        return userValue;
-                    }
-                }
+    
+            const departments = response.data.result;
+            const idDepartments = departments.map(department => department.ID_head); 
+            console.log('IDs dos departamentos:', idDepartments);
+    
+            // Faz a requisição para obter usuários
+            const usersResponse = await axios.get(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/user.get`, {
+                timeout: 5000
+            });
+    
+            const users = usersResponse.data.result; // Assume que o resultado está em 'result'
+            // console.log('Usuários obtidos:', users);
+    
+            // Verifica se o usuário está dentro de algum departamento
+            const userInDepartment = departments.some(department => {
+                // Supondo que você tenha um atributo que liga o usuário ao departamento
+                return users.includes(department.UF_HEAD); // Verifica se o ID do departamento do usuário está na lista
+            });
+    
+            if (userInDepartment) {
+                const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE);
+                const userValue = await user.create({
+                    email,
+                    senha: cypherSenha,
+                    permissao: 'admin'
+                });
+                return userValue;
             } else {
+                console.log("O usuário não está no departamento.");
                 const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE);
                 const userValue = await user.create({
                     email,
@@ -56,7 +70,9 @@ class UserController {
                 });
                 return userValue;
             }
+    
         } catch (error) {
+            // Tratamento de erros
             if (error.name === 'SequelizeValidationError') {
                 const validationErrors = error.errors.map(err => err.message);
                 console.error('Erro de validação ao criar o usuário:', validationErrors);
@@ -67,8 +83,7 @@ class UserController {
             }
         }
     }
-
-
+    
     async login(email, senha) {
         if (email === undefined || senha === undefined) {
             throw new Error("Email e senha são obrigatórios.");
