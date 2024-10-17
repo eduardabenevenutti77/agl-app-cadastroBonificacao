@@ -1,7 +1,8 @@
 import "./style-login.css"
 import { useState } from "react";
 import axios from 'axios';
-import logoZopu from "../../assets/newZopu.png"
+import { Link } from 'react-router-dom';
+import logoZopu from "../../assets/logoZopu.png"
 import logoAgl from "../../assets/logo.png"
 import eye from "../../assets/svg/olho.svg"
 import eyes from "../../assets/svg/olhos.svg"
@@ -37,6 +38,9 @@ export default function CardLogin() {
     return(
         <>
             <div id="position">
+                <div id="logo-zopu">
+                    <img src={logoZopu} alt="" style={{width:"400px"}}/>
+                </div>
                 <div id="login">
                     <p id="login-title">Gestão de bonificação</p>
                     <form onSubmit={handleSubmit}>
@@ -64,12 +68,12 @@ export default function CardLogin() {
                             {error && <p>{error}</p>} 
                         </div>
                     </form>
-                    <p id="cadastro-link">Ainda não tem uma conta? <a style={{textDecoration: "underline"}}>Cadastre-se agora.</a></p>
-                    <div className="logo-container">
+                    <p id="cadastro-link">Ainda não tem uma conta? <Link to='/' style={{color: '#0081B8'}}>Cadastre-se agora.</Link></p>
+                    {/* <div className="logo-container">
                         <img className="logoAGL-login" src={logoAgl} alt="Logo AGL" />
                         {/* <div className="divider"></div>
-                        <img className="logoZopu" src={logoZopu} alt="Logo Zopu" /> */}
-                    </div>
+                        <img className="logoZopu" src={logoZopu} alt="Logo Zopu" /> 
+                    </div> */}
                 </div>
             </div>
         </>

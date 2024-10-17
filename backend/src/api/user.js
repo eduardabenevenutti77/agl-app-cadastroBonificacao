@@ -42,6 +42,17 @@ class UserApi {
             res.status(400).send({ error: e.message })
         }
     }
+
+    async logout(req, res) {
+        req.session.destroy((err) => {
+            if (err) {
+                console.log(err);
+                return res.redirect('/dashboard');
+            }
+            res.clearCookie('connect.sid');
+            return res.redirect('/api/v1/user/login');
+        });
+    };
 }
 
 module.exports = new UserApi()

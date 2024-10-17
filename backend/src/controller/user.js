@@ -7,6 +7,10 @@ const SALT_VALUE = 10;
 const validando = (email) => {
     return email.endsWith('@agltelecom.com');
 };
+const validando_senha = (senha) => {
+    const teste = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+    return teste.test(senha);
+}
 
 class UserController {
 
@@ -18,10 +22,13 @@ class UserController {
             if (!validando(email)) {
                 throw new Error("O e-mail deve ser da AGL Telecom.");
             }
+            if(!validando_senha(senha)) {
+                throw new Error("A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, símbolos e um número.");
+            }
             const response = await axios.get(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/user.search?filter[EMAIL]=${email}`, {
                 timeout: 5000
             });
-            let permissao = "user";
+            // let permissao = "user";
             if (response.data.result && response.data.result.length > 0) {
                 const webhookUser = response.data.result[0];
                 const webhookEmail = webhookUser.EMAIL[0]?.VALUE?.toLowerCase();
@@ -31,17 +38,24 @@ class UserController {
                         position.includes("supervisora suporte/bko") ||
                         position.includes("supervisor de vendas");
                     if (isSupervisor) {
-                        permissao = "admin";
+                        const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE);
+                        const userValue = await user.create({
+                            email,
+                            senha: cypherSenha,
+                            permissao: 'admin'
+                        });
+                        return userValue;
                     }
                 }
+            } else {
+                const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE);
+                const userValue = await user.create({
+                    email,
+                    senha: cypherSenha,
+                    permissao: 'user'
+                });
+                return userValue;
             }
-            const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE);
-            const userValue = await user.create({
-                email,
-                senha: cypherSenha,
-                permissao
-            });
-            return userValue;
         } catch (error) {
             if (error.name === 'SequelizeValidationError') {
                 const validationErrors = error.errors.map(err => err.message);

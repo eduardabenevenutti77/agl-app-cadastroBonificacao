@@ -75,9 +75,9 @@ export default function CardCadastro() {
                             {error && <p>{error}</p>} 
                         </div>
                     </form>
-                    <div id="position-logo">
+                    {/* <div id="position-logo">
                         <img id="logoAGL" src={logoAgl} />
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>

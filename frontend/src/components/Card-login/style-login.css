@@ -9,7 +9,7 @@
     flex-direction: column; 
     background-color: #FBFBFB;
     width: 705px;
-    height: 600px;
+    height: 500px;
     border-radius: 24px;
 }
 #login-title {
@@ -109,19 +109,10 @@
   justify-content: center;
   /* margin-top: 35px; */
 }
-
 .logo-container img {
-  width: 110px; 
+  width: 150px; 
   height: auto; 
 }
-
-.divider {
-  width: 2px; /* Espessura da linha */
-  height: 70px; /* Altura da linha - ajuste conforme necessário */
-  background-color: #024b6a; /* Cor da linha */
-  margin: 0 20px; /* Espaçamento horizontal da linha */
-}
-
 @media (max-width: 600px) {
     #position {
         flex-direction: column; 
