@@ -5,6 +5,7 @@ import logoZopu from '../../assets/logoZopu.png';
 export default function Cardsobre() {
     return (
         <>
+        <div id="color">
             <div>
                 <p id="company">Agl telecom - Parceiro Vivo<div id="line"></div></p>
             </div>
@@ -21,6 +22,7 @@ export default function Cardsobre() {
                 <img src={logoAgl} alt="" />
                 {/* <img src={logoZopu} alt="" /> */}
             </div>
+        </div>
             {/* <div id='display'>
                 <div>
                     <p id="sobre-title">Sobre o funcionamento do sistema:</p>

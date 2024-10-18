@@ -38,3 +38,11 @@
     height: auto; /* Mantém a proporção das imagens */
     margin-bottom: 0px;
 }
+#color {
+    background-color: #FCFCF4;
+    width: 890px;
+    padding: 1px;
+    margin-left: 300px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
