@@ -25,13 +25,13 @@ function App() {
         {!ocultarElementos && <Header />}
         <div className="content">
           <Routes>
+          <Route path="/login" element={<Login />} />
             <Route path="/" element={<Cadastro />} />
             <Route element={<PrivateRoute />}>
               <Route path="/cadastrogestor" element={<Cadastrogestor />} />
               <Route path="/dashboardgestor" element={<DashboardGestor />} />
               <Route path="/sobre" element={<Sobre />} />
             </Route>
-            <Route path="/login" element={<Login />} />
           </Routes>
         </div>
         <ToastContainer

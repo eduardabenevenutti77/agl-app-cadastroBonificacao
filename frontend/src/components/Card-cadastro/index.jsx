@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { createUser } from '../../api/user';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 import logoZopu from "../../assets/logoZopu.png";
 // import logoAgl from "../../assets/logo.png";
 import eye from "../../assets/svg/olho.svg";
@@ -75,6 +76,7 @@ export default function CardCadastro() {
                             <button id="acesso" type="submit">Acesse a sua conta</button>
                             {error && <p>{error}</p>}
                         </div>
+                        <p id="login-link">Se você já está cadastrado, não se preocupe!Você pode acessar sua conta <Link to='/login' style={{color: '#0081B8'}}>clicando aqui.</Link></p>
                     </form>
                 </div>
             </div>
