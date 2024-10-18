@@ -1,5 +1,6 @@
 import "./style-header.css";
 import { Link, useLocation } from 'react-router-dom';
+import { useContext } from 'react';
 import { AuthContext } from '../../auth/Context';
 import logout from "../../assets/svg/logout.svg";
 
@@ -18,6 +19,9 @@ export default function Header() {
             ? <Link to="/login" className="menu-link" style={{textDecoration: 'none'}}><p>Gestão de Bonificação</p></Link>
             : null
         }
+        <div>
+          <p>Gestão de Bonificação</p>
+        </div>
         <div className="icon-container">
           <div>
             <Link to="/dashboardgestor" className="menu-link" style={{textDecoration: 'none'}}>
@@ -27,6 +31,11 @@ export default function Header() {
           <div>
             {
               token && <Link to="/cadastrogestor" className="menu-link" style={{textDecoration: 'none'}}> <p id="cadastrar-regra">Cadastrar regra</p> </Link>
+            }
+          </div>
+          <div>
+            {
+              token && <Link to="/sobre" className="menu-link" style={{textDecoration: 'none'}}> <p id="cadastrar-regra">Sobre o projeto</p> </Link>
             }
           </div>
           <div>

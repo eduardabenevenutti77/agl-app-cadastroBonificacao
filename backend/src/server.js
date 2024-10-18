@@ -21,7 +21,7 @@ app.use('/api/v1/user', UserRouter)
 
 // rotas sem validação
 app.post("/api/v1/user/cadastro", UserApi.createUser);
-app.post("/api/v1/user/login", UserApi.login);
+app.post("/api/v1/user/loginUser", UserApi.loginUser);
 
 // // rota com autenticação
 // app.use("/api/v1/user", authMiddleware(), UserRouter)

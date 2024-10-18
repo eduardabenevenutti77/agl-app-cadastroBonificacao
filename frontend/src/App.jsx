@@ -11,6 +11,7 @@ import { AuthProvider } from '../src/auth/Context'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoute from '../src/routes/PrivateRoute';
+import Sobre from './pages/Sobre';
 
 function App() {
   const location = useLocation();
@@ -28,6 +29,7 @@ function App() {
             <Route element={<PrivateRoute />}>
               <Route path="/cadastrogestor" element={<Cadastrogestor />} />
               <Route path="/dashboardgestor" element={<DashboardGestor />} />
+              <Route path="/sobre" element={<Sobre />} />
             </Route>
             <Route path="/login" element={<Login />} />
           </Routes>

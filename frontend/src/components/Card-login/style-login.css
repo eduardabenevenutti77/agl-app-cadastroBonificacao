@@ -113,6 +113,11 @@
   width: 150px; 
   height: auto; 
 }
+#error-text {
+    color: #c45476;
+    font-weight: 400;
+    font-size: small;
+}
 @media (max-width: 600px) {
     #position {
         flex-direction: column; 

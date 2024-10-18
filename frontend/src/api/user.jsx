@@ -5,9 +5,9 @@ export const createUser = async (user) => {
   return response.data;
 };
 
-export const login = async (email, senha) => {
+export const loginUser = async (email, senha) => {
   const body = { email, senha };
-  const response = await api.post('/api/v1/user/login', body, {
+  const response = await api.post('/api/v1/user/loginUser', body, {
       headers: { 'Content-Type': 'application/json' },
   });
   return response.data;
