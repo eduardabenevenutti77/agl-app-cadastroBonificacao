@@ -6,10 +6,11 @@ export default function DashboardGestor() {
         <body className="body-dash">
             <div>
                 <canvas id="myChart"></canvas>
+                {/* <p style={{color: 'black'}}>incluir dashboards aqui - user normal</p> */}
             </div>
         </body>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src={charts}></script>
+        {/* <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> */}
+        {/* <script src={charts}></script> */}
         </>
     )
 }

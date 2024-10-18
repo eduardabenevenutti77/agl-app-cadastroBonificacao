@@ -12,11 +12,11 @@ class UserApi {
         }
     }
     
-    async login(req, res) {
+    async loginUser(req, res) {
         const { email, senha } = req.body
         console.log('Usuário logado -> ', req.body)
         try {
-            const token = await UserController.login(email, senha)
+            const token = await UserController.loginUser(email, senha)
             res.status(200).send({token})
         } catch (e) {
             res.status(400).send({ error: `Problema na hora de logar -> ${e.message}` })
@@ -42,6 +42,17 @@ class UserApi {
             res.status(400).send({ error: e.message })
         }
     }
+
+    async logout(req, res) {
+        req.session.destroy((err) => {
+            if (err) {
+                console.log(err);
+                return res.redirect('/dashboard');
+            }
+            res.clearCookie('connect.sid');
+            return res.redirect('/api/v1/user/login');
+        });
+    };
 }
 
 module.exports = new UserApi()

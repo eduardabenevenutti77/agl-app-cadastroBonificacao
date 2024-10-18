@@ -40,7 +40,7 @@
     flex-direction: column; 
     background-color: #FBFBFB;
     width: 705px;
-    height: 640px;
+    height: 580px;
     border-radius: 24px;
 }
 #cadastro-title {
@@ -66,7 +66,7 @@
     margin-top: 25px;
 }
 #acesso {
-    width: 300px;
+    width: 350px;
     height: 40px;
     background-color: hsl(198, 100%, 36%);
     color: #FFFFFF;
@@ -76,14 +76,8 @@
     font-weight: 500;
     font-size: 18px;
     margin-bottom: 0px;
-}
-#cadastro-link {
-    text-align: center;
-    font-family: "Jost";
-    font-weight: 400;
-    font-size: 18px;
-    color: #0081B8;
-    margin-bottom: 0;
+    justify-content: center;
+    align-items: center;
 }
 #logoAGL {
     width: 140px; 
@@ -94,4 +88,13 @@
     justify-content: center;
     align-items: center;
     width: 100%; 
+}
+#login-link {
+    text-align: center;
+    font-family: "Jost";
+    font-weight: 400;
+    font-size: 15px;
+    /* font-size: small; */
+    color: #0081B8;
+    margin-bottom: 0;
 }

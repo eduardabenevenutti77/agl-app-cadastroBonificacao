@@ -1,0 +1,40 @@
+#company {
+    color: black;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-left: 150px;
+    margin-top: 50px;
+}
+#line {
+    height: 4px;
+    width: 330px;
+    background-color: #488aa7;
+    border-radius: 10px;
+    margin-top: 4px;
+}
+#display-descricao {
+    margin-left: 165px;
+    margin-right: 140px;
+}
+.descricao {
+    text-align: justify;
+    color: rgb(110, 110, 110);
+    font-weight: 400;
+    font-size: 18px;
+    margin-top: 25px;
+}
+#topicos {
+    margin-left: 150px;
+    margin-right: 80px;
+}
+#logo {
+    display: flex; 
+    justify-content: center; 
+    gap: 10px;
+    margin-bottom: 0px;
+}
+#logo img {
+    width: 170px; 
+    height: auto; /* Mantém a proporção das imagens */
+    margin-bottom: 0px;
+}
