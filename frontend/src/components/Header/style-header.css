@@ -3,7 +3,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #5aaaca;
+    background-color: #5A9DB9;
     border-radius: 15px;
     margin: 15px auto;
     padding: 10px;
@@ -14,7 +14,7 @@ Link {
     text-decoration: none;
 }
 p {
-    color: #111111;
+    color: #fff;
     font-size: 20px;
     font-family: "Jost";
     font-weight: bold;

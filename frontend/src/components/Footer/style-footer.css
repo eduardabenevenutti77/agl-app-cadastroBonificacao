@@ -1,12 +1,19 @@
+/* O body precisa ter uma altura mínima de 100% */
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
 footer {
   margin-top: auto; /* Isso vai "empurrar" o footer para o final */
-  background-color: #5aaaca;
+  background-color: #5A9DB9;
   color: #FFFF;
   border-radius: 15px;
-  margin: 15px auto; /* Centraliza horizontalmente */
   padding: 8px;
   width: 100%;
   max-width: 1440px;
+  /* position: fixed; */
 }
 #footer-title {
     text-align: center;

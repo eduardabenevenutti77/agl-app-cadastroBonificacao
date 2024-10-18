@@ -4,15 +4,12 @@
     align-items: center; 
     height: 100vh; 
 }
-#logo-zopu {
-    margin-right: 40px; 
-}
 #login {
     display: flex;
     flex-direction: column; 
     background-color: #FBFBFB;
     width: 705px;
-    height: 600px;
+    height: 500px;
     border-radius: 24px;
 }
 #login-title {
@@ -106,9 +103,20 @@
   align-items: center;
   gap: 15px;
 }
-.logoAGL-login {
-    margin-left: 276px;
-    width: 150px;
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* margin-top: 35px; */
+}
+.logo-container img {
+  width: 150px; 
+  height: auto; 
+}
+#error-text {
+    color: #c45476;
+    font-weight: 400;
+    font-size: small;
 }
 @media (max-width: 600px) {
     #position {

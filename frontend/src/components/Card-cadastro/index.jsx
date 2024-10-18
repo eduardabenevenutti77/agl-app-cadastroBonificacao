@@ -1,85 +1,85 @@
-import "./style-cadastro.css"
+import "./style-cadastro.css";
 import { useState } from "react";
-import logoZopu from "../../assets/logoZopu.png"
-import logoAgl from "../../assets/logo.png"
-import eye from "../../assets/svg/olho.svg"
-import eyes from "../../assets/svg/olhos.svg"
+import { useNavigate } from 'react-router-dom';
+import { createUser } from '../../api/user';
+import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
+import logoZopu from "../../assets/logoZopu.png";
+// import logoAgl from "../../assets/logo.png";
+import eye from "../../assets/svg/olho.svg";
+import eyes from "../../assets/svg/olhos.svg";
 
 export default function CardCadastro() {
+    const navigate = useNavigate();
     const [show, setShow] = useState(false);
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [senha, setSenha] = useState('');
     const [error, setError] = useState('');
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:3000/api/v1/user/login", {
-                email,
-                password
-            });
-            if (response.data.sucess) {
-                alert('Logado - teste');
+            const responseApi = await createUser({ email, senha });
+            if (responseApi.id) {
+                toast.success("Cadastro realizado com sucesso!"); 
+                navigate('/login');
             } else {
-                setError(response.data.message);
+                setError('Ocorreu um erro inesperado, tente novamente.');
+                toast.error('Erro ao realizar o cadastro, tente novamente.'); 
             }
-        } catch (err) {
-            setError('Login falhou');
+        } catch (error) {
+            console.log(error);
+
+            if (error.status === 403) {
+                toast.error("Sem permissão.");
+            } else if (error.status === 401 || error.status === 404) {
+                toast.error('Email ou senha inválidos, tente novamente!');
+            } else {
+                toast.error('Erro inesperado, tente novamente mais tarde!');
+            }
         }
     };
+
     const toggleVisibility = () => {
         setShow(!show);
     };
-    return(
+
+    return (
         <>
             <div id="position">
                 <div id="logo-zopu">
-                    <img src={logoZopu} alt="" style={{width:"400px"}}/>
+                    <img src={logoZopu} alt="" style={{ width: "400px" }} />
                 </div>
                 <div id="cadastro">
                     <p id="cadastro-title">Gestão de bonificação</p>
-                    <form onSubmit={handleSubmit}>
+                    <form className="signup-form" onSubmit={handleSubmit}>
                         <div id="campos">
                             <div>
                                 <p className="campo">Informe o e-mail</p>
-                                <input type="email" value = {email} onChange={(e) => setEmail(e.target.value)} className="email" placeholder="digite o seu e-mail"/>
+                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="email" placeholder="Digite o seu e-mail" />
                             </div>
                             <div>
                                 <p className="campo">Informe a senha</p>
                                 <div className="input-container">
-                                    <input
-                                        type={show? 'text' : 'password'}
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        className="senha"
-                                        placeholder="digite a sua senha"
-                                    />
-                                    <img src={show? eye : eyes} onClick={toggleVisibility} style={{cursor: 'pointer'}} alt="" />{/* Ícone (usando Font Awesome como exemplo) */}
+                                    <input type={show ? 'text' : 'password'} value={senha} onChange={(e) => setSenha(e.target.value)} className="senha" placeholder="Digite a sua senha" />
+                                    <img src={show ? eye : eyes} onClick={toggleVisibility} style={{ cursor: 'pointer' }} alt="eye-icon" />
                                 </div>
                             </div>
                             <div>
-                                <p className="campo">Repita a senha informada</p><div className="input-container">
-                                    <input
-                                        type={show? 'text' : 'password'}
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        className="senha"
-                                        placeholder="digite a sua senha novamente"
-                                    />
-                                    <img src={show? eye : eyes} onClick={toggleVisibility} style={{cursor: 'pointer'}} alt="" />
+                                <p className="campo">Repita a senha informada</p>
+                                <div className="input-container">
+                                    <input type={show ? 'text' : 'password'} value={senha} onChange={(e) => setSenha(e.target.value)} className="senha" placeholder="Digite a sua senha novamente" />
+                                    <img src={show ? eye : eyes} onClick={toggleVisibility} style={{ cursor: 'pointer' }} alt="eye-icon" />
                                 </div>
                             </div>
                         </div>
                         <div id="button">
-                            <button id="acesso">Acesse a sua conta</button>
-                            {error && <p>{error}</p>} 
+                            <button id="acesso" type="submit">Acesse a sua conta</button>
+                            {error && <p>{error}</p>}
                         </div>
+                        <p id="login-link">Se você já está cadastrado, não se preocupe!Você pode acessar sua conta <Link to='/login' style={{color: '#0081B8'}}>clicando aqui.</Link></p>
                     </form>
-                    <div id="position-logo">
-                        <img id="logoAGL" src={logoAgl} />
-                    </div>
                 </div>
             </div>
         </>
-    )
+    );
 }

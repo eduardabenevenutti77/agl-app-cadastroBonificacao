@@ -21,13 +21,13 @@ app.use('/api/v1/user', UserRouter)
 
 // rotas sem validação
 app.post("/api/v1/user/cadastro", UserApi.createUser);
-app.post("/api/v1/user/login", UserApi.login);
+app.post("/api/v1/user/loginUser", UserApi.loginUser);
 
 // // rota com autenticação
 // app.use("/api/v1/user", authMiddleware(), UserRouter)
 
 database.db
-    .sync({ force: true})
+    .sync({ force: false})
     .then((_) => {
         if (!process.env.TEST) {
             app.listen(3000, (_) => {
