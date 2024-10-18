@@ -12,6 +12,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoute from '../src/routes/PrivateRoute';
 import Sobre from './pages/Sobre';
+import Cadastrocomissao from './components/Cadastro-comissao';
 
 function App() {
   const location = useLocation();
@@ -28,7 +29,7 @@ function App() {
           <Route path="/login" element={<Login />} />
             <Route path="/" element={<Cadastro />} />
             <Route element={<PrivateRoute />}>
-              <Route path="/cadastrogestor" element={<Cadastrogestor />} />
+            <PrivateRoute path="/cadastrogestor" component={Cadastrocomissao} />
               <Route path="/dashboardgestor" element={<DashboardGestor />} />
               <Route path="/sobre" element={<Sobre />} />
             </Route>

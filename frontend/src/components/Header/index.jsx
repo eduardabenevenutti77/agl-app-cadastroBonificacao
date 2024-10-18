@@ -6,7 +6,7 @@ import logout from "../../assets/svg/logout.svg";
 
 export default function Header() {
 
-  const { token } = useContext(AuthContext);
+  const { token, role } = useContext(AuthContext);
   const location = useLocation();
 
   const isLoginRoute = location.pathname === '/login';
@@ -30,7 +30,8 @@ export default function Header() {
           </div>
           <div>
             {
-              token && <Link to="/cadastrogestor" className="menu-link" style={{textDecoration: 'none'}}> <p id="cadastrar-regra">Cadastrar regra</p> </Link>
+              token && role === 'admin' && ( <Link to="/cadastrogestor" className="menu-link" style={{textDecoration: 'none'}}> <p id="cadastrar-regra">Cadastrar regra</p> </Link>
+              )
             }
           </div>
           <div>
