@@ -36,7 +36,7 @@ database.db
         }
     })
     .catch((e) => {
-        console.error(`Erro ao inicializar o banco de dados ${e}`);
+        console.error(`Erro ao inicializar o banco de dados -> ${e.message}`);
     });
 
 module.exports = app;
