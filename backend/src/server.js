@@ -27,7 +27,7 @@ app.post("/api/v1/user/loginUser", UserApi.loginUser);
 // app.use("/api/v1/user", authMiddleware(), UserRouter)
 
 database.db
-    .sync({ force: false})
+    .sync({ force: false })
     .then((_) => {
         if (!process.env.TEST) {
             app.listen(3000, (_) => {
@@ -36,7 +36,7 @@ database.db
         }
     })
     .catch((e) => {
-        console.error(`Erro ao inicializar o banco de dados ${e}`);
+        console.error(`Erro ao inicializar o banco de dados -> ${e.message}`);
     });
 
 module.exports = app;
