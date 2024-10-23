@@ -13,12 +13,9 @@ const validando_senha = (senha) => {
 };
 
 class UserController {
-
-
     // validar o motivo pelo qual o sistema não está fazendo a validação de nível
     async createUser(email, senha) {
         try {
-            // Validações dos campos
             if (!email || !senha) {
                 throw new Error("Os campos email e senha são obrigatórios!");
             }
@@ -28,51 +25,45 @@ class UserController {
             if (!validando_senha(senha)) {
                 throw new Error("A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, símbolos e um número.");
             }
-    
-            // Busca pelos departamentos
+            // realiza a requisição nos departamentos
             const response = await axios.get(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/department.get`, {
                 timeout: 5000
             });
-    
-            const departments = response.data.result;
-            const idDepartments = departments.map(department => department.ID_head); 
-            console.log('IDs dos departamentos:', idDepartments);
-    
-            // Faz a requisição para obter usuários
+            const departments = response.data.result; // Armazena os departamentos no array
+            const idDepartments = departments.map(department => department.UF_HEAD); // Armazena os IDs de UF_HEAD
+            const idDepartmentsStr = idDepartments.join(','); // Converte em string
+            console.log('IDs dos chefes de departamentos:', idDepartments);
+            // realiza a resquisição nos funcionários
             const usersResponse = await axios.get(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/user.get`, {
-                timeout: 5000
+                params: {
+                    filter: { ID: idDepartmentsStr },
+                    timeout: 5000
+                }
             });
-    
-            const users = usersResponse.data.result; // Assume que o resultado está em 'result'
-            // console.log('Usuários obtidos:', users);
-    
-            // Verifica se o usuário está dentro de algum departamento
-            const userInDepartment = departments.some(department => {
-                // Supondo que você tenha um atributo que liga o usuário ao departamento
-                return users.includes(department.UF_HEAD); // Verifica se o ID do departamento do usuário está na lista
-            });
-    
-            if (userInDepartment) {
-                const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE);
-                const userValue = await user.create({
-                    email,
-                    senha: cypherSenha,
-                    permissao: 'admin'
-                });
-                return userValue;
-            } else {
+            const userInDepartment = usersResponse.data.result.length > 0;
+        
+            // se o usuário não está no departamento
+            if (!userInDepartment) {
                 console.log("O usuário não está no departamento.");
                 const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE);
                 const userValue = await user.create({
                     email,
                     senha: cypherSenha,
-                    permissao: 'admin'
+                    permissao: 'user' // salva a permissão como usuário normal
+                });
+                return userValue;
+            } else {
+                // caso o usuário esteja no departamento
+                console.log('O usuário é chefe de algum departamento.');
+                const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE);
+                const userValue = await user.create({
+                    email,
+                    senha: cypherSenha,
+                    permissao: 'admin' // salva a permissão como adm
                 });
                 return userValue;
             }
-    
         } catch (error) {
-            // Tratamento de erros
             if (error.name === 'SequelizeValidationError') {
                 const validationErrors = error.errors.map(err => err.message);
                 console.error('Erro de validação ao criar o usuário:', validationErrors);
@@ -90,6 +81,7 @@ class UserController {
         }
         try {
             const userValue = await user.findOne({ where: { email } });
+            console.log('Usuário foi logado com sucesso!');
             if (!userValue) {
                 throw new Error("[1] Usuário e senha inválidos.");
             }
