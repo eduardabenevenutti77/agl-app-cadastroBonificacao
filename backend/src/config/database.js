@@ -8,6 +8,7 @@ class Database {
         this.db = new Sequelize({
             database: "cadastroBonificacao",
             host: "localhost",
+            port: 3306,
             username: "root",
             dialect: "mysql",
             password: ""

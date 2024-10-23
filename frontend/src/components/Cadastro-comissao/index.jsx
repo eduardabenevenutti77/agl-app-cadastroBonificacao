@@ -1,15 +1,24 @@
 import './style-gestor.css';
 import React, { useEffect, useState } from 'react';
-import { TextField, Button, Card, CardContent, Grid, useScrollTrigger, MenuItem  } from '@mui/material';
+import { TextField, Button, Card, CardContent, Grid, MenuItem } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 
 export default function Cadastrocomissao() {
+    const [campos, setCampos] = useState([{ id: 1 }]);
+    const add = () => {
+        setCampos([...campos, { id: campos.length + 1 }]);
+    };
+    const remove = () => {
+        if (campos.length > 1) {
+            setCampos(campos.slice(0, -1));
+        }
+    };
+
     const [time, setTime] = useState([]);
     const [selectedTime, setSelectedTime] = useState('');
     const [loadingTime, setLoadingTime] = useState(true);
     const [errorTime, setErrorTime] = useState(null);
-    // const selectedTimeId = Number(selectedTime);
 
     const [produto, setProduto] = useState([]);
     const [selectedProduto, setSelectedProduto] = useState('');
@@ -72,41 +81,80 @@ export default function Cadastrocomissao() {
         } finally {
             setLoadingFuncionario(false);
         }
-    };    
+    };   
 
     useEffect(() => {
-        fetchTimes(),
-        fetchProduto(),
+        fetchTimes();
+        fetchProduto();
         fetchFuncionario();
     }, []);
+
     return (
-            <Card variant="outlined" style={{ maxWidth: '1000px', marginTop: '50px', margin: 'auto', background: '#FCFCF4', borderRadius: '10px' }}>
-                <CardContent>
-                    <p className='title-cadastro'>Cadastro de Regra de Comissionamento</p>
-                    <form>
+        <Card variant="outlined" style={{ maxWidth: '1000px', marginTop: '50px', margin: 'auto', background: '#FCFCF4', borderRadius: '10px', marginBottom: '40px' }}>
+            <CardContent>
+                <p className='title-cadastro'>Cadastro de Regra de Comissionamento</p>
+                <form>
                     <Grid container spacing={1}>
                         <Grid item xs={12} sm={4}>
-                            <TextField label="Remuneração fixa *" variant="outlined" size="small" fullWidth margin="normal"/>
+                            <TextField label="Remuneração fixa *" variant="outlined" size="small" fullWidth margin="normal" />
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <TextField label="Remuneração variável *" variant="outlined" size="small" fullWidth margin="normal"/>
+                            <TextField label="Remuneração variável" variant="outlined" size="small" fullWidth margin="normal" />
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <TextField label="% por critério *" variant="outlined" size="small" fullWidth margin="normal"/>
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <TextField label="Critério 01 (valor) *" variant="outlined" size="small" fullWidth margin="normal" />
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <TextField label="Critério 02 (valor)" variant="outlined" size="small" fullWidth margin="normal" />
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <TextField label="Multiplicadores *" variant="outlined" size="small" fullWidth margin="normal"/>
+                            <TextField label="% por critério *" variant="outlined" size="small" fullWidth margin="normal" />
                         </Grid>
                     </Grid>
+                    {/* Campos duplicados: Critérios e Multiplicadores */}
+                    {campos.map((campo, index) => (
+                        <Grid container spacing={1} key={campo.id}>
+                            <Grid item xs={12} sm={4}>
+                                <TextField
+                                    label={`Critério 01 (valor) ${index + 1} *`}
+                                    variant="outlined"
+                                    size="small"
+                                    fullWidth
+                                    margin="normal"
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                                <TextField
+                                    label={`Critério 02 (valor) ${index + 1} *`}
+                                    variant="outlined"
+                                    size="small"
+                                    fullWidth
+                                    margin="normal"
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                                <TextField
+                                    label="Multiplicadores *"
+                                    variant="outlined"
+                                    size="small"
+                                    fullWidth
+                                    margin="normal"
+                                />
+                            </Grid>
+                        </Grid>
+                    ))}
+                    <Button onClick={remove} variant="contained" style={{ marginTop: '16px', marginLeft: '10px', borderRadius: '100px', backgroundColor: '#3D7992' }}>
+                        -
+                    </Button>
+                    <Button onClick={add} variant="contained"  style={{ marginTop: '16px', marginLeft: '10px', borderRadius: '100px', backgroundColor: '#2181AA' }}>
+                        +
+                    </Button>
                     <Grid container spacing={1}>
                         <Grid item xs={12} sm={4}>
-                            <TextField label="Selecione o time *" variant="outlined" size="small" fullWidth margin="normal" select value={selectedTime || ''} onChange={(e) => setSelectedTime(e.target.value)}>
+                            <TextField
+                                label="Selecione o time *"
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                margin="normal"
+                                select
+                                value={selectedTime || ''}
+                                onChange={(e) => setSelectedTime(e.target.value)}
+                            >
                                 <MenuItem value="">
                                     <em>Nenhum time selecionado</em>
                                 </MenuItem>
@@ -121,19 +169,17 @@ export default function Cadastrocomissao() {
                                     <MenuItem disabled>Nenhum time encontrado</MenuItem>
                                 )}
                             </TextField>
-                        <div>
-                             <p id='aviso'>Time: {selectedTime ? time.find(t => t.id === Number(selectedTime))?.NAME : 'Nenhum time selecionado'}</p>
-                        </div>
+                            <p id='aviso'>Time: {selectedTime ? time.find(t => t.id === Number(selectedTime))?.NAME : 'Nenhum time selecionado'}</p>
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <TextField 
-                                label="Selecione o funcionário" 
-                                variant="outlined" 
-                                size="small" 
-                                fullWidth 
-                                margin="normal" 
-                                select 
-                                value={selectFuncionario || ''} 
+                            <TextField
+                                label="Selecione o funcionário"
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                margin="normal"
+                                select
+                                value={selectFuncionario || ''}
                                 onChange={(e) => setSelectedFuncionario(e.target.value)}
                             >
                                 <MenuItem value="">
@@ -142,7 +188,7 @@ export default function Cadastrocomissao() {
                                 {errorFuncionario && <MenuItem disabled>{errorFuncionario}</MenuItem>}
                                 {!loadingFuncionario && !errorFuncionario && funcionario.length > 0 ? (
                                     funcionario.map((funcionarios) => (
-                                        <MenuItem key={funcionarios.ID}>
+                                        <MenuItem key={funcionarios.id}>
                                             {funcionarios.fullName}
                                         </MenuItem>
                                     ))
@@ -150,48 +196,46 @@ export default function Cadastrocomissao() {
                                     <MenuItem disabled>Nenhum funcionário encontrado</MenuItem>
                                 )}
                             </TextField>
-                                <div>
-                                    <p id='aviso'>Funcionário: {selectFuncionario ? funcionario.find(f => f.id === Number(selectFuncionario))?.NAME : 'Nenhum funcionário selecionado'}</p>
-                                </div>
-                            </Grid>
-                            <Grid item xs={12} sm={4}>
-                            <TextField 
-                                label="Selecione o produto *" 
-                                variant="outlined" 
-                                size="small" 
-                                fullWidth 
-                                margin="normal" 
-                                select 
-                                value={selectedProduto || ''} 
+                            <p id='aviso'>Funcionário: {selectFuncionario ? funcionario.find(f => f.id === Number(selectFuncionario))?.fullName : 'Nenhum funcionário selecionado'}</p>
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <TextField
+                                label="Selecione o produto *"
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                margin="normal"
+                                select
+                                value={selectedProduto || ''}
                                 onChange={(e) => setSelectedProduto(e.target.value)}
-                                >
+                            >
                                 <MenuItem value="">
                                     <em>Nenhum produto selecionado</em>
                                 </MenuItem>
-                                
                                 {errorProduto && <MenuItem disabled>{errorProduto}</MenuItem>}
-                                
                                 {!loadingProduto && !errorProduto && produto.length > 0 ? (
                                     produto.map((produtos) => (
-                                    <MenuItem key={produtos.ID}>
-                                        {produtos.NAME}
-                                    </MenuItem>
+                                        <MenuItem key={produtos.ID}>
+                                            {produtos.NAME}
+                                        </MenuItem>
                                     ))
                                 ) : (
                                     <MenuItem disabled>Nenhum produto encontrado</MenuItem>
                                 )}
-                                </TextField>
-                                <div>
-                                    <p id='aviso'>Produto: {selectedProduto ? produto.find(p => p.id === Number(selectedProduto))?.NAME : 'Nenhum produto selecionado'}</p>
-                                </div>
-                            </Grid>
+                            </TextField>
+                            <p id='aviso'>Produto: {selectedProduto ? produto.find(p => p.id === Number(selectedProduto))?.NAME : 'Nenhum produto selecionado'}</p>
                         </Grid>
-                        <div style={{ textAlign: 'center', marginTop: '16px' }}>
-                            <Button size="small" variant="contained" color="error" style={{ marginRight: '8px', background: '#5EA8C8' }} startIcon={<DeleteIcon />}>Cancelar o cadastro</Button>
-                            <Button size="small" variant="contained" style={{background: '#2181AA'}} type="submit" endIcon={<SendIcon />}>Efetuar o cadastro</Button>
-                        </div>
-                    </form>
-                </CardContent>
-            </Card>
+                    </Grid>
+                    <div style={{ textAlign: 'center', marginTop: '16px' }}>
+                        <Button size="small" variant="contained" color="error" style={{ marginRight: '8px', background: '#5EA8C8' }} startIcon={<DeleteIcon />}>
+                            Cancelar o cadastro
+                        </Button>
+                        <Button size="small" variant="contained" style={{ background: '#2181AA' }} type="submit" endIcon={<SendIcon />}>
+                            Efetuar o cadastro
+                        </Button>
+                    </div>
+                </form>
+            </CardContent>
+        </Card>
     );
 }
