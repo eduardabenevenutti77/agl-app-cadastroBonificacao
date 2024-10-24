@@ -1,16 +1,17 @@
 import './App.css';
-import Header from './components/Header';
-import Cadastro from './pages/Cadastro';
-import { Route, Routes, useLocation } from 'react-router-dom';
-import Footer from './components/Footer';
-import Login from './pages/Login';
-import DashboardGestor from './pages/Dashboard-gestor';
 import { AuthProvider } from '../src/auth/Context'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-import PrivateRoute from '../src/routes/PrivateRoute';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Cadastro from './pages/Cadastro';
+import Login from './pages/Login';
 import Sobre from './pages/Sobre';
+import DashboardGestor from './pages/Dashboard-gestor';
+import PrivateRoute from '../src/routes/PrivateRoute';
 import Cadastrogestor from './pages/Cadastro-gestor';
+import Autorizacao from './pages/Sem-autorizacao';
 
 function App() {
   const location = useLocation();
@@ -26,9 +27,10 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
               <Route path="/" element={<Cadastro />} />
+              <Route path='/permissao' element={<Autorizacao/>}/>
               <Route element={<PrivateRoute />}>
-                <Route path="/cadastrogestor" element={<Cadastrogestor/>} />
-                <Route path="/dashboardgestor" element={<DashboardGestor />} />
+                <Route path="/dashboardgestor" element={<PrivateRoute><DashboardGestor /></PrivateRoute>} />
+                <Route path="/cadastrogestor" element={<PrivateRoute><Cadastrogestor /></PrivateRoute>} />
                 <Route path="/sobre" element={<Sobre />} />
               </Route>
           </Routes>

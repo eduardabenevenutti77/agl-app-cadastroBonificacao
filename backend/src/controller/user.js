@@ -30,36 +30,36 @@ class UserController {
                 timeout: 5000
             });
             const departments = response.data.result; // Armazena os departamentos no array
-            const idDepartments = departments.map(department => department.UF_HEAD); // Armazena os IDs de UF_HEAD
-            const idDepartmentsStr = idDepartments.join(','); // Converte em string
+            const idDepartments = departments.map(department => department.UF_HEAD); // Armazena os IDs de UF_HEAD (id dos gestores)
+            // const idDepartmentsStr = idDepartments.join(','); // Converte em string
             console.log('IDs dos chefes de departamentos:', idDepartments);
-            // realiza a resquisição nos funcionários
+            // realiza a resquisição nos funcionários, passando como parâmetro o IDs dos UF_HEAD
             const usersResponse = await axios.get(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/user.get`, {
                 params: {
-                    filter: { ID: idDepartmentsStr },
+                    filter: { ID: idDepartments },
                     timeout: 5000
                 }
             });
-            const userInDepartment = usersResponse.data.result.length > 0;
+            const userInDepartment = usersResponse.data.result.length > 0; // armazena num array
         
             // se o usuário não está no departamento
             if (!userInDepartment) {
-                console.log("O usuário não está no departamento.");
+                console.log("O usuário não está no departamento. Será cadastrado como usuário normal");
                 const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE);
                 const userValue = await user.create({
                     email,
                     senha: cypherSenha,
-                    permissao: 'user' // salva a permissão como usuário normal
+                    permissao: "user" // salva a permissão como usuário normal
                 });
                 return userValue;
             } else {
                 // caso o usuário esteja no departamento
-                console.log('O usuário é chefe de algum departamento.');
+                console.log('O usuário é chefe de algum departamento. Será cadastrado com usuário adm');
                 const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE);
                 const userValue = await user.create({
                     email,
                     senha: cypherSenha,
-                    permissao: 'admin' // salva a permissão como adm
+                    permissao: "admin" // salva a permissão como adm
                 });
                 return userValue;
             }

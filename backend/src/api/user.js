@@ -18,7 +18,7 @@ class UserApi {
         try {
             const token = await UserController.loginUser(email, senha)
             res.status(200).send({token})
-            console.log('Usuário logado com sucesso!')
+            console.log(token)
         } catch (e) {
             res.status(400).send({ error: `Problema na hora de logar -> ${e.message}` })
         }

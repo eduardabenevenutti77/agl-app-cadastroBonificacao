@@ -15,11 +15,12 @@ const isTokenValid = (token) => {
 
 const getRole = (token) => {
   try {
-    const decoded = jwtDecode(token);
-    console.log(decoded)
-    return decoded.role
+    const decoded = jwtDecode(token); 
+    console.log("Decoded token:", decoded); 
+    return decoded.role; 
   } catch (error) {
-    return false;
+    console.error("Erro ao decodificar o token:", error); 
+    return false; 
   }
 };
 
@@ -32,22 +33,24 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
+    console.log("Token armazenado no localStorage:", storedToken); 
     if (storedToken && isTokenValid(storedToken)) {
       setToken(storedToken);
-      setRole(getRole(storedToken));
+      setRole(getRole(storedToken)); 
     } else {
       setToken(null);
       setRole(null);
       localStorage.removeItem('token');
     }
     setLoading(false);
-  }, []);
+  }, []);  
 
   const login = (newToken) => {
     setToken(newToken);
     setRole(getRole(newToken));
     localStorage.setItem('token', newToken);
-  };
+    console.log("Login completed with token:", newToken);
+  };  
 
   const logout = () => {
     setToken(null);
