@@ -1,21 +1,42 @@
-/* O body precisa ter uma altura mínima de 100% */
 html, body {
   height: 100%;
   margin: 0;
   display: flex;
   flex-direction: column;
 }
+
 footer {
-  margin-top: auto; /* Isso vai "empurrar" o footer para o final */
+  margin-top: auto; 
   background-color: #5A9DB9;
   color: #FFFF;
   border-radius: 15px;
-  padding: 8px;
+  padding: 16px; 
   width: 100%;
   max-width: 1440px;
-  /* position: fixed; */
+  margin-left: 35px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 #footer-title {
-    text-align: center;
-    font-size: 14px;
+  text-align: center;
+  font-size: 1rem; 
+}
+@media (max-width: 768px) {
+  footer {
+    padding: 12px; 
+    /* max-width: 1440px; */
+  }
+  #footer-title {
+    font-size: 0.875rem; 
+  }
+}
+
+@media (max-width: 480px) {
+  footer {
+    padding: 8px; 
+    max-width: 200px;
+    /* max-width: 1440px; */
+  }
+  #footer-title {
+    font-size: 0.75rem; 
+  }
 }

@@ -38,12 +38,3 @@ p {
     font-optical-sizing: auto;
     font-style: normal;
 }
-footer {
-  background-color: #5aaaca;
-  color: #fff;
-  border-radius: 15px;
-  padding: 8px;
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto 15px auto; 
-}
