@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { AuthContext } from './auth/Context';
+import Cadastrocomissao from "../../components/Cadastro-comissao"
 
 // Cria uma rota protegida que verifica se o usuário é admin
 export function PrivateRoute({ children }) {
@@ -12,5 +13,5 @@ export function PrivateRoute({ children }) {
   }
 
   // Se for admin, renderiza o componente filho (rota protegida)
-  return children ? children : <Outlet />;
+  return children ? children : <Cadastrocomissao />;
 }

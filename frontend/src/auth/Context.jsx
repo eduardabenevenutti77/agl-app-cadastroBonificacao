@@ -17,7 +17,7 @@ const getRole = (token) => {
   try {
     const decoded = jwtDecode(token); 
     console.log("Decoded token:", decoded); 
-    return decoded.role; 
+    return decoded.role || null; 
   } catch (error) {
     console.error("Erro ao decodificar o token:", error); 
     return false; 
@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
     setToken(newToken);
     setRole(getRole(newToken));
     localStorage.setItem('token', newToken);
-    console.log("Login completed with token:", newToken);
+    console.log("Login realizado com o token -> ", newToken);
   };  
 
   const logout = () => {

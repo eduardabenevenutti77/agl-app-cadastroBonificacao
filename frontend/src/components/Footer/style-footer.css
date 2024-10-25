@@ -4,17 +4,17 @@ html, body {
   display: flex;
   flex-direction: column;
 }
-
 footer {
   margin-top: auto; 
   background-color: #5A9DB9;
   color: #FFFF;
   border-radius: 15px;
-  padding: 16px; 
+  padding: 8px; 
   width: 100%;
   max-width: 1440px;
-  margin-left: 35px;
+  margin-left: 40px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  margin-bottom: 15px;
 }
 #footer-title {
   text-align: center;
@@ -23,18 +23,15 @@ footer {
 @media (max-width: 768px) {
   footer {
     padding: 12px; 
-    /* max-width: 1440px; */
   }
   #footer-title {
     font-size: 0.875rem; 
   }
 }
-
 @media (max-width: 480px) {
   footer {
     padding: 8px; 
     max-width: 200px;
-    /* max-width: 1440px; */
   }
   #footer-title {
     font-size: 0.75rem; 

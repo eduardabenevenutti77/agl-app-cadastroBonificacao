@@ -1,18 +1,17 @@
 .container {
-    display: flex; /* Mantém o layout em linha */
-    flex-direction: row; /* Altera para linha para itens lado a lado */
-    justify-content: space-between; /* Espaço entre os itens */
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-between; 
     align-items: center; 
     background-color: #FCFCF4;
     width: 80%;
-    max-width: 1200px; /* Limita a largura máxima */
-    height: auto; /* Altura automática para adaptação do conteúdo */
-    margin: 0 auto 25px; /* Centraliza horizontalmente e adiciona margem inferior */
+    max-width: 1200px; 
+    height: auto; 
+    margin: 0 auto 25px; 
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona sombra para destaque */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
-
 .title-permissao {
     margin-top: 15px;
     color: brown;
@@ -20,42 +19,35 @@
     text-align: left; 
     margin-bottom: 0px;
 }
-
 .subtitle-permissao {
     color: black;
     font-weight: 400;
-    font-size: 1rem; /* Usa unidade relativa para tamanho da fonte */
+    font-size: 1rem; 
     text-align: left;
     margin-top: 10px;
 }
-
-/* Estilização responsiva */
 @media (max-width: 768px) {
     .container {
-        flex-direction: column; /* Altera a direção para coluna em telas menores */
-        align-items: flex-start; /* Alinha os itens à esquerda */
-        padding: 15px; /* Reduz o padding */
+        flex-direction: column; 
+        align-items: flex-start; 
+        padding: 15px; 
     }
-
     .title-permissao {
-        font-size: 1.2rem; /* Ajusta o tamanho da fonte para melhor legibilidade */
+        font-size: 1.2rem; 
     }
 
     .subtitle-permissao {
-        font-size: 0.9rem; /* Ajusta o tamanho da fonte para melhor legibilidade */
+        font-size: 0.9rem; 
     }
 }
-
 @media (max-width: 480px) {
     .container {
-        padding: 10px; /* Mais redução de padding para telas menores */
+        padding: 10px; 
     }
-
     .title-permissao {
-        font-size: 1rem; /* Ajusta ainda mais o tamanho da fonte */
+        font-size: 1rem; 
     }
-
     .subtitle-permissao {
-        font-size: 0.8rem; /* Ajusta ainda mais o tamanho da fonte */
+        font-size: 0.8rem; 
     }
 }

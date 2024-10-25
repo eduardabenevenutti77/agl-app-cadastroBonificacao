@@ -25,14 +25,17 @@ function App() {
         {!ocultarElementos && <Header />}
         <div className="content">
           <Routes>
+            {/* Rota pública */}
             <Route path="/login" element={<Login />} />
-              <Route path="/" element={<Cadastro />} />
-              <Route path='/permissao' element={<Autorizacao/>}/>
-              <Route element={<PrivateRoute />}>
-                <Route path="/dashboardgestor" element={<PrivateRoute><DashboardGestor /></PrivateRoute>} />
-                <Route path="/cadastrogestor" element={<PrivateRoute><Cadastrogestor /></PrivateRoute>} />
-                <Route path="/sobre" element={<Sobre />} />
-              </Route>
+            <Route path="/" element={<Cadastro />} />
+            <Route path="/permissao" element={<Autorizacao />} />
+
+            {/* Rotas protegidas */}
+            <Route element={<PrivateRoute />}>
+              <Route path="/dashboardgestor" element={<DashboardGestor />} />
+              <Route path="/cadastrogestor" element={<Cadastrogestor />} />
+              <Route path="/sobre" element={<Sobre />} />
+            </Route>
           </Routes>
         </div>
         <ToastContainer

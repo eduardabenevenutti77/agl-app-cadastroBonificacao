@@ -2,11 +2,23 @@ import "./style-header.css";
 import { Link, useLocation } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../auth/Context';
-import logout from "../../assets/svg/logout.svg";
+import { AuthProvider } from "../../auth/Context";
+import logoutIcon from "../../assets/svg/logout.svg";
 
 export default function Header() {
-  const { token, role } = useContext(AuthContext);
+  // const history = useHistory();
+  // const { logout } = useContext(AuthProvider);
+  const { token, role, logout } = useContext(AuthContext);
   const location = useLocation();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      history.push('/login');
+    } catch (e) {
+      console.log('Erro ao desconectar usuário -> ', e);
+    }
+  };
 
   const isLoginRoute = location.pathname === '/login';
 
@@ -43,9 +55,11 @@ export default function Header() {
               token && <Link to="/sobre" className="menu-link" style={{textDecoration: 'none'}}> <p id="cadastrar-regra">Sobre o projeto</p> </Link>
             }
           </div>
-          {
-            token && <Link><img src={logout} alt="Logout" className="logout-icon" /></Link>
-          }
+          <div onClick={handleLogout}>
+            {
+              token && <Link><img src={logoutIcon} alt="Logout" className="logout-icon" /></Link>
+            }
+          </div>
         </div>
       </div>
     </>

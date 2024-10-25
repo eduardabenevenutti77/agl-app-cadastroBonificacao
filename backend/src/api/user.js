@@ -44,11 +44,11 @@ class UserApi {
         }
     }
 
-    async logout(req, res) {
+    logout(req, res) {
         req.session.destroy((err) => {
             if (err) {
-                console.log(err);
-                return res.redirect('/dashboard');
+                console.log("Erro ao desconectar usuário -> ", err);
+                return res.redirect('/sobre');
             }
             res.clearCookie('connect.sid');
             return res.redirect('/api/v1/user/login');

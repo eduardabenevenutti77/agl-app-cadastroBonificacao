@@ -5,6 +5,62 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 
 export default function Cadastrocomissao() {
+    const [campoFormatacao, setCampoForm] = useState('');
+    const handleChange = (event) => {
+        const valor = event.target.value.replace(/[^0-9]/g, '');
+        const formatado = new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+        }).format(valor/100);
+        setCampoForm(formatado);
+    } 
+
+    const [campoVariavel, setCampoVariavel] = useState('');
+    const handleChangeVariavel = (event) => {
+        const valor = event.target.value.replace(/[^0-9]/g, '');
+        const formatado = new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+        }).format(valor/100);
+        setCampoVariavel(formatado);
+    } 
+
+    const [campoPorcento, setCampoPorcento] = useState('');
+    const handleChangePorcento = (event) => {
+        const valor = event.target.value.replace(/[^0-9]/g, '');
+        const formatado = valor ? `${valor}%` : '';
+
+        setCampoPorcento(formatado);
+    } 
+
+    const [criterioUm, setCriterioUm] = useState('');
+    const handleChangeCriterioUm = (event) => {
+        const valor = event.target.value.replace(/[^0-9]/g, '');
+        const formatado = new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+        }).format(valor/100);
+        setCriterioUm(formatado);
+    } 
+
+    const [criterioDois, setCriterioDois] = useState('');
+    const handleChangeCriterioDois = (event) => {
+        const valor = event.target.value.replace(/[^0-9]/g, '');
+        const formatado = new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+        }).format(valor/100);
+        setCriterioDois(formatado);
+    } 
+
+    const [multiplicador, setMultiplicador] = useState('');
+    const handleChangeMulti = (event) => {
+        const valor = event.target.value.replace(/[^0-9]/g, '');
+        const formatado = valor ? `${valor}%` : '';
+
+        setMultiplicador(formatado);
+    }
+
     const [campos, setCampos] = useState([{ id: 1 }]);
     const add = () => {
         setCampos([...campos, { id: campos.length + 1 }]);
@@ -96,13 +152,13 @@ export default function Cadastrocomissao() {
                 <form>
                     <Grid container spacing={1}>
                         <Grid item xs={12} sm={4}>
-                            <TextField label="Remuneração fixa *" variant="outlined" size="small" fullWidth margin="normal" />
+                            <TextField label="Remuneração fixa *" variant="outlined" size="small" fullWidth margin="normal" value={campoFormatacao} onChange={handleChange} />
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <TextField label="Remuneração variável" variant="outlined" size="small" fullWidth margin="normal" />
+                            <TextField label="Remuneração variável" variant="outlined" size="small" fullWidth margin="normal" value={campoVariavel} onChange={handleChangeVariavel} />
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <TextField label="% por critério *" variant="outlined" size="small" fullWidth margin="normal" />
+                            <TextField label="% por critério *" variant="outlined" size="small" fullWidth margin="normal" value={campoPorcento} onChange={handleChangePorcento} />
                         </Grid>
                     </Grid>
                     {/* Campos duplicados: Critérios e Multiplicadores */}
@@ -115,6 +171,8 @@ export default function Cadastrocomissao() {
                                     size="small"
                                     fullWidth
                                     margin="normal"
+                                    value = {criterioUm}
+                                    onChange={handleChangeCriterioUm}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
@@ -124,6 +182,8 @@ export default function Cadastrocomissao() {
                                     size="small"
                                     fullWidth
                                     margin="normal"
+                                    value = {criterioDois}
+                                    onChange={handleChangeCriterioDois}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
@@ -133,6 +193,8 @@ export default function Cadastrocomissao() {
                                     size="small"
                                     fullWidth
                                     margin="normal"
+                                    value = {multiplicador}
+                                    onChange={handleChangeMulti}
                                 />
                             </Grid>
                         </Grid>
