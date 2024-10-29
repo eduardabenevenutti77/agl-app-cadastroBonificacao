@@ -1,9 +1,29 @@
-#display-download {
+.body-dash {
     display: flex;
-    justify-content: end;
-    align-items: flex-start; 
-    height: auto; 
+    justify-content: flex-start; 
+    align-items: center; 
+    width: 100%; 
 }
-#button-download {
-    background-color: #01638C;
+.download {
+    display: flex; 
+    margin-left: auto; 
+    margin-top: 15px;
+}
+#download {
+    display: flex;                  
+    align-items: center;           
+    justify-content: center; 
+    margin-right: 150px;
+    margin-bottom: 50px;
+    padding: 9px;
+    border-radius: 10px;
+    /* border: none; */border: 1px;
+    background-color: #7fadc1;
+    color: #1a1a1a;
+    font-family: "Jost";
+    font-weight: 500;
+    cursor: pointer;
+}
+#download img {
+    margin-left: 5px;
 }

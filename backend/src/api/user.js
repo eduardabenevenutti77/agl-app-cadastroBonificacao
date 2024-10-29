@@ -18,18 +18,40 @@ class UserApi {
         try {
             const token = await UserController.loginUser(email, senha)
             res.status(200).send({token})
-            console.log('Usuário logado com sucesso!')
+            console.log(token)
         } catch (e) {
             res.status(400).send({ error: `Problema na hora de logar -> ${e.message}` })
         }
     }
 
-    async findUsers(req, res) {
+    async find(req, res) {
         try {
-            const users = await UserController.findUsers()
+            const users = await UserController.find()
             return res.status(200).send(users)
         } catch (e) {
             return res.status(400).send({ error: `Problema na hora de listar usuários -> ${e.message}`})
+        }
+    }
+
+    async blockUser(req, res) {
+        try {
+            const { id } = req.params;
+            const result = await UserController.blockUser(id);
+            return res.status(200).send(result);
+        } catch (e) {
+            console.log(e)
+            res.status(400).send({ error: e.message });
+        }
+    }
+
+    async unblockUser(req, res) {
+        try {
+            const { id } = req.params;
+            const result = await UserController.unblockUser(id);
+            return res.status(200).send(result);
+        } catch (e) {
+            console.log(e)
+            res.status(400).send({ error: e.message });
         }
     }
 
@@ -44,16 +66,27 @@ class UserApi {
         }
     }
 
-    async logout(req, res) {
+    logout(req, res) {
         req.session.destroy((err) => {
             if (err) {
-                console.log(err);
-                return res.redirect('/dashboard');
+                console.log("Erro ao desconectar usuário -> ", err);
+                return res.redirect('/sobre');
             }
             res.clearCookie('connect.sid');
             return res.redirect('/api/v1/user/login');
         });
     };
+
+    async findContext(req, res) {
+        try {
+            console.log("ID da sessão: ", req?.session?.user.id);
+            const user = await UserController.findUser(req?.session?.user.id || 0);
+            return res.status(200).send(user);
+        } catch (e) {
+            console.log(e)
+            res.status(400).send({ error: e.message })
+        }
+    }
 }
 
 module.exports = new UserApi()

@@ -14,6 +14,14 @@ export const loginUser = async (email, senha) => {
 };
 
 export const findUsers = async () => {
-  const response = await api.get('/api/v1/user/findUsers');
+  const response = await api.get('/api/v1/user/findUser');
   return response.data;
 };
+export const blockUser = async (id) => {
+  const response = await api.put(`api/v1/user/${id}/block`)
+  return response.data
+}
+export const unblock = async (id) => {
+  const response = await api.put(`api/v1/user/${id}/unblock`)
+  return response.data
+}
