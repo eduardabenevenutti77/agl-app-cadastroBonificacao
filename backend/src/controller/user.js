@@ -64,6 +64,9 @@ class UserController {
             if (!userValue) {
                 throw new Error("[1] Usuário e senha inválidos.");
             }
+            if (userValue.bloqueado === 1) {
+                throw new Error("[3] O acesso está bloqueado.");
+            }
             const senhaValida = await bcrypt.compare(String(senha), userValue.senha);
             if (!senhaValida) {
                 throw new Error("[2] Usuário e senha inválidos.");
@@ -74,9 +77,50 @@ class UserController {
         }
     }
 
-    async findUsers() {
+    async find() {
+        console.log('Caiu aqui')
         return user.findAll();
     }
+
+    async blockUser(id) {
+    try {
+      const userToBlock = await user.findByPk(id);
+      if (!userToBlock) {
+        throw new Error('Usuário não encontrado.');
+      }
+      // userToBlock.isBlocked = true;
+      userToBlock.bloqueado = 1
+      await userToBlock.save();
+      return { message: 'Usuário bloqueado com sucesso.' };
+    } catch (error) {
+      throw new Error('Erro ao bloquear o usuário: ' + error.message);
+    }
+  }
+
+  async unblockUser(id) {
+    try {
+      const userToUnblock = await user.findByPk(id);
+      if (!userToUnblock) {
+        throw new Error('Usuário não encontrado.');
+      }
+      userToUnblock.bloqueado = 0;
+      await userToUnblock.save();
+      return { message: 'Usuário desbloqueado com sucesso.' };
+    } catch (error) {
+      throw new Error('Erro ao desbloquear o usuário: ' + error.message);
+    }
+  }
+
+  async findUser(id) {
+    if (id === undefined) {
+      throw new Error("Id é obrigatório.");
+    }
+    const userValue = await user.findByPk(id);
+    if (!userValue) {
+      throw new Error("Usuário não encontrado.");
+    }
+    return userValue;
+  }
     
 }
 

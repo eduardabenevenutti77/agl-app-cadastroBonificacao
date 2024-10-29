@@ -9,7 +9,7 @@ const authMiddleware = require("./middleware/authMiddleware");
 const app = express();
 app.use(express.json());
 
-app.use(cors());
+app.use(cors({credentials: true}));
 
 app.get("/", (req, res) => {
     res.status(200).json({ message: "Ok, a requesição está funcionado" });
@@ -26,17 +26,21 @@ app.post("/api/v1/user/loginUser", UserApi.loginUser);
 // // rota com autenticação
 // app.use("/api/v1/user", authMiddleware(), UserRouter)
 
-database.db
-    .sync({ force: false })
-    .then((_) => {
-        if (!process.env.TEST) {
-            app.listen(3000, (_) => {
-                console.log("O servidor está rodando na porta 3000")
-            });
-        }
-    })
-    .catch((e) => {
-        console.error(`Erro ao inicializar o banco de dados -> ${e.message}`);
-    });
+app.listen(3000, () => {
+    console.log('Servidor rodando na porta 3000');
+  });
+  
+  (async () => {
+    try {
+      await database.db.authenticate(); // Teste a conexão
+      console.log("Conexão com o banco de dados estabelecida com sucesso.");
+      
+      // Sincronize os modelos com o banco de dados (apenas para teste)
+      await database.db.sync({ force: false }); // Isso recria as tabelas
+      console.log("Modelos sincronizados com sucesso.");
+    } catch (error) {
+      console.error("Erro ao conectar ao banco de dados:", error);
+    }
+  })();
 
 module.exports = app;

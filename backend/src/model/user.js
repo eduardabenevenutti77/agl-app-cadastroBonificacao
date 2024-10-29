@@ -15,6 +15,9 @@ class User {
             senha: {
                 type: database.db.Sequelize.STRING
             },
+            bloqueado: {
+                type: database.db.Sequelize.INTEGER,
+            },
             permissao: {
                 type: database.db.Sequelize.STRING,
                 validate: {

@@ -52,6 +52,13 @@ export default function Header() {
           </div>
           <div>
             {
+              token && role === 'admin' 
+              ? <Link to="/gestao" className="menu-link" style={{textDecoration: 'none'}}> <p id="cadastrar-regra">Gestão de usuários</p> </Link> 
+              : null
+            }
+          </div>
+          <div>
+            {
               token && <Link to="/sobre" className="menu-link" style={{textDecoration: 'none'}}> <p id="cadastrar-regra">Sobre o projeto</p> </Link>
             }
           </div>

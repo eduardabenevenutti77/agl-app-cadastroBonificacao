@@ -1,0 +1,53 @@
+#containerBloquear {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#titleBloquear {
+    color: black;
+    font-weight: 400;
+}
+#subtitle {
+    color: rgb(105, 105, 105);
+    font-weight: 300;
+    font-size: medium;
+    margin-top: 0;
+}
+#userList {
+    list-style-type: none; 
+    padding: 0; 
+    width: 100%; 
+}
+.user-item {
+    background-color: #e9ecef; 
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    transition: background-color 0.3s, transform 0.2s;
+}
+.user-item:hover {
+    background-color: #ced4da; 
+}
+.user-item.blocked {
+    background-color: rgba(255, 0, 0, 0.1); /* Altere para a cor que você desejar */
+    color: #ff0000; /* Altere o texto, se necessário */
+}
+.user-name {
+    font-weight: bold;
+    color: #212529; 
+    font-size: 1rem; 
+}
+.user-email {
+    color: #007bff; 
+    font-weight: normal;
+    font-size: 0.9rem; 
+}
+.no-users {
+    text-align: center; 
+    font-size: 1rem; 
+    color: #6c757d; 
+}
