@@ -87,6 +87,67 @@ class UserApi {
             res.status(400).send({ error: e.message })
         }
     }
+
+
+    async createFunil(req, res) {
+        try {
+            const funil = await RegraController.createFunil();
+            return res.status(201).json(funil)
+        } catch (e) {
+            console.log('Erro ao cadastrar informações do webhook -> ', e.message);
+            res.status(400).json({e: e.message});
+        }
+    }
+
+    async findFunil(req, res) {
+        try {
+            const funil = await RegraController.findFunil();
+            return res.status(201).json(funil)
+        } catch (e) {
+            console.log('Erro ao cadastrar informações do webhook -> ', e.message);
+            res.status(400).json({e: e.message});
+        }
+    }
+
+    async createFase(req, res) {
+        try {
+            const fase = await RegraController.createFase();
+            return res.status(201).json(fase);
+        } catch (e) {
+            console.log('Erro ao cadastrar webhook de fases -> ', e.message);
+            res.status(400).json({e: e.message});
+        }
+    }
+    
+    async findFase(req, res) {
+        try {
+            const fase = await RegraController.findFase();
+            return res.status(201).json(fase);
+        } catch (e) {
+            console.log('Erro ao buscar fases -> ', e.message);
+            res.status(400).json({e: e.message});
+        }
+    }
+
+    async createProduto(req, res) {
+        try {
+            const produto = await RegraController.createProduto();
+            return res.status(201).json(produto);
+        } catch (e) {
+            console.log('Erro ao cadastrar webhook de produtos -> ', e.message);
+            res.status(400).json({e: e.message});
+        }
+    }
+
+    async findProduto(req, res) {
+        try {
+            const produto = await RegraController.findProduto();
+            return res.status(201).json(produto);
+        } catch (e) {
+            console.log('Erro ao buscar produtos -> ', e.message);
+            res.status(400).json({e: e.message});
+        }
+    }
 }
 
 module.exports = new UserApi()

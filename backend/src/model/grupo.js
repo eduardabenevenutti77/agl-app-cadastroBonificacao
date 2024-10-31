@@ -1,6 +1,7 @@
 const database = require("../config/database")
 const timeID = require('../model/time')
 const produtoID = require('../model/produto')
+const funcionarioId = require('../model/funcionario')
 
 class Grupo {
     constructor() {
@@ -17,8 +18,8 @@ class Grupo {
                     key: 'id'
                 }
             },
-            funcionario: {
-                type: database.db.Sequelize.STRING,
+            funcionarioId: {
+                type: database.db.Sequelize.INTEGER,
             },
             produtoID: {
                 type: database.db.Sequelize.INTEGER,
