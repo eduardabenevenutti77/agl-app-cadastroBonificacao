@@ -25,6 +25,7 @@ class UserApi {
     }
 
     async find(req, res) {
+        req.session.touch();
         try {
             const users = await UserController.find()
             return res.status(200).send(users)
@@ -85,6 +86,107 @@ class UserApi {
         } catch (e) {
             console.log(e)
             res.status(400).send({ error: e.message })
+        }
+    }
+
+
+    async createFunil(req, res) {
+        try {
+            const funil = await RegraController.createFunil();
+            return res.status(201).json(funil)
+        } catch (e) {
+            console.log('Erro ao cadastrar informações do webhook -> ', e.message);
+            res.status(400).json({e: e.message});
+        }
+    }
+
+    async findFunil(req, res) {
+        try {
+            const funil = await RegraController.findFunil();
+            return res.status(201).json(funil)
+        } catch (e) {
+            console.log('Erro ao cadastrar informações do webhook -> ', e.message);
+            res.status(400).json({e: e.message});
+        }
+    }
+
+    async createFase(req, res) {
+        try {
+            const fase = await RegraController.createFase();
+            return res.status(201).json(fase);
+        } catch (e) {
+            console.log('Erro ao cadastrar webhook de fases -> ', e.message);
+            res.status(400).json({e: e.message});
+        }
+    }
+    
+    async findFase(req, res) {
+        try {
+            const fase = await RegraController.findFase();
+            return res.status(201).json(fase);
+        } catch (e) {
+            console.log('Erro ao buscar fases -> ', e.message);
+            res.status(400).json({e: e.message});
+        }
+    }
+
+    async createProduto(req, res) {
+        try {
+            const produto = await RegraController.createProduto();
+            return res.status(201).json(produto);
+        } catch (e) {
+            console.log('Erro ao cadastrar webhook de produtos -> ', e.message);
+            res.status(400).json({e: e.message});
+        }
+    }
+
+    async findProduto(req, res) {
+        try {
+            const produto = await RegraController.findProduto();
+            return res.status(201).json(produto);
+        } catch (e) {
+            console.log('Erro ao buscar produtos -> ', e.message);
+            res.status(400).json({e: e.message});
+        }
+    }
+
+    async createTime(req, res) {
+        try {
+            const time = await RegraController.createTime();
+            return res.status(201).json(time)
+        } catch (e) {
+            console.log('Erro ao cadastrar webhook de times -> ', e.message);
+            res.status(400).json({ e: e.message });
+        }
+    }
+
+    async findTime(req, res) {
+        try {
+            const time = await RegraController.findTime();
+            return res.status(201).json(time);
+        } catch (e) {
+            console.log('Erro ao buscar times -> ', e.message);
+            res.status(400).json({e: e.message});
+        }
+    }
+
+    async createFuncionario(req, res) {
+        try {
+            const funcionario = await RegraController.createFuncionario();
+            return res.status(201).json(funcionario);
+        } catch (e) {
+            console.log('Erro ao cadastrar webhook de funcionários -> ', e.message);
+            res.status(400).json({e: e.message});
+        }
+    }
+
+    async findFuncionario(req, res) {
+        try {
+            const funcionario = await RegraController.find();
+            return res.status(201).json(funcionario);
+        } catch (e) {
+            console.log('Erro ao buscar funcionários -> ', e.message);
+            res.status(400).json({e: e.message});
         }
     }
 }

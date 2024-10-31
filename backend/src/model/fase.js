@@ -1,22 +1,16 @@
-const database = require("../config/database")
+const database = require('../config/database')
 const funilId = require('../model/funil')
 
-class Criterio {
+class Fase {
     constructor() {
-        this.model = database.db.define("criterios", {
+        this.model = database.db.define('fases', {
             id: {
                 type: database.db.Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            criterioUm: {
+            fase: {
                 type: database.db.Sequelize.STRING
-            },
-            criterioDois: {
-                type: database.db.Sequelize.STRING
-            },
-            multiplicadores: {
-                type: database.db.Sequelize.FLOAT
             },
             funilId: {
                 type: database.db.Sequelize.INTEGER,
@@ -25,8 +19,8 @@ class Criterio {
                     key: 'id'
                 }
             },
-        });
+        })
     }
 }
 
-module.exports = new Criterio().model;
+module.exports = new Fase().model;

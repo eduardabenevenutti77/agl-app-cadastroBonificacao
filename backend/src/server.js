@@ -4,6 +4,7 @@ const database = require("./config/database");
 
 const UserApi = require("./api/user");
 const UserRouter = require("./routes/user");
+const RegraRouter = require('./routes/regra');
 const authMiddleware = require("./middleware/authMiddleware");
 
 const app = express();
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 
 // delimitando o parâmetro das rotas
 app.use('/api/v1/user', UserRouter)
+app.use('/api/v1/regra', RegraRouter)
 
 // rotas sem validação
 app.post("/api/v1/user/cadastro", UserApi.createUser);
@@ -32,11 +34,9 @@ app.listen(3000, () => {
   
   (async () => {
     try {
-      await database.db.authenticate(); // Teste a conexão
+      await database.db.authenticate(); 
       console.log("Conexão com o banco de dados estabelecida com sucesso.");
-      
-      // Sincronize os modelos com o banco de dados (apenas para teste)
-      await database.db.sync({ force: false }); // Isso recria as tabelas
+      await database.db.sync({ force: false }); 
       console.log("Modelos sincronizados com sucesso.");
     } catch (error) {
       console.error("Erro ao conectar ao banco de dados:", error);
