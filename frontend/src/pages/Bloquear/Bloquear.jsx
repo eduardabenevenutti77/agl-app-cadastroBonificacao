@@ -104,8 +104,8 @@ export default function Bloquear () {
                                 key={user.id} 
                                 className={`user-item ${user.bloqueado ? 'blocked' : ''}`}
                             >
-                                <span className="user-name">{user.nome}</span>
                                 <span className="user-email">{user.email}</span>
+                                <span className="user-name">{user.permissao}</span>
                                 <div id="bloquear">
                                     <button className="bloquear" onClick={() => handleSubmit(user.id)}>Bloquear Usuário</button>
                                     <button className="bloquear" onClick={() => handleSubmitUnblock(user.id)}>Desbloquear Usuário</button>

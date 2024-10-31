@@ -78,6 +78,7 @@ class UserController {
     }
 
     async find() {
+        // req.session.touch();
         console.log('Caiu aqui')
         return user.findAll();
     }
@@ -112,6 +113,7 @@ class UserController {
   }
 
   async findUser(id) {
+    // req.session.touch();
     if (id === undefined) {
       throw new Error("Id é obrigatório.");
     }
