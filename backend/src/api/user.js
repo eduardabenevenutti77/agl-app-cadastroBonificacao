@@ -1,5 +1,6 @@
 const UserController = require('../controller/user');
 const RegraController = require('../controller/regra');
+const session = require('express-session')
 
 class UserApi {
     async createUser(req, res) {
