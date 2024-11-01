@@ -28,7 +28,6 @@ class RegraController {
             const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.category.list?entityTypeId=2');
             const data = await response.json();
     
-            // Confirma que o array de categorias existe
             const funilsArray = data?.result?.categories || [];
     
             if (!Array.isArray(funilsArray)) {
@@ -44,7 +43,6 @@ class RegraController {
                     return createFunil;
                 })
             );
-    
             findFunil = funilData;
         } catch (error) {
             console.log(error)
@@ -59,15 +57,12 @@ class RegraController {
 
     async createFase() {
         try {
-            // let findFase = await fase.findAll();
-
             // 1 - vendas | 2 - bko | 10 - qualidade | 14 - controle | 22 - acompanhamento
             const idFunil = 22
             const response = await fetch(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.dealcategory.stage.list?id=${idFunil}`);
             const data = await response.json();
     
             console.log("Dados recebidos:", JSON.stringify(data, null, 2));
-            // Confirma que o array de categorias existe
             const faseArray = data?.result || [];
     
             if (!Array.isArray(faseArray)) {
@@ -84,7 +79,6 @@ class RegraController {
                     return createFunil;
                 })
             );
-    
             console.log(faseData)
         } catch (error) {
             console.log(error)
@@ -121,7 +115,6 @@ class RegraController {
                             id: Produtos.id,
                             produtos: Produtos.NAME || 'Unknown'
                         });
-                        // return result;
                     })
                 );
                 console.log(`Lote ${i / batchSize + 1} inserido com sucesso:`, results);
@@ -144,7 +137,6 @@ class RegraController {
             const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/department.get?select[]=name');
             const data = await response.json();
     
-            // Confirma que o array de categorias existe
             const timeArray = data?.result || [];
     
             if (!Array.isArray(timeArray)) {
@@ -160,9 +152,7 @@ class RegraController {
                     return createTime;
                 })
             );
-
             console.log(timeData)
-
         } catch (error) {
             console.log(error)
             console.error("Erro ao cadastrar informações do webhook ->", error.message);
@@ -179,7 +169,6 @@ class RegraController {
             const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/user.get');
             const data = await response.json();
     
-            // Confirma que o array de categorias existe
             const funcArray = data?.result || [];
     
             if (!Array.isArray(funcArray)) {
@@ -199,9 +188,7 @@ class RegraController {
                     return createTime;
                 })
             );
-
             console.log(funcData)
-
         } catch (error) {
             console.log(error)
             console.error("Erro ao cadastrar informações do webhook ->", error.message);

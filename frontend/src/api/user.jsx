@@ -17,11 +17,13 @@ export const findUser = async () => {
   const response = await api.get('/api/v1/user/get/findUser');
   return response.data;
 };
+
 export const blockUser = async (id) => {
   const response = await api.put(`api/v1/user/${id}/block`)
   return response
-}
+};
+
 export const unblock = async (id) => {
   const response = await api.put(`api/v1/user/${id}/unblock`)
   return response.data
-}
+};

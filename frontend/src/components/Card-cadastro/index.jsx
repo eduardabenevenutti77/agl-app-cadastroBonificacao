@@ -5,7 +5,6 @@ import { createUser } from '../../api/user';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import logoZopu from "../../assets/logoZopu.png";
-// import logoAgl from "../../assets/logo.png";
 import eye from "../../assets/svg/olho.svg";
 import eyes from "../../assets/svg/olhos.svg";
 
@@ -15,13 +14,16 @@ export default function CardCadastro() {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [error, setError] = useState('');
+
     const validando = (email) => {
         return email.endsWith("@agltelecom.com");
     }
+
     const validando_senha = (senha) => {
         const validando = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
         return validando.test(senha);
     }
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {

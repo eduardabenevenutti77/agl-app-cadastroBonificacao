@@ -59,7 +59,7 @@ export const AuthProvider = ({children}) => {
         setToken(newToken)
         const { userId } = getUserId(newToken);
         setUserId(userId);
-        setRole(getRole(newToken)) // função para pegar a role do token 
+        setRole(getRole(newToken)) 
         localStorage.setItem('token', newToken)
     }
     const logout = () => {

@@ -6,8 +6,6 @@ import { AuthProvider } from "../../auth/Context";
 import logoutIcon from "../../assets/svg/logout.svg";
 
 export default function Header() {
-  // const history = useHistory();
-  // const { logout } = useContext(AuthProvider);
   const { token, role, logout } = useContext(AuthContext);
   const location = useLocation();
 
@@ -22,7 +20,6 @@ export default function Header() {
 
   const isLoginRoute = location.pathname === '/login';
 
-  // Adicione logs de depuração para verificar o token e o role
   console.log("Token:", token); 
   console.log("Role:", role); 
 

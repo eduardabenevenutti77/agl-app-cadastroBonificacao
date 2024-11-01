@@ -30,7 +30,6 @@ export default function Cadastrocomissao() {
     const handleChangePorcento = (event) => {
         const valor = event.target.value.replace(/[^0-9]/g, '');
         const formatado = valor ? `${valor}%` : '';
-
         setCampoPorcento(formatado);
     } 
 
@@ -58,7 +57,6 @@ export default function Cadastrocomissao() {
     const handleChangeMulti = (event) => {
         const valor = event.target.value.replace(/[^0-9]/g, '');
         const formatado = valor ? `${valor}%` : '';
-
         setMultiplicador(formatado);
     }
 
@@ -138,7 +136,7 @@ export default function Cadastrocomissao() {
             const data = await response.json();
             const funcionariosCompletos = data.result.map(funcionario => ({
                 id: funcionario.id,
-                fullName: `${funcionario.NAME} ${funcionario.LAST_NAME}` // Juntando o nome completo
+                fullName: `${funcionario.NAME} ${funcionario.LAST_NAME}` 
             }));
             console.log(funcionariosCompletos.result); 
             setFuncionario(funcionariosCompletos || []);

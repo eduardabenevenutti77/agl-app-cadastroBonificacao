@@ -23,11 +23,9 @@ export default function CardLogin() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
         if (!email || !senha) {
             return toast('Informe o e-mail e a senha para continuar!');
         }
-    
         try {
             const response = await loginUser(email, senha);
             if (response.token) {
@@ -48,7 +46,6 @@ export default function CardLogin() {
         }
     };
     
-
     const toggleVisibility = () => {
         setShow(!show);
     };

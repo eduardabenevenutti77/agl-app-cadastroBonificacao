@@ -21,7 +21,6 @@ export default function Cardsobre() {
             </div>
             <div id='logo'>
                 <img src={logoAgl} alt="" />
-                {/* <img src={logoZopu} alt="" /> */}
             </div>
         </div>
         </>

@@ -93,7 +93,6 @@ class UserController {
       if (!userToBlock) {
         throw new Error('Usuário não encontrado.');
       }
-      // userToBlock.isBlocked = true;
       userToBlock.bloqueado = 1
       await userToBlock.save();
       return { message: 'Usuário bloqueado com sucesso.' };
@@ -117,7 +116,6 @@ class UserController {
   }
 
   async findUser(id) {
-    // req.session.touch();
     if (id === undefined) {
       throw new Error("Id é obrigatório.");
     }
