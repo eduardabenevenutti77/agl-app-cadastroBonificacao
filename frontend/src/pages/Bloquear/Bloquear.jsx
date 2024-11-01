@@ -1,5 +1,5 @@
 import { AuthContext } from "../../auth/Context"; // ajuste o caminho conforme o seu projeto
-import { blockUser, findUsers, unblock } from "../../api/user";
+import { blockUser, findUser, unblock } from "../../api/user";
 import React, { useEffect, useState, useContext } from "react";
 import "./style-bloquear.css";
 // import usersIcon from "../../assets/svg/users.svg";
@@ -20,14 +20,15 @@ export default function Bloquear () {
                     )
                 );
             } else {
-                toast.error("Erro ao bloquear o usuário.");
+                toast.error("Erro ao bloquear o usuário. [1]");
             }
         } catch (error) {
             if (error.response && error.response.status === 403) {
                 toast.error("Sem permissão.");
             } else {
-                toast.error("Erro ao bloquear o usuário.");
+                toast.error("Erro ao bloquear o usuário. [2]");
             }
+            console.log(error)
         }
     };
 
@@ -78,7 +79,7 @@ export default function Bloquear () {
             if (!token) return;
 
             try {
-                const data = await findUsers();
+                const data = await findUser();
                 console.log(data)
                 setUsers(data);
             } catch (error) {
@@ -95,7 +96,7 @@ export default function Bloquear () {
             <div id="containerBloquear">
                 <p id="titleBloquear">Gestão de Usuários</p>
                 <div>
-                    <p id="subtitle">Essa tela é responsável pela visualização dos usuários cadastrados no banco de dados da AGL. Nela, é possível realizar alterações e bloquear o acesso à aplicação.</p>
+                    <p id="subtitle">Essa tela é responsável pela visualização dos usuários cadastrados no banco de dados da AGL. Nela, é possível bloquear e desbloquear o acesso à aplicação.</p>
                 </div>
                 <ul id="userList">
                     {users.length > 0 ? (
@@ -104,11 +105,13 @@ export default function Bloquear () {
                                 key={user.id} 
                                 className={`user-item ${user.bloqueado ? 'blocked' : ''}`}
                             >
+                            <div id="span">
                                 <span className="user-email">{user.email}</span>
                                 <span className="user-name">{user.permissao}</span>
-                                <div id="bloquear">
+                            </div>
+                                <div id="bloquearDisplay">
                                     <button className="bloquear" onClick={() => handleSubmit(user.id)}>Bloquear Usuário</button>
-                                    <button className="bloquear" onClick={() => handleSubmitUnblock(user.id)}>Desbloquear Usuário</button>
+                                    <button className="Desbloquear" onClick={() => handleSubmitUnblock(user.id)}>Desbloquear Usuário</button>
                                     {/* <button className="bloquear" onClick={() => handleEditClick(user)}>Editar</button> */}
                                 </div>
                             </li>

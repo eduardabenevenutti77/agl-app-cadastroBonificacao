@@ -17,7 +17,8 @@
 #userList {
     list-style-type: none; 
     padding: 0; 
-    width: 100%; 
+    width: 100%;
+    margin-left: 50%; 
 }
 .user-item {
     background-color: #e9ecef; 
@@ -28,26 +29,53 @@
     justify-content: space-between; 
     align-items: center; 
     transition: background-color 0.3s, transform 0.2s;
+    width: 45%;
 }
 .user-item:hover {
     background-color: #ced4da; 
 }
 .user-item.blocked {
-    background-color: rgba(255, 0, 0, 0.1); /* Altere para a cor que você desejar */
-    color: #ff0000; /* Altere o texto, se necessário */
+    background-color: rgba(255, 0, 0, 0.1); 
+    color: #ff0000; 
 }
 .user-name {
-    font-weight: bold;
-    color: #212529; 
-    font-size: 1rem; 
+    font-weight:600;
+    color: #4f4f50; 
+    font-size: 0.8rem; 
+    font-family: "Jost";
+    margin-left: 5px;
 }
 .user-email {
-    color: #007bff; 
+    color: #01638c; 
     font-weight: normal;
     font-size: 0.9rem; 
+    font-family: "Jost";
 }
 .no-users {
     text-align: center; 
     font-size: 1rem; 
     color: #6c757d; 
+    font-family: "Jost";
+}
+#bloquearDisplay {
+    gap: 10px;
+}
+.bloquear {
+    border: none;
+    padding: 5px;
+    font-family: "Jost";
+    border-radius: 4px;
+    background-color: #571010;
+    color: #f2f2f2;
+    font-weight: 400;
+}
+.Desbloquear {
+    border: none;
+    padding: 5px;
+    font-family: "Jost";
+    border-radius: 4px;
+    background-color: #5b865a;
+    color: #f2f2f2;
+    font-weight: 400;
+    margin-left: 15px;
 }

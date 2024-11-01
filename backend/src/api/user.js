@@ -1,6 +1,6 @@
 const UserController = require('../controller/user');
 const RegraController = require('../controller/regra');
-const session = require('express-session')
+// const session = require('express-session')
 
 class UserApi {
     async createUser(req, res) {
@@ -26,7 +26,7 @@ class UserApi {
     }
 
     async find(req, res) {
-        req.session.touch();
+        // req.session.touch();
         try {
             const users = await UserController.find()
             return res.status(200).send(users)
@@ -154,40 +154,40 @@ class UserApi {
     async createTime(req, res) {
         try {
             const time = await RegraController.createTime();
-            return res.status(201).json(time)
+            return res.status(201).send(time)
         } catch (e) {
             console.log('Erro ao cadastrar webhook de times -> ', e.message);
-            res.status(400).json({ e: e.message });
+            res.status(400).send({ e: e.message });
         }
     }
 
     async findTime(req, res) {
         try {
             const time = await RegraController.findTime();
-            return res.status(201).json(time);
+            return res.status(201).send(time);
         } catch (e) {
             console.log('Erro ao buscar times -> ', e.message);
-            res.status(400).json({e: e.message});
+            res.status(400).send({e: e.message});
         }
     }
 
     async createFuncionario(req, res) {
         try {
             const funcionario = await RegraController.createFuncionario();
-            return res.status(201).json(funcionario);
+            return res.status(201).send(funcionario);
         } catch (e) {
             console.log('Erro ao cadastrar webhook de funcionários -> ', e.message);
-            res.status(400).json({e: e.message});
+            res.status(400).send({e: e.message});
         }
     }
 
     async findFuncionario(req, res) {
         try {
             const funcionario = await RegraController.find();
-            return res.status(201).json(funcionario);
+            return res.status(201).send(funcionario);
         } catch (e) {
             console.log('Erro ao buscar funcionários -> ', e.message);
-            res.status(400).json({e: e.message});
+            res.status(400).send({e: e.message});
         }
     }
 }

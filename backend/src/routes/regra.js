@@ -1,15 +1,15 @@
 const express = require('express');
-const session = require('express-session');
+// const session = require('express-session');
 const router = express.Router();
 const UserApi = require('../api/user')
 
 // criando uma session
-router.use(session({
-    secret: 'exemplo',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {secure: false}
-}));
+// router.use(session({
+//     secret: 'exemplo',
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: {secure: false}
+// }));
 
 // rotas de fetch para o wehook do bitrix24
 router.post('/funil', UserApi.createFunil);
