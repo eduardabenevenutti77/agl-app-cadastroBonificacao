@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { TextField, Button, Card, CardContent, Grid, MenuItem } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
+import { findTime } from '../../api/regra';
 
 export default function Cadastrocomissao() {
     const [campoFormatacao, setCampoForm] = useState('');
@@ -98,13 +99,12 @@ export default function Cadastrocomissao() {
 
     const fetchTimes = async () => {
         try {
-            const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/department.get?select[]=name');
-            if (!response.ok) {
-                throw new Error('Erro ao buscar os times');
+            const response = await findTime();
+            console.log("TIMES -> ", response)
+            if (response === null) {
+                console.log('O objeto retornado da requisição de times está vazio!')
             }
-            const data = await response.json();
-            console.log(data.result);
-            setTime(data.result || []);
+            setTime(response.result || []);
         } catch (err) {
             setErrorTime(err.message);
         } finally {
@@ -349,15 +349,15 @@ export default function Cadastrocomissao() {
                                 {errorTime && <MenuItem disabled>{errorTime}</MenuItem>}
                                 {!loadingTime && !errorTime && time.length > 0 ? (
                                     time.map((times) => (
-                                        <MenuItem key={times.ID}>
-                                            {times.NAME}
+                                        <MenuItem key={times.id}>
+                                            {times.time}
                                         </MenuItem>
                                     ))
                                 ) : (
                                     <MenuItem disabled>Nenhum time encontrado</MenuItem>
                                 )}
                             </TextField>
-                            <p id='aviso'>Time: {selectedTime ? time.find(t => t.id === Number(selectedTime))?.NAME : 'Nenhum time selecionado'}</p>
+                            <p id='aviso'>Time: {selectedTime ? time.find(t => t.id === Number(selectedTime))?.time : 'Nenhum time selecionado'}</p>
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField

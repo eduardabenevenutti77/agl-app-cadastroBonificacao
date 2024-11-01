@@ -1,4 +1,4 @@
-const user = require("../model/user");
+const userModel = require("../model/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const axios = require("axios");
@@ -27,7 +27,7 @@ class UserController {
             if (email === 'fernanda.lopes@agltelecom.com' || email === 'diego@agltelecom.com' || email === 'sara@agltelecom.com' || email === 'Rose@agltelecom.com' || email === 'alexandre@agltelecom.com' || email === 'shayenne@agltelecom.com') {
                 console.log('O usuário é chefe de algum departamento. Será cadastrado com usuário adm');
                 const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE);
-                const userValue = await user.create({
+                const userValue = await userModel.create({
                     email,
                     senha: cypherSenha,
                     permissao: "admin" 
@@ -36,7 +36,7 @@ class UserController {
             } else {
                 console.log("O usuário não está no departamento. Será cadastrado como usuário normal");
                 const cypherSenha = await bcrypt.hash(String(senha), SALT_VALUE);
-                const userValue = await user.create({
+                const userValue = await userModel.create({
                     email,
                     senha: cypherSenha,
                     permissao: "user" 
@@ -60,7 +60,7 @@ class UserController {
             throw new Error("Email e senha são obrigatórios.");
         }
         try {
-            const userValue = await user.findOne({ where: { email } });
+            const userValue = await userModel.findOne({ where: { email } });
             if (!userValue) {
                 throw new Error("[1] Usuário e senha inválidos.");
             }
@@ -78,14 +78,18 @@ class UserController {
     }
 
     async find() {
-        // req.session.touch();
-        console.log('Caiu aqui')
-        return user.findAll();
+        try {
+            const response = await userModel.findAll();
+            console.log("Dados recebidos -> ", response);
+            return response
+        } catch (e) {
+            console.log("deu pau aqui -> ", e)
+        }
     }
 
     async blockUser(id) {
     try {
-      const userToBlock = await user.findByPk(id);
+      const userToBlock = await userModel.findByPk(id);
       if (!userToBlock) {
         throw new Error('Usuário não encontrado.');
       }
@@ -100,7 +104,7 @@ class UserController {
 
   async unblockUser(id) {
     try {
-      const userToUnblock = await user.findByPk(id);
+      const userToUnblock = await userModel.findByPk(id);
       if (!userToUnblock) {
         throw new Error('Usuário não encontrado.');
       }
@@ -117,7 +121,7 @@ class UserController {
     if (id === undefined) {
       throw new Error("Id é obrigatório.");
     }
-    const userValue = await user.findByPk(id);
+    const userValue = await userModel.findByPk(id);
     if (!userValue) {
       throw new Error("Usuário não encontrado.");
     }

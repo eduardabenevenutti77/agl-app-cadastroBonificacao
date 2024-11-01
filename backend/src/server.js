@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const database = require("./config/database");
-
+// const session = require('express-session')
 const UserApi = require("./api/user");
 const UserRouter = require("./routes/user");
 const RegraRouter = require('./routes/regra');
@@ -9,7 +9,7 @@ const authMiddleware = require("./middleware/authMiddleware");
 
 const app = express();
 app.use(express.json());
-
+// app.use(session({secret: 'bonificacao', cookie: { maxAge: 60000 }}))
 app.use(cors({credentials: true}));
 
 app.get("/", (req, res) => {
