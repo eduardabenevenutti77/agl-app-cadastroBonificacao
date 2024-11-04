@@ -20,15 +20,15 @@ export default function Header() {
 
   const isLoginRoute = location.pathname === '/login';
 
-  console.log("Token:", token); 
-  console.log("Role:", role); 
+  console.log("Token:", token);
+  console.log("Role:", role);
 
   return (
     <>
       <div className="menu">
         {
           !isLoginRoute && !token
-            ? <Link to="/login" className="menu-link" style={{textDecoration: 'none'}}><p>Gestão de Bonificação</p></Link>
+            ? <Link to="/login" className="menu-link" style={{ textDecoration: 'none' }}><p>Gestão de Bonificação</p></Link>
             : null
         }
         <div>
@@ -36,27 +36,27 @@ export default function Header() {
         </div>
         <div className="icon-container">
           <div>
-            <Link to="/dashboardgestor" className="menu-link" style={{textDecoration: 'none'}}>
+            <Link to="/dashboardgestor" className="menu-link" style={{ textDecoration: 'none' }}>
               <p id="dashboardGestor">Dashboard</p>
             </Link>
           </div>
           <div>
             {
-              token && role === 'admin' 
-              ? <Link to="/cadastrogestor" className="menu-link" style={{textDecoration: 'none'}}> <p id="cadastrar-regra">Cadastrar regra</p> </Link> 
-              : null
+              token && role === 'admin'
+                ? <Link to="/cadastrogestor" className="menu-link" style={{ textDecoration: 'none' }}> <p id="cadastrar-regra">Cadastrar regra</p> </Link>
+                : null
             }
           </div>
           <div>
             {
-              token && role === 'admin' 
-              ? <Link to="/gestao" className="menu-link" style={{textDecoration: 'none'}}> <p id="cadastrar-regra">Gestão de usuários</p> </Link> 
-              : null
+              token && role === 'admin'
+                ? <Link to="/gestao" className="menu-link" style={{ textDecoration: 'none' }}> <p id="cadastrar-regra">Gestão de usuários</p> </Link>
+                : null
             }
           </div>
           <div>
             {
-              token && <Link to="/sobre" className="menu-link" style={{textDecoration: 'none'}}> <p id="cadastrar-regra">Sobre o projeto</p> </Link>
+              token && <Link to="/sobre" className="menu-link" style={{ textDecoration: 'none' }}> <p id="cadastrar-regra">Sobre o projeto</p> </Link>
             }
           </div>
           <div onClick={handleLogout}>

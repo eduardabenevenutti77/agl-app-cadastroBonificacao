@@ -30,7 +30,7 @@ class UserController {
                 const userValue = await userModel.create({
                     email,
                     senha: cypherSenha,
-                    permissao: "admin" 
+                    permissao: "admin"
                 });
                 return userValue;
             } else {
@@ -39,7 +39,7 @@ class UserController {
                 const userValue = await userModel.create({
                     email,
                     senha: cypherSenha,
-                    permissao: "user" 
+                    permissao: "user"
                 });
                 return userValue;
             }
@@ -54,7 +54,7 @@ class UserController {
             }
         }
     }
-    
+
     async loginUser(email, senha) {
         if (email === undefined || senha === undefined) {
             throw new Error("Email e senha são obrigatórios.");
@@ -88,44 +88,44 @@ class UserController {
     }
 
     async blockUser(id) {
-    try {
-      const userToBlock = await userModel.findByPk(id);
-      if (!userToBlock) {
-        throw new Error('Usuário não encontrado.');
-      }
-      userToBlock.bloqueado = 1
-      await userToBlock.save();
-      return { message: 'Usuário bloqueado com sucesso.' };
-    } catch (error) {
-      throw new Error('Erro ao bloquear o usuário: ' + error.message);
+        try {
+            const userToBlock = await userModel.findByPk(id);
+            if (!userToBlock) {
+                throw new Error('Usuário não encontrado.');
+            }
+            userToBlock.bloqueado = 1
+            await userToBlock.save();
+            return { message: 'Usuário bloqueado com sucesso.' };
+        } catch (error) {
+            throw new Error('Erro ao bloquear o usuário: ' + error.message);
+        }
     }
-  }
 
-  async unblockUser(id) {
-    try {
-      const userToUnblock = await userModel.findByPk(id);
-      if (!userToUnblock) {
-        throw new Error('Usuário não encontrado.');
-      }
-      userToUnblock.bloqueado = 0;
-      await userToUnblock.save();
-      return { message: 'Usuário desbloqueado com sucesso.' };
-    } catch (error) {
-      throw new Error('Erro ao desbloquear o usuário: ' + error.message);
+    async unblockUser(id) {
+        try {
+            const userToUnblock = await userModel.findByPk(id);
+            if (!userToUnblock) {
+                throw new Error('Usuário não encontrado.');
+            }
+            userToUnblock.bloqueado = 0;
+            await userToUnblock.save();
+            return { message: 'Usuário desbloqueado com sucesso.' };
+        } catch (error) {
+            throw new Error('Erro ao desbloquear o usuário: ' + error.message);
+        }
     }
-  }
 
-  async findUser(id) {
-    if (id === undefined) {
-      throw new Error("Id é obrigatório.");
+    async findUser(id) {
+        if (id === undefined) {
+            throw new Error("Id é obrigatório.");
+        }
+        const userValue = await userModel.findByPk(id);
+        if (!userValue) {
+            throw new Error("Usuário não encontrado.");
+        }
+        return userValue;
     }
-    const userValue = await userModel.findByPk(id);
-    if (!userValue) {
-      throw new Error("Usuário não encontrado.");
-    }
-    return userValue;
-  }
-    
+
 }
 
 module.exports = new UserController();

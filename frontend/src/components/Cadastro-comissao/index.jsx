@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { TextField, Button, Card, CardContent, Grid, MenuItem } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
-import { findTime } from '../../api/regra';
+import { findFase, findFuncionario, findFunil, findProduto, findTime } from '../../api/regra';
 
 export default function Cadastrocomissao() {
     const [campoFormatacao, setCampoForm] = useState('');
@@ -12,9 +12,9 @@ export default function Cadastrocomissao() {
         const formatado = new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL',
-        }).format(valor/100);
+        }).format(valor / 100);
         setCampoForm(formatado);
-    } 
+    }
 
     const [campoVariavel, setCampoVariavel] = useState('');
     const handleChangeVariavel = (event) => {
@@ -22,16 +22,16 @@ export default function Cadastrocomissao() {
         const formatado = new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL',
-        }).format(valor/100);
+        }).format(valor / 100);
         setCampoVariavel(formatado);
-    } 
+    }
 
     const [campoPorcento, setCampoPorcento] = useState('');
     const handleChangePorcento = (event) => {
         const valor = event.target.value.replace(/[^0-9]/g, '');
         const formatado = valor ? `${valor}%` : '';
         setCampoPorcento(formatado);
-    } 
+    }
 
     const [criterioUm, setCriterioUm] = useState('');
     const handleChangeCriterioUm = (event) => {
@@ -39,9 +39,9 @@ export default function Cadastrocomissao() {
         const formatado = new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL',
-        }).format(valor/100);
+        }).format(valor / 100);
         setCriterioUm(formatado);
-    } 
+    }
 
     const [criterioDois, setCriterioDois] = useState('');
     const handleChangeCriterioDois = (event) => {
@@ -49,9 +49,9 @@ export default function Cadastrocomissao() {
         const formatado = new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL',
-        }).format(valor/100);
+        }).format(valor / 100);
         setCriterioDois(formatado);
-    } 
+    }
 
     const [multiplicador, setMultiplicador] = useState('');
     const handleChangeMulti = (event) => {
@@ -99,10 +99,10 @@ export default function Cadastrocomissao() {
         try {
             const response = await findTime();
             console.log("TIMES -> ", response)
-            if (response === null) {
+            if (!response) {
                 console.log('O objeto retornado da requisição de times está vazio!')
             }
-            setTime(response.result || []);
+            setTime(response || []);
         } catch (err) {
             setErrorTime(err.message);
         } finally {
@@ -112,13 +112,12 @@ export default function Cadastrocomissao() {
 
     const fetchProduto = async () => {
         try {
-            const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.product.list');
-            if (!response.ok) {
-                throw new Error('Erro ao buscar os produtos');
+            const response = await findProduto();
+            console.log("Produtos = ", response)
+            if (!response) {
+                console.log('O objeto retornado da requisição de times está vazio!')
             }
-            const data = await response.json();
-            // console.log(data.result);
-            setProduto(data.result || []);
+            setProduto(response || []);
         } catch (err) {
             setErrorProduto(err.message);
         } finally {
@@ -127,36 +126,32 @@ export default function Cadastrocomissao() {
     };
 
     const fetchFuncionario = async () => {
-        setLoadingFuncionario(true); 
+        setLoadingFuncionario(true);
         try {
-            const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/user.get');
-            if (!response.ok) {
-                throw new Error('Erro ao buscar os funcionários');
+            const response = await findFuncionario();
+            console.log('Funcionários = ', response)
+            // const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/user.get');
+            if (!response) {
+                console.log('O objeto retornado da requisição de times está vazio!')
             }
-            const data = await response.json();
-            const funcionariosCompletos = data.result.map(funcionario => ({
-                id: funcionario.id,
-                fullName: `${funcionario.NAME} ${funcionario.LAST_NAME}` 
-            }));
-            console.log(funcionariosCompletos.result); 
-            setFuncionario(funcionariosCompletos || []);
+            setFuncionario(response || [])
         } catch (err) {
             setErrorFuncionario(err.message);
         } finally {
             setLoadingFuncionario(false);
         }
-    };   
+    };
 
     const fetchFunil = async () => {
         setLoadingFunil(true);
         try {
-            const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.category.list?entityTypeId=2');
-            if (!response.ok) {
-                throw new Error('Erro ao buscar funis');
+            // const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.category.list?entityTypeId=2');
+            const response = await findFunil();
+            if (!response) {
+                console.log('O objeto retornado da requisição de times está vazio!')
             }
-            const data = await response.json();
-            console.log('Funis encontrados -> ',data);
-            setFunil(Array.isArray(data.result) ? data.result : []);
+            console.log('Funis encontrados -> ', response);
+            setFunil(response || []);
         } catch (e) {
             setErrorFunil(e.message);
         } finally {
@@ -168,17 +163,15 @@ export default function Cadastrocomissao() {
     const fetchFase = async () => {
         setLoadingFase(true);
         try {
-            const response = await fetch(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.dealcategory.stage.list?id=${idFunil}`);
-            if (!response.ok) {
-                throw new Error('Erro ao buscar fases');
+            const response = await findFase();
+            // const response = await fetch(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.dealcategory.stage.list?id=${idFunil}`);
+            if (!response) {
+                console.log('O objeto retornado da requisição de times está vazio!')
             }
-            const data = await response.json();
-            console.log('Fases encontradas -> ', data);
-            setFase(Array.isArray(data.result) ? data.result : []);
+            console.log('Fases encontradas -> ', response);
+            setFase(response || []);
         } catch (e) {
             setErrorFase(e.message);
-        } finally {
-            selectFase(false);
         }
     }
 
@@ -216,7 +209,7 @@ export default function Cadastrocomissao() {
                                     size="small"
                                     fullWidth
                                     margin="normal"
-                                    value = {criterioUm}
+                                    value={criterioUm}
                                     onChange={handleChangeCriterioUm}
                                 />
                             </Grid>
@@ -227,7 +220,7 @@ export default function Cadastrocomissao() {
                                     size="small"
                                     fullWidth
                                     margin="normal"
-                                    value = {criterioDois}
+                                    value={criterioDois}
                                     onChange={handleChangeCriterioDois}
                                 />
                             </Grid>
@@ -238,7 +231,7 @@ export default function Cadastrocomissao() {
                                     size="small"
                                     fullWidth
                                     margin="normal"
-                                    value = {multiplicador}
+                                    value={multiplicador}
                                     onChange={handleChangeMulti}
                                 />
                             </Grid>
@@ -247,61 +240,60 @@ export default function Cadastrocomissao() {
                     <Button onClick={remove} variant="contained" style={{ marginTop: '16px', marginLeft: '10px', borderRadius: '100px', backgroundColor: '#3D7992' }}>
                         -
                     </Button>
-                    <Button onClick={add} variant="contained"  style={{ marginTop: '16px', marginLeft: '10px', borderRadius: '100px', backgroundColor: '#2181AA' }}>
+                    <Button onClick={add} variant="contained" style={{ marginTop: '16px', marginLeft: '10px', borderRadius: '100px', backgroundColor: '#2181AA' }}>
                         +
                     </Button>
                     <Grid container spacing={1}>
-                                            <Grid item xs={12} sm={4}>
-                                <TextField
-                                    label='Selecione o funil *'
-                                    variant='outlined'
-                                    size='small'
-                                    fullWidth
-                                    margin='normal'
-                                    select
-                                    value={selectFunil || ''}
-                                    onChange={(e) => setSelectedFunil(e.target.value)}
-                                >
-                                    <MenuItem value="">
-                                        <em>Nenhum funil selecionado</em>
-                                    </MenuItem>
-                                    {Array.isArray(funil) && funil.length > 0 ? (
-                                        funil.map((funis) => (
-                                            <MenuItem key={funis.id} value={funis.id}>
-                                                {funis.name}
-                                            </MenuItem>
-                                        ))
-                                    ) : (
-                                        <MenuItem disabled>Nenhum funil encontrado</MenuItem>
-                                    )}
-                                </TextField>
-                                <p id='aviso'>Funil: {selectFunil ? funil.find(f => f.id === Number(selectFunil))?.name : 'Nenhum funil selecionado'}</p>
+                        <Grid item xs={12} sm={4}>
+                            <TextField
+                                label='Selecione o funil *'
+                                variant='outlined'
+                                size='small'
+                                fullWidth
+                                margin='normal'
+                                select
+                                value={selectFunil || ''}
+                                onChange={(e) => setSelectedFunil(e.target.value)}
+                            >
+                                <MenuItem value="">
+                                    <em>Nenhum funil selecionado</em>
+                                </MenuItem>
+                                {errorFunil && <MenuItem disabled>{errorFunil}</MenuItem>}
+                                {!loadingFunil && !errorFunil && funil.length > 0 ? (
+                                    funil.map((funis) => (
+                                        <MenuItem key={funis.id} value={funis.id}>
+                                            {funis.funil}
+                                        </MenuItem>
+                                    ))
+                                ) : (
+                                    <MenuItem disabled>Nenhum funil encontrado</MenuItem>
+                                )}
+                            </TextField>
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                                <TextField
-                                    label='Selecione a fase dentro do funil *'
-                                    variant='outlined'
-                                    size='small'
-                                    fullWidth
-                                    margin='normal'
-                                    select
-                                    value={selectFase || ''}
-                                    onChange={(e) => setSelectedFase(e.target.value)}
-                                >
-                                    <MenuItem value="">
-                                        <em>Nenhuma fase selecionada</em>
-                                    </MenuItem>
-                                    {Array.isArray(fase) && fase.length > 0 ? (
-                                        fase.map((fases) => (
-                                            <MenuItem key={fases.id} value={fases.id}>
-                                                {fases.name}
-                                            </MenuItem>
-                                        ))
-                                    ) : (
-                                        <MenuItem disabled>Nenhuma fase encontrada</MenuItem>
-                                    )}
-                                </TextField>
-                                <p id='aviso'>Fase: {selectFase ? fase.find(f => f.id === Number(selectFase))?.name : 'Nenhuma fase selecionada'}</p>
+                            <TextField
+                                label='Selecione a fase dentro do funil *'
+                                variant='outlined'
+                                size='small'
+                                fullWidth
+                                margin='normal'
+                                select
+                                value={selectFase || ''}
+                                onChange={(e) => setSelectedFase(e.target.value)}
+                            >
+                                <MenuItem value="">
+                                    <em>Nenhuma fase selecionada</em>
+                                </MenuItem>
+                                {Array.isArray(fase) && fase.length > 0 ? (
+                                    fase.map((fases) => (
+                                        <MenuItem key={fases.id} value={fases.id}>
+                                            {fases.fase}
+                                        </MenuItem>
+                                    ))
+                                ) : (
+                                    <MenuItem disabled>Nenhuma fase encontrada</MenuItem>
+                                )}
+                            </TextField>
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
@@ -320,15 +312,14 @@ export default function Cadastrocomissao() {
                                 {errorProduto && <MenuItem disabled>{errorProduto}</MenuItem>}
                                 {!loadingProduto && !errorProduto && produto.length > 0 ? (
                                     produto.map((produtos) => (
-                                        <MenuItem key={produtos.ID}>
-                                            {produtos.NAME}
+                                        <MenuItem key={produtos.id} value={produtos.id}>
+                                            {produtos.produtos}
                                         </MenuItem>
                                     ))
                                 ) : (
                                     <MenuItem disabled>Nenhum produto encontrado</MenuItem>
                                 )}
                             </TextField>
-                            <p id='aviso'>Produto: {selectedProduto ? produto.find(p => p.id === Number(selectedProduto))?.NAME : 'Nenhum produto selecionado'}</p>
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
@@ -347,7 +338,7 @@ export default function Cadastrocomissao() {
                                 {errorTime && <MenuItem disabled>{errorTime}</MenuItem>}
                                 {!loadingTime && !errorTime && time.length > 0 ? (
                                     time.map((times) => (
-                                        <MenuItem key={times.id}>
+                                        <MenuItem key={times.id} value={times.id}>
                                             {times.time}
                                         </MenuItem>
                                     ))
@@ -355,7 +346,6 @@ export default function Cadastrocomissao() {
                                     <MenuItem disabled>Nenhum time encontrado</MenuItem>
                                 )}
                             </TextField>
-                            <p id='aviso'>Time: {selectedTime ? time.find(t => t.id === Number(selectedTime))?.time : 'Nenhum time selecionado'}</p>
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
@@ -373,16 +363,15 @@ export default function Cadastrocomissao() {
                                 </MenuItem>
                                 {errorFuncionario && <MenuItem disabled>{errorFuncionario}</MenuItem>}
                                 {!loadingFuncionario && !errorFuncionario && funcionario.length > 0 ? (
-                                    funcionario.map((funcionarios) => (
-                                        <MenuItem key={funcionarios.id}>
-                                            {funcionarios.fullName}
+                                    funcionario.map((func) => (
+                                        <MenuItem key={func.id} value={func.id}>
+                                            {func.funcionario}
                                         </MenuItem>
                                     ))
                                 ) : (
                                     <MenuItem disabled>Nenhum funcionário encontrado</MenuItem>
                                 )}
                             </TextField>
-                            <p id='aviso'>Funcionário: {selectFuncionario ? funcionario.find(f => f.id === Number(selectFuncionario))?.fullName : 'Nenhum funcionário selecionado'}</p>
                         </Grid>
                     </Grid>
                     <div style={{ textAlign: 'center', marginTop: '16px' }}>

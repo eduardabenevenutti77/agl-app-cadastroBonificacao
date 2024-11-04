@@ -11,13 +11,13 @@ class UserApi {
             return res.status(400).send({ error: `Erro ao criar usuário -> ${e.message}` })
         }
     }
-    
+
     async loginUser(req, res) {
         const { email, senha } = req.body
         console.log('Usuário logado -> ', req.body)
         try {
             const token = await UserController.loginUser(email, senha)
-            res.status(200).send({token})
+            res.status(200).send({ token })
             console.log(token)
         } catch (e) {
             res.status(400).send({ error: `Problema na hora de logar -> ${e.message}` })
@@ -30,7 +30,7 @@ class UserApi {
             const users = await UserController.find()
             return res.status(200).send(users)
         } catch (e) {
-            return res.status(400).send({ error: `Problema na hora de listar usuários -> ${e.message}`})
+            return res.status(400).send({ error: `Problema na hora de listar usuários -> ${e.message}` })
         }
     }
 
@@ -60,7 +60,7 @@ class UserApi {
     async cadastroRegra(req, res) {
         const { remuneracaoFixa, remuneracaoVariavel } = req.body
         try {
-            const regra = await RegraController.cadastroRegra(remuneracaoFixa, remuneracaoVariavel) 
+            const regra = await RegraController.cadastroRegra(remuneracaoFixa, remuneracaoVariavel)
             return res.status(201).send(regra)
         } catch (e) {
             res.status(400).send({ error: e.message })
@@ -96,17 +96,18 @@ class UserApi {
             return res.status(201).json(funil)
         } catch (e) {
             console.log('Erro ao cadastrar informações do webhook -> ', e.message);
-            res.status(400).json({e: e.message});
+            res.status(400).json({ e: e.message });
         }
     }
 
     async findFunil(req, res) {
         try {
             const funil = await RegraController.findFunil();
+            console.log(res);
             return res.status(201).json(funil)
         } catch (e) {
             console.log('Erro ao cadastrar informações do webhook -> ', e.message);
-            res.status(400).json({e: e.message});
+            res.status(400).json({ e: e.message });
         }
     }
 
@@ -116,17 +117,18 @@ class UserApi {
             return res.status(201).json(fase);
         } catch (e) {
             console.log('Erro ao cadastrar webhook de fases -> ', e.message);
-            res.status(400).json({e: e.message});
+            res.status(400).json({ e: e.message });
         }
     }
-    
+
     async findFase(req, res) {
         try {
             const fase = await RegraController.findFase();
+            console.log(res);
             return res.status(201).json(fase);
         } catch (e) {
             console.log('Erro ao buscar fases -> ', e.message);
-            res.status(400).json({e: e.message});
+            res.status(400).json({ e: e.message });
         }
     }
 
@@ -136,17 +138,18 @@ class UserApi {
             return res.status(201).json(produto);
         } catch (e) {
             console.log('Erro ao cadastrar webhook de produtos -> ', e.message);
-            res.status(400).json({e: e.message});
+            res.status(400).json({ e: e.message });
         }
     }
 
     async findProduto(req, res) {
         try {
             const produto = await RegraController.findProduto();
+            console.log(res);
             return res.status(201).json(produto);
         } catch (e) {
             console.log('Erro ao buscar produtos -> ', e.message);
-            res.status(400).json({e: e.message});
+            res.status(400).json({ e: e.message });
         }
     }
 
@@ -163,10 +166,11 @@ class UserApi {
     async findTime(req, res) {
         try {
             const time = await RegraController.findTime();
+            console.log(res);
             return res.status(201).send(time);
         } catch (e) {
             console.log('Erro ao buscar times -> ', e.message);
-            res.status(400).send({e: e.message});
+            res.status(400).send({ e: e.message });
         }
     }
 
@@ -176,17 +180,18 @@ class UserApi {
             return res.status(201).send(funcionario);
         } catch (e) {
             console.log('Erro ao cadastrar webhook de funcionários -> ', e.message);
-            res.status(400).send({e: e.message});
+            res.status(400).send({ e: e.message });
         }
     }
 
     async findFuncionario(req, res) {
         try {
-            const funcionario = await RegraController.find();
+            const funcionario = await RegraController.findFuncionario();
+            console.log(res)
             return res.status(201).send(funcionario);
         } catch (e) {
             console.log('Erro ao buscar funcionários -> ', e.message);
-            res.status(400).send({e: e.message});
+            res.status(400).send({ e: e.message });
         }
     }
 }

@@ -30,7 +30,7 @@ export default function CardLogin() {
             const response = await loginUser(email, senha);
             if (response.token) {
                 login(response.token);
-                return navigate('/sobre'); 
+                return navigate('/sobre');
             } else {
                 setError('Erro ao fazer login, tente novamente.');
                 toast.error('Erro ao fazer login, tente novamente.');
@@ -45,16 +45,16 @@ export default function CardLogin() {
             }
         }
     };
-    
+
     const toggleVisibility = () => {
         setShow(!show);
     };
 
-    return(
+    return (
         <>
-            <div id="position">
+            <div id="position-login">
                 <div id="logo-zopu">
-                    <img src={logoZopu} alt="" style={{width:"400px"}}/>
+                    <img src={logoZopu} alt="" style={{ width: "400px" }} />
                 </div>
                 <div id="login">
                     <p id="login-title">Gestão de bonificação</p>
@@ -62,28 +62,28 @@ export default function CardLogin() {
                         <div id="campos">
                             <div>
                                 <p className="campo">Informe o e-mail</p>
-                                <input type="email" value = {email} onChange={(e) => setEmail(e.target.value)} className="email" placeholder="digite o seu e-mail"/>
+                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="email" placeholder="digite o seu e-mail" />
                             </div>
                             <div>
                                 <p className="campo">Informe a senha</p>
                                 <div className="input-container">
                                     <input
-                                        type={show? 'text' : 'password'}
+                                        type={show ? 'text' : 'password'}
                                         value={senha}
                                         onChange={(e) => setsenha(e.target.value)}
                                         className="senha"
                                         placeholder="digite a sua senha"
                                     />
-                                    <img src={show? eye : eyes} onClick={toggleVisibility} style={{cursor: 'pointer'}} alt="" />
+                                    <img src={show ? eye : eyes} onClick={toggleVisibility} style={{ cursor: 'pointer' }} alt="" />
                                 </div>
                             </div>
                         </div>
                         <div id="button">
                             <button type="submit" id="acesso" onClick={handleSubmit}>Acesse a sua conta</button>
-                            {error && <p id="error-text">{error}</p>} 
+                            {error && <p id="error-text">{error}</p>}
                         </div>
                     </form>
-                    <p id="cadastro-link">Ainda não tem uma conta? <Link to='/' style={{color: '#0081B8'}}>Cadastre-se agora.</Link></p>
+                    <p id="cadastro-link">Ainda não tem uma conta? <Link to='/' style={{ color: '#0081B8' }}>Cadastre-se agora.</Link></p>
                 </div>
             </div>
         </>

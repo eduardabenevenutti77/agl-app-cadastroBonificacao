@@ -1,8 +1,10 @@
-#position {
+#position-login {
     display: flex;
     justify-content: center;
     align-items: center; 
     height: 100vh; 
+    width: 100%;
+    background-color: #51bdeb;
 }
 #login {
     display: flex;

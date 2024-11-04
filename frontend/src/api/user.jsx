@@ -8,7 +8,7 @@ export const createUser = async (user) => {
 export const loginUser = async (email, senha) => {
   const body = { email, senha };
   const response = await api.post('/api/v1/user/loginUser', body, {
-      headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json' },
   });
   return response.data;
 };

@@ -5,7 +5,7 @@ export default function SemAutorizacao() {
     return (
         <>
             <div className="container">
-            <img src={permissao} style={{width: '300px'}} />
+                <img src={permissao} style={{ width: '300px' }} />
                 <div>
                     <p className='title-permissao'>Parece que você encontrou um beco sem saída. Permissão negada!</p>
                     <div>

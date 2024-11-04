@@ -1,10 +1,10 @@
-import { AuthContext } from "../../auth/Context"; 
+import { AuthContext } from "../../auth/Context";
 import { blockUser, findUser, unblock } from "../../api/user";
 import React, { useEffect, useState, useContext } from "react";
 import "./style-bloquear.css";
 import { toast } from "react-toastify";
 
-export default function Bloquear () {
+export default function Bloquear() {
     const [users, setUsers] = useState([]);
     const { token } = useContext(AuthContext);
 
@@ -13,8 +13,8 @@ export default function Bloquear () {
             const response = await blockUser(id);
             if (response.message) {
                 console.log('Usuário Bloqueado!');
-                setUsers(prevUsers => 
-                    prevUsers.map(user => 
+                setUsers(prevUsers =>
+                    prevUsers.map(user =>
                         user.id === id ? { ...user, bloqueado: true } : user
                     )
                 );
@@ -36,8 +36,8 @@ export default function Bloquear () {
             const response = await unblock(id);
             if (response.message) {
                 console.log('Usuário Desbloqueado!');
-                setUsers(prevUsers => 
-                    prevUsers.map(user => 
+                setUsers(prevUsers =>
+                    prevUsers.map(user =>
                         user.id === id ? { ...user, bloqueado: false } : user
                     )
                 );
@@ -78,14 +78,14 @@ export default function Bloquear () {
                 <ul id="userList">
                     {users.length > 0 ? (
                         users.map((user) => (
-                            <li 
-                                key={user.id} 
+                            <li
+                                key={user.id}
                                 className={`user-item ${user.bloqueado ? 'blocked' : ''}`}
                             >
-                            <div id="span">
-                                <span className="user-email">{user.email}</span>
-                                <span className="user-name">{user.permissao}</span>
-                            </div>
+                                <div id="span">
+                                    <span className="user-email">{user.email}</span>
+                                    <span className="user-name">{user.permissao}</span>
+                                </div>
                                 <div id="bloquearDisplay">
                                     <button className="bloquear" onClick={() => handleSubmit(user.id)}>Bloquear Usuário</button>
                                     <button className="Desbloquear" onClick={() => handleSubmitUnblock(user.id)}>Desbloquear Usuário</button>
