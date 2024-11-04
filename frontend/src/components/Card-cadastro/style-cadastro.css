@@ -26,11 +26,13 @@
     padding: 5px;
     font-size: 14px;
 }
-#position {
+#position-cadastro {
     display: flex;
     justify-content: center;
     align-items: center; 
     height: 100vh; 
+    width: 100%;
+    background-color: #51bdeb;
 }
 #logo-zopu {
     margin-right: 40px; 
@@ -94,7 +96,6 @@
     font-family: "Jost";
     font-weight: 400;
     font-size: 15px;
-    /* font-size: small; */
     color: #0081B8;
     margin-bottom: 0;
 }
