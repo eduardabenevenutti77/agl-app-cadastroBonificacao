@@ -4,11 +4,11 @@ import download from '../../assets/svg/cloud.svg'
 export default function DashboardGestor() {
     return (
         <>
-            {/* <div class="body-dash">
-                <div class="download">
-                    <button id="download">Realize o download das informações <img src={download}  style={{width: '20px', fill: 'white'}}/></button>
+            <div id="display">
+                <div id="displayButton">
+                    <button id="download">Download dos gráficos <img src={download} alt="" /></button>
                 </div>
-            </div> */}
+            </div>
         </>
     )
 }

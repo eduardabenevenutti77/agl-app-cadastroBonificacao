@@ -21,40 +21,40 @@ function App() {
 
   return (
     <>
-    <AuthProvider>
-      <div className={isLoginOrCadastro ? 'login-background' : 'default-background'}>
-        {!ocultarElementos && <Header />}
-        <div className="content">
-          <Routes>
-            {/* Rota pública */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Cadastro />} />
-            <Route path="/permissao" element={<Autorizacao />} />
+      <AuthProvider>
+        <div className={isLoginOrCadastro ? 'login-background' : 'default-background'}>
+          {!ocultarElementos && <Header />}
+          <div className="content">
+            <Routes>
+              {/* Rota pública */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Cadastro />} />
+              <Route path="/permissao" element={<Autorizacao />} />
 
-            {/* Rotas protegidas */}
-            <Route element={<PrivateRoute />}>
-              <Route path="/dashboardgestor" element={<DashboardGestor />} />
-              <Route path="/cadastrogestor" element={<Cadastrogestor />} />
-              <Route path="/gestao" element={<Bloquear />} />
-              <Route path="/sobre" element={<Sobre />} />
-            </Route>
-          </Routes>
+              {/* Rotas protegidas */}
+              <Route element={<PrivateRoute />}>
+                <Route path="/dashboardgestor" element={<DashboardGestor />} />
+                <Route path="/cadastrogestor" element={<Cadastrogestor />} />
+                <Route path="/gestao" element={<Bloquear />} />
+                <Route path="/sobre" element={<Sobre />} />
+              </Route>
+            </Routes>
+          </div>
+          <ToastContainer
+            position="bottom-center"
+            autoClose={3500}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            style={{ width: '50%' }}
+          />
+          {!ocultarElementos && <Footer />}
         </div>
-        <ToastContainer
-          position="bottom-center"
-          autoClose={3500}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          style={{ width: '50%' }}
-        />
-        {!ocultarElementos && <Footer />}
-      </div>
-    </AuthProvider>
+      </AuthProvider>
     </>
   );
 }

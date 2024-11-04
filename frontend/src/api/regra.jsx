@@ -19,3 +19,8 @@ export const findFuncionario = async () => {
     const response = await api.get('/api/v1/regra/getFuncionario');
     return response.data
 }
+
+export const findProduto = async () => {
+    const response = await api.get('/api/v1/regra/getProduto');
+    return response.data
+}

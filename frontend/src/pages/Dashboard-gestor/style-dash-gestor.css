@@ -1,29 +1,36 @@
-.body-dash {
+#display {
     display: flex;
-    justify-content: flex-start; 
-    align-items: center; 
-    width: 100%; 
+    justify-content: space-between;
+    align-items: center;
 }
-.download {
-    display: flex; 
-    margin-left: auto; 
-    margin-top: 15px;
+#displayButton {
+    display: flex;
+    justify-content:flex-end ;
+    width: 100%;
 }
 #download {
-    display: flex;                  
-    align-items: center;           
-    justify-content: center; 
-    margin-right: 150px;
-    margin-bottom: 50px;
-    padding: 9px;
-    border-radius: 10px;
-    /* border: none; */border: 1px;
-    background-color: #7fadc1;
-    color: #1a1a1a;
+    padding: 10px;
     font-family: "Jost";
-    font-weight: 500;
+    border: 1px solid #60a1b8;
+    border-radius: 4px;
+    background-color: #dedede;
+    color: #60a1b8;
+    font-weight: 600;
+    margin-right: 100px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
     cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 #download img {
     margin-left: 5px;
+    width: 16px;
+    height: 16px;
+}
+#download:hover {
+    background-color: #60a1b8;
+    color: #ffffff;
+    border-color: #4090a0;
+    /* fill: #ffffff; */
 }

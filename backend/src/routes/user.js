@@ -1,17 +1,7 @@
 const express = require('express');
-// const session = require('express-session')
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware')
 const UserApi = require("../api/user");
-// const UserController = require("../controller/user")
-
-// criando session
-// router.use(session({
-//     secret: 'exemplo',
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: { secure: false } 
-// }));
 
 // rotas para ADM
 router.get("/context", UserApi.findContext);

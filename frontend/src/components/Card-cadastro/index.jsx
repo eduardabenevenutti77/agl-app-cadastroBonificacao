@@ -5,7 +5,6 @@ import { createUser } from '../../api/user';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import logoZopu from "../../assets/logoZopu.png";
-// import logoAgl from "../../assets/logo.png";
 import eye from "../../assets/svg/olho.svg";
 import eyes from "../../assets/svg/olhos.svg";
 
@@ -15,22 +14,25 @@ export default function CardCadastro() {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [error, setError] = useState('');
+
     const validando = (email) => {
         return email.endsWith("@agltelecom.com");
     }
+
     const validando_senha = (senha) => {
         const validando = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
         return validando.test(senha);
     }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const responseApi = await createUser({ email, senha });
             if (responseApi.id) {
-                toast.success("Cadastro realizado com sucesso!"); 
+                toast.success("Cadastro realizado com sucesso!");
                 navigate('/login');
             } else {
-                toast.error('Erro ao realizar o cadastro, tente novamente.'); 
+                toast.error('Erro ao realizar o cadastro, tente novamente.');
             }
         } catch (error) {
             console.log(error);
@@ -56,7 +58,7 @@ export default function CardCadastro() {
 
     return (
         <>
-            <div id="position">
+            <div id="position-cadastro">
                 <div id="logo-zopu">
                     <img src={logoZopu} alt="" style={{ width: "400px" }} />
                 </div>
@@ -87,7 +89,7 @@ export default function CardCadastro() {
                             <button id="acesso" type="submit">Crie a sua conta</button>
                             {error && <p>{error}</p>}
                         </div>
-                        <p id="login-link">Se você já está cadastrado, não se preocupe!Você pode acessar sua conta <Link to='/login' style={{color: '#0081B8'}}>clicando aqui.</Link></p>
+                        <p id="login-link">Se você já está cadastrado, não se preocupe!Você pode acessar sua conta <Link to='/login' style={{ color: '#0081B8' }}>clicando aqui.</Link></p>
                     </form>
                 </div>
             </div>
