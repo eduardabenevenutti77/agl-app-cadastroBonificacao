@@ -10,8 +10,6 @@ Bem-vindo ao repositório do **AGL - App de Cadastro de Bonificações**! Este a
 - [Como Usar](#como-usar)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Contribuição](#contribuição)
-- [Licença](#licença)
-- [Contato](#contato)
 
 ### Sobre
 
