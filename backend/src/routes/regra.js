@@ -19,5 +19,7 @@ router.post('/funcionario', UserApi.createFuncionario);
 router.get('/getFuncionario', UserApi.findFuncionario);
 
 router.get('/getValorVendasAnual', UserApi.findVendasAnual);
+router.get('/getProdutosVendidos', UserApi.findProdutosVendidos);
+router.get('/getVendasMensal', UserApi.findVendasMensal);
 
 module.exports = router;

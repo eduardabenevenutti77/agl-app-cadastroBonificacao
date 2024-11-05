@@ -27,7 +27,10 @@ class Grupo {
                     model: "produtos",
                     key: 'id'
                 }
-            }
+            },
+            quantidadeProduto: {
+                type: database.db.Sequelize.INTEGER,
+            },
         });
     }
 }

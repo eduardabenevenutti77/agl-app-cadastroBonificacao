@@ -6,16 +6,16 @@ const time = require('../model/time');
 const funcionario = require('../model/funcionario');
 const grupo = require('../model/grupo');
 const criterio = require('../model/criterio');
-const { Op, fn, col } = require('sequelize');
+const { Op } = require('sequelize');
 
 class RegraController {
-    async cadastroRegra(remuneracaoFixa, remuneracaoVariavel, criterioPorcentagem, criterioUm, criterioDois, multiplicador, timeID, funcionarioId, produtoID, funilId) {
+    async cadastroRegra(remuneracaoFixa, remuneracaoVariavel, criterioPorcentagem, criterioUm, criterioDois, multiplicador, timeID, funcionarioId, produtoID, quantidadeProduto, funilId) {
         // primeiro realizar o cadastro do grupo => id do time, id do funcionário e id do produto 
         // cadastrar o 1º criterio, 2º criterio e o id do funil daquela criterio
         // em regra, cadastrar a remuneração fixa, a remuneração variável, a porcentagem, o id do critério e o id do grupo
         // cadastrar a informação normal e quando for puxar do banco realizar o cálculo
         // Validação de campos obrigatórios
-        if (!remuneracaoFixa || !remuneracaoVariavel || !criterioPorcentagem || !criterioUm || !criterioDois || !multiplicador || !timeID || !funcionarioId || !produtoID || !funilId) {
+        if (!remuneracaoFixa || !remuneracaoVariavel || !criterioPorcentagem || !criterioUm || !criterioDois || !multiplicador || !timeID || !funcionarioId || !produtoID || !quantidadeProduto || !funilId) {
             throw new Error("Todos os campos são obrigatórios!");
         }
         try {
@@ -23,6 +23,7 @@ class RegraController {
                 timeID: timeID,
                 funcionarioId: funcionarioId, 
                 produtoID: produtoID,
+                quantidadeProduto: quantidadeProduto
             });
             if (createGrupo) {
                 const createCriterio = await criterio.create({
@@ -240,19 +241,40 @@ class RegraController {
 
     async findVendasAnual() {
         try {
-            const allVendasAnual = await regra.sum('id', {
-                where: {
-                    [Op.and]: [
-                        fn('YEAR', col('createdAt'))[Op.eq](fn('YEAR', fn('CURDATE')))
-                    ],
-                },
-            });
+            const allVendasAnual = await regra.count('id');
             return allVendasAnual;
         } catch (error) {
-            // console.log(error)
             console.error("Erro ao buscar dados das vendas anuais ->", error.message);
         }
     }
+
+    async findProdutosVendidos() {
+        try {
+            const allProdutosVendidos = await grupo.sum('quantidadeProduto');
+            return allProdutosVendidos;
+        } catch (e) {
+            console.error("Erro ao buscar dados de produtos vendidos ->", error.message);
+        }
+    }
+
+    async findVendasMensal() {
+        try {
+            const currentDate = new Date();
+            const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0); // último dia do mês
+    
+            const vendasMensal = await regra.count({
+                where: {
+                    createdAt: {
+                        [Op.between]: [startOfMonth, endOfMonth]
+                    }
+                }
+            });
+            return vendasMensal;
+        } catch (error) {
+            console.error("Erro ao buscar dados das vendas mensal ->", error.message);
+        }
+    }    
 }
 
 function delay(ms) {

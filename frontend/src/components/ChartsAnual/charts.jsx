@@ -259,14 +259,14 @@ export default function ChartsAnual() {
 
   return (
     <>
-    <div id="displayCharts">
-      <ApexChart
-        options={options}
-        series={series}
-        type='candlestick'
-        width={640}
-        height={480} />
-    </div>
+      <div id="displayCharts">
+        <ApexChart
+          options={options}
+          series={series}
+          type='candlestick'
+          width={640}
+          height={480} />
+      </div>
     </>
   )
 }

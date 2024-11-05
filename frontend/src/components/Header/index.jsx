@@ -32,7 +32,7 @@ export default function Header() {
             : null
         }
         <div>
-          <p>Gestão de Bonificação</p>
+          <p id="titleHeader">Gestão de Bonificação</p>
         </div>
         <div className="icon-container">
           <div>

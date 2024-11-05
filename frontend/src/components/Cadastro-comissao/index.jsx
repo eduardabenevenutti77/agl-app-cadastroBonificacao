@@ -130,7 +130,6 @@ export default function Cadastrocomissao() {
         try {
             const response = await findFuncionario();
             console.log('Funcionários = ', response)
-            // const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/user.get');
             if (!response) {
                 console.log('O objeto retornado da requisição de times está vazio!')
             }
@@ -145,7 +144,6 @@ export default function Cadastrocomissao() {
     const fetchFunil = async () => {
         setLoadingFunil(true);
         try {
-            // const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.category.list?entityTypeId=2');
             const response = await findFunil();
             if (!response) {
                 console.log('O objeto retornado da requisição de times está vazio!')
@@ -164,7 +162,6 @@ export default function Cadastrocomissao() {
         setLoadingFase(true);
         try {
             const response = await findFase();
-            // const response = await fetch(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.dealcategory.stage.list?id=${idFunil}`);
             if (!response) {
                 console.log('O objeto retornado da requisição de times está vazio!')
             }
@@ -320,6 +317,17 @@ export default function Cadastrocomissao() {
                                     <MenuItem disabled>Nenhum produto encontrado</MenuItem>
                                 )}
                             </TextField>
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <TextField
+                                label="Quantidade de produto "
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                margin="normal"
+                                value={multiplicador}
+                                onChange={handleChangeMulti}
+                            />
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField

@@ -29,3 +29,13 @@ export const findVendasAnual = async () => {
     const response = await api.get('/api/v1/regra/getValorVendasAnual');
     return response.data
 }
+
+export const findProdutosVendidos = async () => {
+    const response = await api.get('/api/v1/regra/getProdutosVendidos');
+    return response.data
+}
+
+export const findVendasMensal = async () => {
+    const response = await api.get('/api/v1/regra/getVendasMensal');
+    return response.data
+}
