@@ -17,8 +17,8 @@
 #login-title {
     font-weight: bold;
     color: #0081B8;
-    font-family: "Khula", sans-serif; 
-    text-transform: uppercase;
+    font-family: "Lexend Deca"; 
+    /* text-transform: uppercase; */
     font-size: 30px; 
     margin-bottom: 20px;
     text-align: center; 
@@ -118,6 +118,11 @@
     color: #c45476;
     font-weight: 400;
     font-size: small;
+}
+.lexend-deca {
+  font-family: "Lexend Deca", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 @media (max-width: 600px) {
     #position {

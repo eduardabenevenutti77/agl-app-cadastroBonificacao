@@ -26,7 +26,6 @@ class UserApi {
     }
 
     async find(req, res) {
-        // req.session.touch();
         try {
             const users = await UserController.find()
             return res.status(200).send(users)
@@ -57,15 +56,14 @@ class UserApi {
         }
     }
 
-    // preciso arrumar essa função 
     async cadastroRegra(req, res) {
         // primeiro realizar o cadastro do grupo => id do time, id do funcionário e id do produto 
         // cadastrar o 1º criterio, 2º criterio e o id do funil daquela criterio
         // em regra, cadastrar a remuneração fixa, a remuneração variável, a porcentagem, o id do critério e o id do grupo
         // cadastrar a informação normal e quando for puxar do banco realizar o cálculo
-        const { remuneracaoFixa, remuneracaoVariavel, criterioPorcentagem, criterioUm, criterioDois, multiplicador, timeID, funcionarioId, produtoID, funilId } = req.body
+        const { remuneracaoFixa, remuneracaoVariavel, criterioPorcentagem, criterioUm, criterioDois, multiplicador, timeID, funcionarioId, produtoID, quantidadeProduto, funilId } = req.body
         try {
-            const regra = await RegraController.cadastroRegra(remuneracaoFixa, remuneracaoVariavel, criterioPorcentagem, criterioUm, criterioDois, multiplicador, timeID, funcionarioId, produtoID, funilId)
+            const regra = await RegraController.cadastroRegra(remuneracaoFixa, remuneracaoVariavel, criterioPorcentagem, criterioUm, criterioDois, multiplicador, timeID, funcionarioId, produtoID, quantidadeProduto, funilId)
             return res.status(201).send(regra)
         } catch (e) {
             res.status(400).send({ error: e.message })
@@ -192,8 +190,7 @@ class UserApi {
     async findFuncionario(req, res) {
         try {
             const funcionario = await RegraController.findFuncionario();
-            console.log(res)
-            return res.status(201).send(funcionario);
+            return res.status(200).send(funcionario);
         } catch (e) {
             console.log('Erro ao buscar funcionários -> ', e.message);
             res.status(400).send({ e: e.message });
@@ -203,10 +200,29 @@ class UserApi {
     async findVendasAnual(req, res) {
         try {
             const vendasAnual = await RegraController.findVendasAnual();
-            console.log(res);
-            return res.status(201).send({vendasAnual})
+            return res.status(200).send({vendasAnual})
         } catch (e) {
-            console.log('Erro ao buscar vendas anuais -> ', e.message);
+            console.log('Erro ao buscar vendas anuais [1] -> ', e);
+            res.status(400).send({ e: e.message });
+        }
+    }
+
+    async findProdutosVendidos(req, res) {
+        try {
+            const produtosVendidos = await RegraController.findProdutosVendidos();
+            return res.status(200).send({produtosVendidos})
+        } catch (e) {
+            console.log('Erro ao buscar quantidade de produtos vendidos [1] -> ', e);
+            res.status(400).send({ e: e.message });
+        }
+    }
+
+    async findVendasMensal(req, res) {
+        try {
+            const vendasMensal = await RegraController.findVendasMensal();
+            return res.status(200).send({vendasMensal})
+        } catch (e) {
+            console.log('Erro ao buscar vendas mensal [1] -> ', e);
             res.status(400).send({ e: e.message });
         }
     }

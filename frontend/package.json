@@ -18,6 +18,8 @@
     "apexcharts": "^3.41.0",
     "axios": "^1.7.7",
     "chart.js": "^4.4.4",
+    "html-to-image": "^1.11.11",
+    "html2pdf.js": "^0.10.2",
     "jwt-decode": "^4.0.0",
     "react": "^18.3.1",
     "react-apexcharts": "^1.5.0",

@@ -12,7 +12,4 @@ router.put("/:id/block", authMiddleware(['admin']), UserApi.blockUser);
 router.put("/:id/unblock", authMiddleware(['admin']), UserApi.unblockUser);
 router.get('/logout', UserApi.logout);
 
-// rotas para User
-router.get('/dashboardUser', authMiddleware(['user', UserApi.dashboardUser])); // preciso criar essa rota
-
 module.exports = router;

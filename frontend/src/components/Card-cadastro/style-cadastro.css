@@ -48,8 +48,8 @@
 #cadastro-title {
     font-weight: bold;
     color: #0081B8;
-    font-family: "Khula", sans-serif; 
-    text-transform: uppercase;
+    font-family: "Lexend Deca"; 
+    /* text-transform: uppercase; */
     font-size: 33px; 
     text-align: center; 
     background-color: #FBFBFB;
@@ -98,4 +98,9 @@
     font-size: 15px;
     color: #0081B8;
     margin-bottom: 0;
+}
+.lexend-deca {
+  font-family: "Lexend Deca", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }

@@ -14,7 +14,6 @@ app.get("/", (req, res) => {
   res.status(200).json({ message: "Ok, a requesição está funcionado" });
 });
 
-
 // delimitando o parâmetro das rotas
 app.use('/api/v1/user', UserRouter)
 app.use('/api/v1/regra', RegraRouter)

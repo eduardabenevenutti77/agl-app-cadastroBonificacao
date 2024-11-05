@@ -1,8 +1,8 @@
-# AGL - App de Cadastro de Bonificações
+## AGL - App de Cadastro de Bonificações 🚀🪙
 
 Bem-vindo ao repositório do **AGL - App de Cadastro de Bonificações**! Este aplicativo foi desenvolvido para gerenciar e registrar bonificações de vendas, permitindo um controle eficaz e a visualização das métricas de desempenho.
 
-## Tabela de Conteúdos
+### Tabela de Conteúdos
 
 - [Sobre](#sobre)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
@@ -10,10 +10,8 @@ Bem-vindo ao repositório do **AGL - App de Cadastro de Bonificações**! Este a
 - [Como Usar](#como-usar)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Contribuição](#contribuição)
-- [Licença](#licença)
-- [Contato](#contato)
 
-## Sobre
+### Sobre
 
 O AGL é uma aplicação desenvolvida para facilitar o cadastro e a visualização de bonificações. Com funcionalidades que permitem adicionar, editar e excluir registros, a aplicação também fornece relatórios anuais de vendas, tornando-a uma ferramenta essencial para equipes de vendas.
 
@@ -23,7 +21,7 @@ O AGL é uma aplicação desenvolvida para facilitar o cadastro e a visualizaç�
 - **Relatório de vendas anual**.
 - **Edição e exclusão** de registros.
 
-## Tecnologias Utilizadas
+#### Tecnologias Utilizadas
 
 - **Front-end**: React.js, Bootstrap
 - **Back-end**: Node.js, Express.js
@@ -31,20 +29,20 @@ O AGL é uma aplicação desenvolvida para facilitar o cadastro e a visualizaç�
 - **ORM**: Sequelize
 - **Controle de Versão**: Git
 
-## Instalação
+### Instalação
 
-### Pré-requisitos
+#### Pré-requisitos
 
 Certifique-se de ter o [Node.js](https://nodejs.org/) e o [MySQL](https://www.mysql.com/) instalados em sua máquina.
 
-### Clonando o Repositório
+#### Clonando o Repositório
 
 ```bash
 git clone https://github.com/ZopuBitrix/agl-app-cadastroBonificacao.git
 cd agl-app-cadastroBonificacao
 ```
 
-### Instalação das Dependências
+#### Instalação das Dependências
 
 Para instalar as dependências do front-end e back-end, execute os seguintes comandos:
 
@@ -57,7 +55,7 @@ cd backend
 npm install
 ```
 
-### Configuração do Banco de Dados
+#### Configuração do Banco de Dados
 
 1. **Crie um banco de dados** no MySQL.
    ```sql
@@ -83,7 +81,7 @@ npm install
    npx sequelize-cli db:migrate
    ```
 
-### Executando o Projeto
+#### Executando o Projeto
 
 Para iniciar o servidor back-end, execute:
 
@@ -100,14 +98,14 @@ cd frontend
 npm start
 ```
 
-## Como Usar
+### Como Usar
 
 1. **Acesse o aplicativo** em `http://localhost:3000`.
 2. **Utilize a interface** para adicionar, editar ou excluir bonificações.
 3. **Visualize relatórios anuais** de vendas na seção apropriada.
 4. **Interaja com a interface** para garantir que as funcionalidades estão operando conforme esperado.
 
-### Exemplo de Uso
+#### Exemplo de Uso
 
 Após iniciar o aplicativo, você verá a tela inicial onde poderá:
 
@@ -115,7 +113,7 @@ Após iniciar o aplicativo, você verá a tela inicial onde poderá:
 - Visualizar as bonificações cadastradas em uma lista.
 - Editar ou excluir bonificações existentes.
 
-## Estrutura do Projeto
+### Estrutura do Projeto
 
 ```plaintext
 agl-app-cadastroBonificacao/
@@ -139,7 +137,7 @@ agl-app-cadastroBonificacao/
 └── README.md                 # Documentação do projeto
 ```
 
-## Contribuição
+### Contribuição
 
 Contribuições são bem-vindas! Para contribuir, siga estas etapas:
 
@@ -148,4 +146,5 @@ Contribuições são bem-vindas! Para contribuir, siga estas etapas:
 3. Faça suas alterações e commit (`git commit -m 'Add some feature'`).
 4. Envie para o repositório remoto (`git push origin feature/YourFeature`).
 5. Abra um Pull Request.
+
 ---
