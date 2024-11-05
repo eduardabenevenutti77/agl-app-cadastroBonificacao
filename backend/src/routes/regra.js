@@ -18,4 +18,6 @@ router.get('/getTime', UserApi.findTime);
 router.post('/funcionario', UserApi.createFuncionario);
 router.get('/getFuncionario', UserApi.findFuncionario);
 
+router.get('/getValorVendasAnual', UserApi.findVendasAnual);
+
 module.exports = router;

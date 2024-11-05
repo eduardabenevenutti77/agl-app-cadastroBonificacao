@@ -1,0 +1,6 @@
+#displayCharts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat();
+}

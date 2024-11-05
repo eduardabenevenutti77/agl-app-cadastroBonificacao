@@ -4,18 +4,61 @@ const fase = require("../model/fase");
 const produto = require('../model/produto');
 const time = require('../model/time');
 const funcionario = require('../model/funcionario');
+const grupo = require('../model/grupo');
+const criterio = require('../model/criterio');
+const { Op, fn, col } = require('sequelize');
 
 class RegraController {
-    async cadastroRegra(remuneracaoFixa, remuneracaoVariavel) {
-        if (!remuneracaoFixa || !remuneracaoVariavel) {
-            throw new Error("Os campos são obrigatório!");
+    async cadastroRegra(remuneracaoFixa, remuneracaoVariavel, criterioPorcentagem, criterioUm, criterioDois, multiplicador, timeID, funcionarioId, produtoID, funilId) {
+        // primeiro realizar o cadastro do grupo => id do time, id do funcionário e id do produto 
+        // cadastrar o 1º criterio, 2º criterio e o id do funil daquela criterio
+        // em regra, cadastrar a remuneração fixa, a remuneração variável, a porcentagem, o id do critério e o id do grupo
+        // cadastrar a informação normal e quando for puxar do banco realizar o cálculo
+        // Validação de campos obrigatórios
+        if (!remuneracaoFixa || !remuneracaoVariavel || !criterioPorcentagem || !criterioUm || !criterioDois || !multiplicador || !timeID || !funcionarioId || !produtoID || !funilId) {
+            throw new Error("Todos os campos são obrigatórios!");
         }
-        const regraValue = await regra.create({
-            remuneracaoFixa,
-            remuneracaoVariavel
-        });
-        return regraValue;
+        try {
+            const createGrupo = await grupo.create({
+                timeID: timeID,
+                funcionarioId: funcionarioId, 
+                produtoID: produtoID,
+            });
+            if (createGrupo) {
+                const createCriterio = await criterio.create({
+                    criterioUm: criterioUm,
+                    criterioDois: criterioDois,
+                    multiplicadores: multiplicador,
+                    funilId: funilId
+                });
+                if (createCriterio) {
+                    const createRegra = await regra.create({
+                        remuneracaoFixa: remuneracaoFixa,
+                        remuneracaoVariavel: remuneracaoVariavel,
+                        criterioPorcentagem: criterioPorcentagem,
+                        grupoId: createGrupo.id,
+                        criterioId: createCriterio.id
+                    });
+                    return createRegra;
+                } else {
+                    console.log("Problema ao cadastrar critério, revise os dados e tente novamente!");
+                }
+            } else {
+                console.log("Problema ao cadastrar grupo, revise os dados e tente novamente!");
+            }
+            throw new Error("Erro ao criar o grupo ou critério, tente novamente.");
+        } catch (error) {
+            if (error.name === 'SequelizeValidationError') {
+                const validationErrors = error.errors.map(err => err.message);
+                console.error('Erro de validação ao criar a regra:', validationErrors);
+                throw new Error(`Erro de validação: ${validationErrors.join(', ')}`);
+            } else {
+                console.error('Erro ao processar a criação da regra:', error);
+                throw new Error(`Erro ao processar a criação da regra: ${error.message}`);
+            }
+        }
     }
+
 
     async findFunil() {
         const findAll = await funil.findAll();
@@ -192,6 +235,22 @@ class RegraController {
         } catch (error) {
             console.log(error)
             console.error("Erro ao cadastrar informações do webhook ->", error.message);
+        }
+    }
+
+    async findVendasAnual() {
+        try {
+            const allVendasAnual = await regra.sum('id', {
+                where: {
+                    [Op.and]: [
+                        fn('YEAR', col('createdAt'))[Op.eq](fn('YEAR', fn('CURDATE')))
+                    ],
+                },
+            });
+            return allVendasAnual;
+        } catch (error) {
+            // console.log(error)
+            console.error("Erro ao buscar dados das vendas anuais ->", error.message);
         }
     }
 }

@@ -24,3 +24,8 @@ export const findProduto = async () => {
     const response = await api.get('/api/v1/regra/getProduto');
     return response.data
 }
+
+export const findVendasAnual = async () => {
+    const response = await api.get('/api/v1/regra/getValorVendasAnual');
+    return response.data
+}
