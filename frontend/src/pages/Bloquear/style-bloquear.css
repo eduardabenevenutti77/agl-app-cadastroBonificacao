@@ -6,10 +6,12 @@
 }
 #titleBloquear {
     color: black;
+    font-family: "Lexend Deca", sans-serif;
+    font-size: 24px;
     font-weight: 400;
 }
 #subtitle {
-    color: rgb(105, 105, 105);
+    color: rgb(75, 75, 75);
     font-weight: 300;
     font-size: medium;
     margin-top: 0;
@@ -68,6 +70,7 @@
     background-color: #571010;
     color: #f2f2f2;
     font-weight: 400;
+    margin-left: 15px;
 }
 .Desbloquear {
     border: none;
@@ -77,5 +80,9 @@
     background-color: #5b865a;
     color: #f2f2f2;
     font-weight: 400;
-    margin-left: 15px;
+}
+.lexend-deca {
+  font-family: "Lexend Deca", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }

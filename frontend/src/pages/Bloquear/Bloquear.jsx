@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 export default function Bloquear() {
     const [users, setUsers] = useState([]);
-    const { token } = useContext(AuthContext);
+    const { token, userId } = useContext(AuthContext); 
 
     const handleSubmit = async (id) => {
         try {
@@ -58,45 +58,44 @@ export default function Bloquear() {
             if (!token) return;
             try {
                 const data = await findUser();
-                console.log(data)
-                setUsers(data);
+                console.log(data);
+                const filteredUsers = data.filter(user => user.id !== userId);
+                setUsers(filteredUsers);
             } catch (error) {
                 console.error("Erro ao buscar usuários:", error.response?.data || error.message);
                 alert("Não foi possível carregar os usuários.");
             }
         };
         fetchUsers();
-    }, [token]);
+    }, [token, userId]);
 
     return (
-        <>
-            <div id="containerBloquear">
-                <p id="titleBloquear">Gestão de Usuários</p>
-                <div>
-                    <p id="subtitle">Essa tela é responsável pela visualização dos usuários cadastrados no banco de dados da AGL. Nela, é possível bloquear e desbloquear o acesso à aplicação.</p>
-                </div>
-                <ul id="userList">
-                    {users.length > 0 ? (
-                        users.map((user) => (
-                            <li
-                                key={user.id}
-                                className={`user-item ${user.bloqueado ? 'blocked' : ''}`}
-                            >
-                                <div id="span">
-                                    <span className="user-email">{user.email}</span>
-                                    <span className="user-name">{user.permissao}</span>
-                                </div>
-                                <div id="bloquearDisplay">
-                                    <button className="bloquear" onClick={() => handleSubmit(user.id)}>Bloquear Usuário</button>
-                                    <button className="Desbloquear" onClick={() => handleSubmitUnblock(user.id)}>Desbloquear Usuário</button>
-                                </div>
-                            </li>
-                        ))
-                    ) : (
-                        <li className="no-users">Nenhum usuário encontrado.</li>
-                    )}
-                </ul>
+        <div id="containerBloquear">
+            <p id="titleBloquear">Gestão de Usuários</p>
+            <div>
+                <p id="subtitle">Essa tela é responsável pela visualização dos usuários cadastrados no banco de dados da AGL. Nela, é possível bloquear e desbloquear o acesso à aplicação.</p>
             </div>
-        </>
+            <ul id="userList">
+                {users.length > 0 ? (
+                    users.map((user) => (
+                        <li
+                            key={user.id}
+                            className={`user-item ${user.bloqueado ? 'blocked' : ''}`}
+                        >
+                            <div id="span">
+                                <span className="user-email">{user.email}</span>
+                                <span className="user-name">{user.permissao}</span>
+                            </div>
+                            <div id="bloquearDisplay">
+                                <button className="Desbloquear" onClick={() => handleSubmitUnblock(user.id)}>Desbloquear Usuário</button>
+                                <button className="bloquear" onClick={() => handleSubmit(user.id)}>Bloquear Usuário</button>
+                            </div>
+                        </li>
+                    ))
+                ) : (
+                    <li className="no-users">Nenhum usuário encontrado.</li>
+                )}
+            </ul>
+        </div>
     );
 }

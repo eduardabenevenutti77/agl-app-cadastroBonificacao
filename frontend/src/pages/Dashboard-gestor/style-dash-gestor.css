@@ -41,7 +41,7 @@
     align-items: center;
     margin-bottom: 50px;
     gap: 15px;
-    margin-left: 148px;
+    margin-left: 130px;
     margin-top: 20px;
 }
 #backgroundNumerico1 {
@@ -88,7 +88,7 @@
 #backgroundNumerico3 {
     background-color: #f6f6f6;
     color: #8A8686;
-    width: 380px;
+    width: 440px;
     height: 140px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
@@ -124,4 +124,16 @@
 /* Classe que será adicionada ao clicar na imagem */
 .jump {
     animation: jump 0.5s ease; /* Duração de 0.5 segundos */
+}
+#displayCharts {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(1);
+}
+#container {
+    width: 100%;
+}
+#displaySubCharts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
