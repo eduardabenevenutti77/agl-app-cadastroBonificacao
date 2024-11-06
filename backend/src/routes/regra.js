@@ -22,4 +22,6 @@ router.get('/getValorVendasAnual', UserApi.findVendasAnual);
 router.get('/getProdutosVendidos', UserApi.findProdutosVendidos);
 router.get('/getVendasMensal', UserApi.findVendasMensal);
 
+router.get('/calculoOTE', UserApi.calculoOTE);
+
 module.exports = router;

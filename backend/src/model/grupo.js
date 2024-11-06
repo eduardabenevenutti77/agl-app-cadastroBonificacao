@@ -18,7 +18,7 @@ class Grupo {
                     key: 'id'
                 }
             },
-            funcionarioId: {
+            funcionarioID: {
                 type: database.db.Sequelize.INTEGER,
             },
             produtoID: {

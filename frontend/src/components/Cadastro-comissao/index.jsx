@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { TextField, Button, Card, CardContent, Grid, MenuItem } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
-import { findFase, findFuncionario, findFunil, findProduto, findTime } from '../../api/regra';
+import { cadastroRegra, findFase, findFuncionario, findFunil, findProduto, findTime } from '../../api/regra';
+import { toast } from 'react-toastify';
 
 export default function Cadastrocomissao() {
     const [campoFormatacao, setCampoForm] = useState('');
@@ -95,6 +96,8 @@ export default function Cadastrocomissao() {
     const [loadingFase, setLoadingFase] = useState(true);
     const [errorFase, setErrorFase] = useState(null);
 
+    const [quantidade, setQuantidade] = useState([])
+
     const fetchTimes = async () => {
         try {
             const response = await findTime();
@@ -180,6 +183,38 @@ export default function Cadastrocomissao() {
         fetchFase();
     }, []);
 
+    const removendoFormatacao = (campo) => {
+        return campo.replace(/[^0-9]/g, '')
+    }
+    const regra = { campoFormatacao: removendoFormatacao(campoFormatacao), campoVariavel: removendoFormatacao(campoVariavel), campoPorcento:  removendoFormatacao(campoPorcento), criterioUm: removendoFormatacao(criterioUm), criterioDois: removendoFormatacao(criterioDois), multiplicador: removendoFormatacao(multiplicador), selectFunil, selectFase, selectedProduto, quantidade, selectedTime, selectFuncionario};
+    const handleSubmitForms = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await cadastroRegra({...regra});
+            if (response.id) {
+                toast.success('Cadastro de comissão bem-sucedido!');
+                setCampoForm('');
+                setCampoPorcento('');
+                setCampoVariavel('');
+                setCriterioDois('');
+                setCriterioUm('');
+                setMultiplicador('');
+                setQuantidade('');
+            } else {
+                toast.error('Cadastro de comissão falhou!')
+            }
+        } catch (e) {
+            console.log(e);
+            if (e.status === 403) {
+                toast.dark("Sem permissão.");
+            } else if (!campoFormatacao || !campoPorcento || !criterioUm || !criterioDois || !multiplicador || !selectFunil || !selectFase || !selectedProduto || !selectedTime) {
+                toast.info('Todos os campos obrigátorios precisam estar preenchidos para prosseguir com o cadastro.')
+            } else {
+                toast.dark('Erro inesperado, tente novamente mais tarde!');
+            }
+        }
+    }
+
     return (
         <Card variant="outlined" style={{ maxWidth: '1000px', marginTop: '50px', margin: 'auto', background: '#FCFCF4', borderRadius: '10px', marginBottom: '40px' }}>
             <CardContent>
@@ -187,13 +222,13 @@ export default function Cadastrocomissao() {
                 <form>
                     <Grid container spacing={1}>
                         <Grid item xs={12} sm={4}>
-                            <TextField label="Remuneração fixa *" variant="outlined" size="small" fullWidth margin="normal" value={campoFormatacao} onChange={handleChange} />
+                            <TextField label="Remuneração fixa *" variant="outlined" size="small" fullWidth margin="normal" value={campoFormatacao} onChange={handleChange} sx={{ '& .MuiInputLabel-root': { color: '#01638C' } }} />
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField label="Remuneração variável" variant="outlined" size="small" fullWidth margin="normal" value={campoVariavel} onChange={handleChangeVariavel} />
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <TextField label="% por critério *" variant="outlined" size="small" fullWidth margin="normal" value={campoPorcento} onChange={handleChangePorcento} />
+                            <TextField label="% por critério *" variant="outlined" size="small" fullWidth margin="normal" value={campoPorcento} onChange={handleChangePorcento} sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}/>
                         </Grid>
                     </Grid>
                     {/* Campos duplicados: Critérios e Multiplicadores */}
@@ -208,6 +243,7 @@ export default function Cadastrocomissao() {
                                     margin="normal"
                                     value={criterioUm}
                                     onChange={handleChangeCriterioUm}
+                                    sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
@@ -219,6 +255,7 @@ export default function Cadastrocomissao() {
                                     margin="normal"
                                     value={criterioDois}
                                     onChange={handleChangeCriterioDois}
+                                    sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
@@ -230,6 +267,7 @@ export default function Cadastrocomissao() {
                                     margin="normal"
                                     value={multiplicador}
                                     onChange={handleChangeMulti}
+                                    sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
                                 />
                             </Grid>
                         </Grid>
@@ -251,6 +289,7 @@ export default function Cadastrocomissao() {
                                 select
                                 value={selectFunil || ''}
                                 onChange={(e) => setSelectedFunil(e.target.value)}
+                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
                             >
                                 <MenuItem value="">
                                     <em>Nenhum funil selecionado</em>
@@ -277,6 +316,7 @@ export default function Cadastrocomissao() {
                                 select
                                 value={selectFase || ''}
                                 onChange={(e) => setSelectedFase(e.target.value)}
+                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
                             >
                                 <MenuItem value="">
                                     <em>Nenhuma fase selecionada</em>
@@ -302,6 +342,7 @@ export default function Cadastrocomissao() {
                                 select
                                 value={selectedProduto || ''}
                                 onChange={(e) => setSelectedProduto(e.target.value)}
+                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
                             >
                                 <MenuItem value="">
                                     <em>Nenhum produto selecionado</em>
@@ -325,8 +366,8 @@ export default function Cadastrocomissao() {
                                 size="small"
                                 fullWidth
                                 margin="normal"
-                                value={multiplicador}
-                                onChange={handleChangeMulti}
+                                value={quantidade}
+                                onChange={(e) => setQuantidade(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
@@ -339,6 +380,7 @@ export default function Cadastrocomissao() {
                                 select
                                 value={selectedTime || ''}
                                 onChange={(e) => setSelectedTime(e.target.value)}
+                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
                             >
                                 <MenuItem value="">
                                     <em>Nenhum time selecionado</em>
@@ -386,7 +428,7 @@ export default function Cadastrocomissao() {
                         <Button size="small" variant="contained" color="error" style={{ marginRight: '8px', background: '#5EA8C8' }} startIcon={<DeleteIcon />}>
                             Cancelar o cadastro
                         </Button>
-                        <Button size="small" variant="contained" style={{ background: '#2181AA' }} type="submit" endIcon={<SendIcon />}>
+                        <Button size="small" variant="contained" style={{ background: '#2181AA' }} type="submit" endIcon={<SendIcon />} onClick={handleSubmitForms}>
                             Efetuar o cadastro
                         </Button>
                     </div>
