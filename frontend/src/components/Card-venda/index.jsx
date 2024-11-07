@@ -1,4 +1,4 @@
-import './style-gestor.css';
+import './stylecadastrovenda.css';
 import React, { useEffect, useState } from 'react';
 import { TextField, Button, Card, CardContent, Grid, MenuItem } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -6,7 +6,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { cadastroRegra, findFase, findFuncionario, findFunil, findProduto, findTime } from '../../api/regra';
 import { toast } from 'react-toastify';
 
-export default function Cadastrocomissao() {
+export default function Cadastrovenda() {
     const [campoFormatacao, setCampoForm] = useState('');
     const handleChange = (event) => {
         const valor = event.target.value.replace(/[^0-9]/g, '');
@@ -14,62 +14,8 @@ export default function Cadastrocomissao() {
             style: 'currency',
             currency: 'BRL',
         }).format(valor / 100);
-        setCampoForm(formatado);
+        setValorVenda(formatado);
     }
-
-    const [campoVariavel, setCampoVariavel] = useState('');
-    const handleChangeVariavel = (event) => {
-        const valor = event.target.value.replace(/[^0-9]/g, '');
-        const formatado = new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-        }).format(valor / 100);
-        setCampoVariavel(formatado);
-    }
-
-    const [campoPorcento, setCampoPorcento] = useState('');
-    const handleChangePorcento = (event) => {
-        const valor = event.target.value.replace(/[^0-9]/g, '');
-        const formatado = valor ? `${valor}%` : '';
-        setCampoPorcento(formatado);
-    }
-
-    const [criterioUm, setCriterioUm] = useState('');
-    const handleChangeCriterioUm = (event) => {
-        const valor = event.target.value.replace(/[^0-9]/g, '');
-        const formatado = new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-        }).format(valor / 100);
-        setCriterioUm(formatado);
-    }
-
-    const [criterioDois, setCriterioDois] = useState('');
-    const handleChangeCriterioDois = (event) => {
-        const valor = event.target.value.replace(/[^0-9]/g, '');
-        const formatado = new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-        }).format(valor / 100);
-        setCriterioDois(formatado);
-    }
-
-    const [multiplicador, setMultiplicador] = useState('');
-    const handleChangeMulti = (event) => {
-        const valor = event.target.value.replace(/[^0-9]/g, '');
-        const formatado = valor ? `${valor}%` : '';
-        setMultiplicador(formatado);
-    }
-
-    const [campos, setCampos] = useState([{ id: 1 }]);
-    const add = () => {
-        setCampos([...campos, { id: campos.length + 1 }]);
-    };
-    const remove = () => {
-        if (campos.length > 1) {
-            setCampos(campos.slice(0, -1));
-        }
-    };
 
     const [time, setTime] = useState([]);
     const [selectedTime, setSelectedTime] = useState('');
@@ -96,7 +42,9 @@ export default function Cadastrocomissao() {
     const [loadingFase, setLoadingFase] = useState(true);
     const [errorFase, setErrorFase] = useState(null);
 
-    const [quantidade, setQuantidade] = useState([])
+    const [quantidade, setQuantidade] = useState([]);
+    const [data, setData] = useState(new Date().toISOString().split('T')[0]);
+    const [valorVenda, setValorVenda] = useState([]);
 
     const fetchTimes = async () => {
         try {
@@ -186,7 +134,7 @@ export default function Cadastrocomissao() {
     const removendoFormatacao = (campo) => {
         return campo.replace(/[^0-9]/g, '')
     }
-    const regra = { campoFormatacao: removendoFormatacao(campoFormatacao), campoVariavel: removendoFormatacao(campoVariavel), campoPorcento:  removendoFormatacao(campoPorcento), criterioUm: removendoFormatacao(criterioUm), criterioDois: removendoFormatacao(criterioDois), multiplicador: removendoFormatacao(multiplicador), selectFunil, selectFase, selectedProduto, quantidade, selectedTime, selectFuncionario};
+    // const regra = { campoFormatacao: removendoFormatacao(campoFormatacao), campoVariavel: removendoFormatacao(campoVariavel), campoPorcento:  removendoFormatacao(campoPorcento), criterioUm: removendoFormatacao(criterioUm), criterioDois: removendoFormatacao(criterioDois), multiplicador: removendoFormatacao(multiplicador), selectFunil, selectFase, selectedProduto, quantidade, selectedTime, selectFuncionario};
     const handleSubmitForms = async (e) => {
         e.preventDefault();
         try {
@@ -218,68 +166,10 @@ export default function Cadastrocomissao() {
     return (
         <Card variant="outlined" style={{ maxWidth: '1000px', marginTop: '50px', margin: 'auto', background: '#FCFCF4', borderRadius: '10px', marginBottom: '40px' }}>
             <CardContent>
-                <p className='title-cadastro'>Cadastro de Regra de Comissionamento</p>
+                <p className='title-cadastro'>Gestão de controle de Vendas</p>
                 <form>
                     <Grid container spacing={1}>
-                        <Grid item xs={12} sm={4}>
-                            <TextField label="Remuneração fixa *" variant="outlined" size="small" fullWidth margin="normal" value={campoFormatacao} onChange={handleChange} sx={{ '& .MuiInputLabel-root': { color: '#01638C' } }} />
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <TextField label="Remuneração variável" variant="outlined" size="small" fullWidth margin="normal" value={campoVariavel} onChange={handleChangeVariavel} />
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <TextField label="% por critério *" variant="outlined" size="small" fullWidth margin="normal" value={campoPorcento} onChange={handleChangePorcento} sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}/>
-                        </Grid>
-                    </Grid>
-                    {/* Campos duplicados: Critérios e Multiplicadores */}
-                    {campos.map((campo, index) => (
-                        <Grid container spacing={1} key={campo.id}>
-                            <Grid item xs={12} sm={4}>
-                                <TextField
-                                    label={`Critério 01 (valor) ${index + 1} *`}
-                                    variant="outlined"
-                                    size="small"
-                                    fullWidth
-                                    margin="normal"
-                                    value={criterioUm}
-                                    onChange={handleChangeCriterioUm}
-                                    sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <TextField
-                                    label={`Critério 02 (valor) ${index + 1} *`}
-                                    variant="outlined"
-                                    size="small"
-                                    fullWidth
-                                    margin="normal"
-                                    value={criterioDois}
-                                    onChange={handleChangeCriterioDois}
-                                    sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <TextField
-                                    label="Multiplicadores *"
-                                    variant="outlined"
-                                    size="small"
-                                    fullWidth
-                                    margin="normal"
-                                    value={multiplicador}
-                                    onChange={handleChangeMulti}
-                                    sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
-                                />
-                            </Grid>
-                        </Grid>
-                    ))}
-                    <Button onClick={remove} variant="contained" style={{ marginTop: '16px', marginLeft: '10px', borderRadius: '100px', backgroundColor: '#3D7992' }}>
-                        -
-                    </Button>
-                    <Button onClick={add} variant="contained" style={{ marginTop: '16px', marginLeft: '10px', borderRadius: '100px', backgroundColor: '#2181AA' }}>
-                        +
-                    </Button>
-                    <Grid container spacing={1}>
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={6}>
                             <TextField
                                 label='Selecione o funil *'
                                 variant='outlined'
@@ -306,7 +196,7 @@ export default function Cadastrocomissao() {
                                 )}
                             </TextField>
                         </Grid>
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={6}>
                             <TextField
                                 label='Selecione a fase dentro do funil *'
                                 variant='outlined'
@@ -332,7 +222,7 @@ export default function Cadastrocomissao() {
                                 )}
                             </TextField>
                         </Grid>
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={6}>
                             <TextField
                                 label="Selecione o produto *"
                                 variant="outlined"
@@ -359,7 +249,7 @@ export default function Cadastrocomissao() {
                                 )}
                             </TextField>
                         </Grid>
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={6}>
                             <TextField
                                 label="Quantidade de produto "
                                 variant="outlined"
@@ -370,7 +260,7 @@ export default function Cadastrocomissao() {
                                 onChange={(e) => setQuantidade(e.target.value)}
                             />
                         </Grid>
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={6}>
                             <TextField
                                 label="Selecione o time *"
                                 variant="outlined"
@@ -397,7 +287,7 @@ export default function Cadastrocomissao() {
                                 )}
                             </TextField>
                         </Grid>
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={6}>
                             <TextField
                                 label="Selecione o funcionário"
                                 variant="outlined"
@@ -422,6 +312,29 @@ export default function Cadastrocomissao() {
                                     <MenuItem disabled>Nenhum funcionário encontrado</MenuItem>
                                 )}
                             </TextField>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Selecione a data da venda"
+                            variant="outlined"
+                            size="small"
+                            fullWidth
+                            margin="normal"
+                            type="date"
+                            value={data} 
+                            onChange={(e) => setData(e.target.value)} 
+                        />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                label="Informe o valor total da venda "
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                margin="normal"
+                                value={valorVenda || ''} 
+                                onChange={handleChange} 
+                            />
                         </Grid>
                     </Grid>
                     <div style={{ textAlign: 'center', marginTop: '16px' }}>

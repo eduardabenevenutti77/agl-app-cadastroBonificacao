@@ -39,3 +39,8 @@ export const findVendasMensal = async () => {
     const response = await api.get('/api/v1/regra/getVendasMensal');
     return response.data
 }
+
+export const cadastroRegra = async (regra) => {
+    const response = await api.post(`/api/v1/user/cadastroRegra`, regra)
+    return response.data
+}

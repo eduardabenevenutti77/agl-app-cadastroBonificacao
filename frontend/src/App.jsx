@@ -13,6 +13,7 @@ import PrivateRoute from '../src/routes/PrivateRoute';
 import Cadastrogestor from './pages/Cadastro-gestor';
 import Autorizacao from './pages/Sem-autorizacao';
 import Bloquear from './pages/Bloquear/Bloquear';
+import CadastroVenda from './pages/Cadastro-venda';
 
 function App() {
   const location = useLocation();
@@ -35,6 +36,7 @@ function App() {
               <Route element={<PrivateRoute />}>
                 <Route path="/dashboardgestor" element={<DashboardGestor />} />
                 <Route path="/cadastrogestor" element={<Cadastrogestor />} />
+                <Route path="/cadastrovenda" element={<CadastroVenda />} />
                 <Route path="/gestao" element={<Bloquear />} />
                 <Route path="/sobre" element={<Sobre />} />
               </Route>

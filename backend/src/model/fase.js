@@ -12,7 +12,7 @@ class Fase {
             fase: {
                 type: database.db.Sequelize.STRING
             },
-            funilId: {
+            funilID: {
                 type: database.db.Sequelize.INTEGER,
                 references: {
                     model: "funis",

@@ -11,13 +11,13 @@ class Regra {
                 autoIncrement: true,
             },
             remuneracaoFixa: {
-                type: database.db.Sequelize.INTEGER,
+                type: database.db.Sequelize.DECIMAL,
             },
             remuneracaoVariavel: {
-                type: database.db.Sequelize.INTEGER,
+                type: database.db.Sequelize.DECIMAL,
             },
             porcentagem: {
-                type: database.db.Sequelize.INTEGER,
+                type: database.db.Sequelize.DECIMAL,
             },
             criterioID: {
                 type: database.db.Sequelize.INTEGER,
@@ -36,5 +36,4 @@ class Regra {
         });
     }
 }
-
 module.exports = new Regra().model;
