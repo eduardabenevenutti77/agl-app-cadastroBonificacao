@@ -29,7 +29,7 @@ app.listen(3000, () => {
   try {
     await database.db.authenticate();
     console.log("Conexão com o banco de dados estabelecida com sucesso.");
-    await database.db.sync({ force: false });
+    await database.db.sync({ force: true });
     console.log("Modelos sincronizados com sucesso.");
   } catch (error) {
     console.error("Erro ao conectar ao banco de dados:", error);
