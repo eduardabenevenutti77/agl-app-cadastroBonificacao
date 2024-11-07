@@ -328,6 +328,18 @@ class RegraController {
                             console.log('Aplicar a validação aqui [1,0]');
                         } else if (criterioInicial > 3001 && identificadorTime === 9 || identificadorTime === 10) {
                             console.log('Aplicar a validação aqui [1,1]');
+                        } else if (criterioInicial < 500 && criterioSecundario === 700 && identificadorTime === 0 ) {
+                            console.log('Aplicar a validação aqui [0,1]');
+                        } else if (criterioInicial < 701 && criterioSecundario === 900 && identificadorTime === 0 ) {
+                            console.log('Aplicar a validação aqui [0,2]');
+                        } else if (criterioInicial < 901 && criterioSecundario === 1200 && identificadorTime === 0 ) {
+                            console.log('Aplicar a validação aqui [0,4]');
+                        } else if (criterioInicial < 1201 && criterioSecundario === 1500 && identificadorTime === 0 ) {
+                            console.log('Aplicar a validação aqui [0,6]');
+                        } else if (criterioInicial < 1501 && criterioSecundario === 2000 && identificadorTime === 0 ) {
+                            console.log('Aplicar a validação aqui [0,7]');
+                        } else if (criterioInicial > 2001 && identificadorTime === 0 ) {
+                            console.log('Aplicar a validação aqui [0,8]');
                         } else {
                             console.log('caiu fora da validação')
                         }

@@ -44,22 +44,22 @@ aplicar validação de setor selecionado antes de realizar os cálculos:
  if (criterio1>3001 && timeId === 9 || timeId === 10)
 
 #### Setor selecionado -> carteira: se o usuário administrador cadastrar a regra de comissionamento com o setor móvel, validar o valor do critério 1 e o valor do critério 2
-1º: critério 1 < 500 e critério 2 = 700 - o multiplicador dele deverá ser igual 10 (0,1)
+1º: critério 1 < 500 e critério 2 = 700 - o multiplicador dele deverá ser igual 10 (0,1) - ok
  if (criterio1<500 && criterio2===700 && timeId === ?)
 
-2º: critério 1 < 701 e critério 2 = 900 - o multiplicador dele deverá ser igual 20 (0,2)
+2º: critério 1 < 701 e critério 2 = 900 - o multiplicador dele deverá ser igual 20 (0,2) - ok
  if (criterio1<701 && criterio2===900 && timeId === ?)
 
-3º: critério 1 < 901 e critério 2 = 1200 - o multiplicador dele deverá ser igual 40 (0,4)
+3º: critério 1 < 901 e critério 2 = 1200 - o multiplicador dele deverá ser igual 40 (0,4) - ok
  if (criterio1<901 && criterio2===1200 && timeId === ?)
 
-4º: critério 1 < 1201 e critério 2 = 1500 - o multiplicador dele deverá ser igual 60 (0,6)
+4º: critério 1 < 1201 e critério 2 = 1500 - o multiplicador dele deverá ser igual 60 (0,6) - ok
  if (criterio1<1201 && criterio2===1500 && timeId === ?)
 
-5º: critério 1 < 1501 e critério 2 = 2000 - o multiplicador dele deverá ser igual 70 (0,7)
+5º: critério 1 < 1501 e critério 2 = 2000 - o multiplicador dele deverá ser igual 70 (0,7) - ok
  if (criterio1<1501 && criterio2===2000 && timeId === ?)
  
-6º: critério 1 > 2.001 - o multiplicador dele deverá ser igual 100 (0,8)
+6º: critério 1 > 2.001 - o multiplicador dele deverá ser igual 100 (0,8) - ok
  if (criterio1>2001 && timeId === ?)
 
 o usuário vai cadastrar um valor qualquer, mas quando for realizar o cálculo deve se criar um if para que ele entre na área certa para realizar o cálculo
