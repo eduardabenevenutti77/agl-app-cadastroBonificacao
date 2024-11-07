@@ -8,37 +8,39 @@ const grupo = require('../model/grupo');
 const criterio = require('../model/criterio');
 const { Op } = require('sequelize');
 
+regra.belongsTo(grupo, { foreignKey: 'grupoID' });
+
 class RegraController {
-    async cadastroRegra(remuneracaoFixa, remuneracaoVariavel, criterioPorcentagem, criterioUm, criterioDois, multiplicador, timeID, funcionarioId, produtoID, quantidadeProduto, funilId) {
+    async cadastroRegra(campoFormatacao, campoVariavel, campoPorcento, criterioUm, criterioDois, multiplicador, selectFunil, selectedProduto, quantidade, selectedTime, selectFuncionario) {
         // primeiro realizar o cadastro do grupo => id do time, id do funcionário e id do produto 
         // cadastrar o 1º criterio, 2º criterio e o id do funil daquela criterio
         // em regra, cadastrar a remuneração fixa, a remuneração variável, a porcentagem, o id do critério e o id do grupo
         // cadastrar a informação normal e quando for puxar do banco realizar o cálculo
         // Validação de campos obrigatórios
-        if (!remuneracaoFixa || !remuneracaoVariavel || !criterioPorcentagem || !criterioUm || !criterioDois || !multiplicador || !timeID || !funcionarioId || !produtoID || !quantidadeProduto || !funilId) {
+        if (!campoFormatacao || !campoPorcento || !criterioUm || !criterioDois || !multiplicador || !selectedTime  || !selectedProduto || !selectFunil) {
             throw new Error("Todos os campos são obrigatórios!");
         }
         try {
             const createGrupo = await grupo.create({
-                timeID: timeID,
-                funcionarioId: funcionarioId, 
-                produtoID: produtoID,
-                quantidadeProduto: quantidadeProduto
+                timeID: selectedTime,
+                funcionarioId: selectFuncionario, 
+                produtoID: selectedProduto,
+                quantidadeProduto: quantidade
             });
             if (createGrupo) {
                 const createCriterio = await criterio.create({
                     criterioUm: criterioUm,
                     criterioDois: criterioDois,
                     multiplicadores: multiplicador,
-                    funilId: funilId
+                    funilId: selectFunil
                 });
                 if (createCriterio) {
                     const createRegra = await regra.create({
-                        remuneracaoFixa: remuneracaoFixa,
-                        remuneracaoVariavel: remuneracaoVariavel,
-                        criterioPorcentagem: criterioPorcentagem,
-                        grupoId: createGrupo.id,
-                        criterioId: createCriterio.id
+                        remuneracaoFixa: campoFormatacao,
+                        remuneracaoVariavel: campoVariavel,
+                        porcentagem: campoPorcento,
+                        grupoID: createGrupo.id,
+                        criterioID: createCriterio.id
                     });
                     return createRegra;
                 } else {
@@ -273,6 +275,80 @@ class RegraController {
             return vendasMensal;
         } catch (error) {
             console.error("Erro ao buscar dados das vendas mensal ->", error.message);
+        }
+    }    
+
+    async calculoOTE() {
+        try {
+            const criterioUm = await criterio.findAll({ attributes: ['id', 'criterioUm'] });
+            const criterioDois = await criterio.findAll({ attributes: ['id', 'criterioDois'] });
+
+            const criteriosIniciais = criterioUm.map(item => item.criterioUm); 
+            const criteriosSecundarios = criterioDois.map(item => item.criterioDois); 
+    
+            const timeID = await regra.findAll({
+                attributes: ['id', 'grupoID'],
+                include: [{
+                    model: grupo,
+                    required: false,  
+                    attributes: ['id', 'timeID'],
+                }]
+            });
+
+            const identificadoresTimes = timeID.map(item => {
+                return item.grupo ? item.grupo.timeID : null; 
+            }).filter(timeID => timeID !== null);
+
+            criteriosIniciais.forEach(criterioInicial => {
+                criteriosSecundarios.forEach(criterioSecundario => {
+                    identificadoresTimes.forEach(identificadorTime => {
+                        if (criterioInicial < 1000 && criterioSecundario === 1000 && identificadorTime === 5) {
+                            console.log('Aplicar a validação aqui [0]');
+                        } else if (criterioInicial < 1001 && criterioSecundario === 1500 && identificadorTime === 5) {
+                            console.log('Aplicar a validação aqui [0,3]');
+                        } else if (criterioInicial < 1501 && criterioSecundario === 1999 && identificadorTime === 5) {
+                            console.log('Aplicar a validação aqui [0,5]');
+                        } else if (criterioInicial < 2000 && criterioSecundario === 2499 && identificadorTime === 5) {
+                            console.log('Aplicar a validação aqui [0,6]');
+                        } else if (criterioInicial < 2500 && criterioSecundario === 2999 && identificadorTime === 5) {
+                            console.log('Aplicar a validação aqui [1,0]');
+                        } else if (criterioInicial < 3000 && criterioSecundario === 3999 && identificadorTime === 5) {
+                            console.log('Aplicar a validação aqui [1,5]');
+                        } else if (criterioInicial > 4000 && identificadorTime === 5) {
+                            console.log('Aplicar a validação aqui [1,7]');
+                        } else if (criterioInicial < 500 && criterioSecundario === 1000 && identificadorTime === 9 || identificadorTime === 10) {
+                            console.log('Aplicar a validação aqui [0,2]');
+                        } else if (criterioInicial < 1001 && criterioSecundario === 1500 && identificadorTime === 9 || identificadorTime === 10) {
+                            console.log('Aplicar a validação aqui [0,35]');
+                        } else if (criterioInicial < 1501 && criterioSecundario === 2000 && identificadorTime === 9 || identificadorTime === 10) {
+                            console.log('Aplicar a validação aqui [0,50]');
+                        } else if (criterioInicial < 2001 && criterioSecundario === 2500 && identificadorTime === 9 || identificadorTime === 10) {
+                            console.log('Aplicar a validação aqui [0,80]');
+                        } else if (criterioInicial < 2501 && criterioSecundario === 3000 && identificadorTime === 9 || identificadorTime === 10) {
+                            console.log('Aplicar a validação aqui [1,0]');
+                        } else if (criterioInicial > 3001 && identificadorTime === 9 || identificadorTime === 10) {
+                            console.log('Aplicar a validação aqui [1,1]');
+                        } else if (criterioInicial < 500 && criterioSecundario === 700 && identificadorTime === 0 ) {
+                            console.log('Aplicar a validação aqui [0,1]');
+                        } else if (criterioInicial < 701 && criterioSecundario === 900 && identificadorTime === 0 ) {
+                            console.log('Aplicar a validação aqui [0,2]');
+                        } else if (criterioInicial < 901 && criterioSecundario === 1200 && identificadorTime === 0 ) {
+                            console.log('Aplicar a validação aqui [0,4]');
+                        } else if (criterioInicial < 1201 && criterioSecundario === 1500 && identificadorTime === 0 ) {
+                            console.log('Aplicar a validação aqui [0,6]');
+                        } else if (criterioInicial < 1501 && criterioSecundario === 2000 && identificadorTime === 0 ) {
+                            console.log('Aplicar a validação aqui [0,7]');
+                        } else if (criterioInicial > 2001 && identificadorTime === 0 ) {
+                            console.log('Aplicar a validação aqui [0,8]');
+                        } else {
+                            console.log('caiu fora da validação')
+                        }
+                    });
+                });
+            });
+        } catch (e) {
+            console.error("Erro ->", e.message);
+            console.error("Detalhes ->", e);
         }
     }    
 }

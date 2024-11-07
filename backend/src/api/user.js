@@ -61,9 +61,9 @@ class UserApi {
         // cadastrar o 1º criterio, 2º criterio e o id do funil daquela criterio
         // em regra, cadastrar a remuneração fixa, a remuneração variável, a porcentagem, o id do critério e o id do grupo
         // cadastrar a informação normal e quando for puxar do banco realizar o cálculo
-        const { remuneracaoFixa, remuneracaoVariavel, criterioPorcentagem, criterioUm, criterioDois, multiplicador, timeID, funcionarioId, produtoID, quantidadeProduto, funilId } = req.body
+        const { campoFormatacao, campoVariavel, campoPorcento, criterioUm, criterioDois, multiplicador, selectFunil, selectedProduto, quantidade, selectedTime, selectFuncionario } = req.body
         try {
-            const regra = await RegraController.cadastroRegra(remuneracaoFixa, remuneracaoVariavel, criterioPorcentagem, criterioUm, criterioDois, multiplicador, timeID, funcionarioId, produtoID, quantidadeProduto, funilId)
+            const regra = await RegraController.cadastroRegra(campoFormatacao, campoVariavel, campoPorcento, criterioUm, criterioDois, multiplicador, selectFunil, selectedProduto, quantidade, selectedTime, selectFuncionario)
             return res.status(201).send(regra)
         } catch (e) {
             res.status(400).send({ error: e.message })
@@ -223,6 +223,16 @@ class UserApi {
             return res.status(200).send({vendasMensal})
         } catch (e) {
             console.log('Erro ao buscar vendas mensal [1] -> ', e);
+            res.status(400).send({ e: e.message });
+        }
+    }
+
+    async calculoOTE(req, res) {
+        try {
+            const resultadoOte = await RegraController.calculoOTE();
+            return res.status(200).send({resultadoOte}); 
+        } catch (e) {
+            console.log('Erro ao realizar os cáculos de OTE -> ', e);
             res.status(400).send({ e: e.message });
         }
     }

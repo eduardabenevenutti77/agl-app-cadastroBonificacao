@@ -10,15 +10,15 @@ class Criterio {
                 autoIncrement: true,
             },
             criterioUm: {
-                type: database.db.Sequelize.STRING
+                type: database.db.Sequelize.DECIMAL
             },
             criterioDois: {
-                type: database.db.Sequelize.STRING
+                type: database.db.Sequelize.DECIMAL
             },
             multiplicadores: {
                 type: database.db.Sequelize.FLOAT
             },
-            funilId: {
+            funilID: {
                 type: database.db.Sequelize.INTEGER,
                 references: {
                     model: "funis",
