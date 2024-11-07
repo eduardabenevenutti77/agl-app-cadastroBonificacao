@@ -263,7 +263,7 @@ class RegraController {
         try {
             const currentDate = new Date();
             const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-            const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0); // último dia do mês
+            const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0); 
     
             const vendasMensal = await regra.count({
                 where: {
