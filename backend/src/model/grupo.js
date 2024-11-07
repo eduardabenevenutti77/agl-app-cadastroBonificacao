@@ -1,7 +1,8 @@
 const database = require("../config/database")
-const timeID = require('../model/time')
 const produtoID = require('../model/produto')
 const funcionarioId = require('../model/funcionario')
+const timeID = require('../model/time')
+const funilId = require('../model/funil')
 
 class Grupo {
     constructor() {
@@ -28,8 +29,12 @@ class Grupo {
                     key: 'id'
                 }
             },
-            quantidadeProduto: {
+            funilID: {
                 type: database.db.Sequelize.INTEGER,
+                references: {
+                    model: "funis",
+                    key: 'id'
+                }
             },
         });
     }

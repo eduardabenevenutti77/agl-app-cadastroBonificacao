@@ -5,19 +5,19 @@ const produto = require('../model/produto');
 const time = require('../model/time');
 const funcionario = require('../model/funcionario');
 const grupo = require('../model/grupo');
-const criterio = require('../model/criterio');
+// const criterio = require('../model/criterio');
 const { Op } = require('sequelize');
 
-regra.belongsTo(grupo, { foreignKey: 'grupoID' });
+// regra.belongsTo(grupo, { foreignKey: 'grupoID' });
 
 class RegraController {
-    async cadastroRegra(campoFormatacao, campoVariavel, campoPorcento, criterioUm, criterioDois, multiplicador, selectFunil, selectedProduto, quantidade, selectedTime, selectFuncionario) {
+    async cadastroRegra(campoPorcento, criterioUm,  selectFunil, selectedProduto, quantidade, selectedTime, selectFuncionario) {
         // primeiro realizar o cadastro do grupo => id do time, id do funcionário e id do produto 
         // cadastrar o 1º criterio, 2º criterio e o id do funil daquela criterio
         // em regra, cadastrar a remuneração fixa, a remuneração variável, a porcentagem, o id do critério e o id do grupo
         // cadastrar a informação normal e quando for puxar do banco realizar o cálculo
         // Validação de campos obrigatórios
-        if (!campoFormatacao || !campoPorcento || !criterioUm || !criterioDois || !multiplicador || !selectedTime  || !selectedProduto || !selectFunil) {
+        if (!campoPorcento || !criterioUm || !selectedTime  || !selectedProduto || !selectFunil) {
             throw new Error("Todos os campos são obrigatórios!");
         }
         try {
@@ -28,24 +28,12 @@ class RegraController {
                 quantidadeProduto: quantidade
             });
             if (createGrupo) {
-                const createCriterio = await criterio.create({
-                    criterioUm: criterioUm,
-                    criterioDois: criterioDois,
-                    multiplicadores: multiplicador,
-                    funilId: selectFunil
-                });
-                if (createCriterio) {
                     const createRegra = await regra.create({
-                        remuneracaoFixa: campoFormatacao,
-                        remuneracaoVariavel: campoVariavel,
                         porcentagem: campoPorcento,
                         grupoID: createGrupo.id,
                         criterioID: createCriterio.id
                     });
                     return createRegra;
-                } else {
-                    console.log("Problema ao cadastrar critério, revise os dados e tente novamente!");
-                }
             } else {
                 console.log("Problema ao cadastrar grupo, revise os dados e tente novamente!");
             }
