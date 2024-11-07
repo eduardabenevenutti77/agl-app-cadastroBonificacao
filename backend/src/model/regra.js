@@ -1,5 +1,4 @@
 const database = require("../config/database")
-const criterioID = require("../model/criterio");
 const grupoID = require('../model/grupo')
 
 class Regra {
@@ -10,21 +9,11 @@ class Regra {
                 primaryKey: true,
                 autoIncrement: true,
             },
-            remuneracaoFixa: {
-                type: database.db.Sequelize.DECIMAL,
-            },
-            remuneracaoVariavel: {
+            criterio: {
                 type: database.db.Sequelize.DECIMAL,
             },
             porcentagem: {
                 type: database.db.Sequelize.DECIMAL,
-            },
-            criterioID: {
-                type: database.db.Sequelize.INTEGER,
-                references: {
-                    model: "criterios",
-                    key: 'id'
-                }
             },
             grupoID: {
                 type: database.db.Sequelize.INTEGER,

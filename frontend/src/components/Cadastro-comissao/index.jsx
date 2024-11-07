@@ -186,7 +186,7 @@ export default function Cadastrocomissao() {
     const removendoFormatacao = (campo) => {
         return campo.replace(/[^0-9]/g, '')
     }
-    const regra = { campoFormatacao: removendoFormatacao(campoFormatacao), campoVariavel: removendoFormatacao(campoVariavel), campoPorcento:  removendoFormatacao(campoPorcento), criterioUm: removendoFormatacao(criterioUm), criterioDois: removendoFormatacao(criterioDois), multiplicador: removendoFormatacao(multiplicador), selectFunil, selectFase, selectedProduto, quantidade, selectedTime, selectFuncionario};
+    const regra = { campoPorcento:  removendoFormatacao(campoPorcento), criterioUm: removendoFormatacao(criterioUm), selectFunil, selectFase, selectedProduto, quantidade, selectedTime, selectFuncionario};
     const handleSubmitForms = async (e) => {
         e.preventDefault();
         try {
@@ -199,7 +199,7 @@ export default function Cadastrocomissao() {
                 setCriterioDois('');
                 setCriterioUm('');
                 setMultiplicador('');
-                setQuantidade('');
+                setQuantidade('');  
             } else {
                 toast.error('Cadastro de comissão falhou!')
             }
@@ -207,7 +207,7 @@ export default function Cadastrocomissao() {
             console.log(e);
             if (e.status === 403) {
                 toast.dark("Sem permissão.");
-            } else if (!campoFormatacao || !campoPorcento || !criterioUm || !criterioDois || !multiplicador || !selectFunil || !selectFase || !selectedProduto || !selectedTime) {
+            } else if (!campoPorcento || !criterioUm || !selectFunil || !selectFase || !selectedProduto || !selectedTime) {
                 toast.info('Todos os campos obrigátorios precisam estar preenchidos para prosseguir com o cadastro.')
             } else {
                 toast.dark('Erro inesperado, tente novamente mais tarde!');
@@ -221,20 +221,9 @@ export default function Cadastrocomissao() {
                 <p className='title-cadastro'>Cadastro de Regra de Comissionamento</p>
                 <form>
                     <Grid container spacing={1}>
-                        <Grid item xs={12} sm={4}>
-                            <TextField label="Remuneração fixa *" variant="outlined" size="small" fullWidth margin="normal" value={campoFormatacao} onChange={handleChange} sx={{ '& .MuiInputLabel-root': { color: '#01638C' } }} />
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <TextField label="Remuneração variável" variant="outlined" size="small" fullWidth margin="normal" value={campoVariavel} onChange={handleChangeVariavel} />
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <TextField label="% por critério *" variant="outlined" size="small" fullWidth margin="normal" value={campoPorcento} onChange={handleChangePorcento} sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}/>
-                        </Grid>
-                    </Grid>
-                    {/* Campos duplicados: Critérios e Multiplicadores */}
                     {campos.map((campo, index) => (
                         <Grid container spacing={1} key={campo.id}>
-                            <Grid item xs={12} sm={4}>
+                            <Grid item xs={12} sm={6}>
                                 <TextField
                                     label={`Critério 01 (valor) ${index + 1} *`}
                                     variant="outlined"
@@ -246,32 +235,12 @@ export default function Cadastrocomissao() {
                                     sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <TextField
-                                    label={`Critério 02 (valor) ${index + 1} *`}
-                                    variant="outlined"
-                                    size="small"
-                                    fullWidth
-                                    margin="normal"
-                                    value={criterioDois}
-                                    onChange={handleChangeCriterioDois}
-                                    sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <TextField
-                                    label="Multiplicadores *"
-                                    variant="outlined"
-                                    size="small"
-                                    fullWidth
-                                    margin="normal"
-                                    value={multiplicador}
-                                    onChange={handleChangeMulti}
-                                    sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
-                                />
+                            <Grid item xs={12} sm={6}>
+                                <TextField label="% por critério *" variant="outlined" size="small" fullWidth margin="normal" value={campoPorcento} onChange={handleChangePorcento} sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}/>
                             </Grid>
                         </Grid>
                     ))}
+                    </Grid>
                     <Button onClick={remove} variant="contained" style={{ marginTop: '16px', marginLeft: '10px', borderRadius: '100px', backgroundColor: '#3D7992' }}>
                         -
                     </Button>
@@ -334,7 +303,7 @@ export default function Cadastrocomissao() {
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
-                                label="Selecione o produto *"
+                                label="Selecione o produto"
                                 variant="outlined"
                                 size="small"
                                 fullWidth
@@ -342,7 +311,6 @@ export default function Cadastrocomissao() {
                                 select
                                 value={selectedProduto || ''}
                                 onChange={(e) => setSelectedProduto(e.target.value)}
-                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
                             >
                                 <MenuItem value="">
                                     <em>Nenhum produto selecionado</em>
@@ -359,7 +327,7 @@ export default function Cadastrocomissao() {
                                 )}
                             </TextField>
                         </Grid>
-                        <Grid item xs={12} sm={4}>
+                        {/* <Grid item xs={12} sm={4}>
                             <TextField
                                 label="Quantidade de produto "
                                 variant="outlined"
@@ -369,7 +337,7 @@ export default function Cadastrocomissao() {
                                 value={quantidade}
                                 onChange={(e) => setQuantidade(e.target.value)}
                             />
-                        </Grid>
+                        </Grid> */}
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 label="Selecione o time *"

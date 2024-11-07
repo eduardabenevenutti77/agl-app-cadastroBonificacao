@@ -1,6 +1,6 @@
 const UserController = require('../controller/user');
 const RegraController = require('../controller/regra');
-const criterio = require('../model/criterio');
+// const criterio = require('../model/criterio');
 
 class UserApi {
     async createUser(req, res) {
