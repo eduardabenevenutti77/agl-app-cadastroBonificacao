@@ -1,8 +1,12 @@
 import { AuthContext } from "../../auth/Context";
 import { blockUser, findUser, unblock } from "../../api/user";
 import React, { useEffect, useState, useContext } from "react";
+// import CurrencyExchangeRoundedIcon from '@mui/icons-material/CurrencyExchangeRounded';
 import "./style-bloquear.css";
 import { toast } from "react-toastify";
+import blockIcon from "../../assets/svg/block.svg"
+import unblockIcon from "../../assets/svg/unblock.svg"
+import dolarIcon from "../../assets/svg/dollar.svg"
 
 export default function Bloquear() {
     const [users, setUsers] = useState([]);
@@ -87,8 +91,9 @@ export default function Bloquear() {
                                 <span className="user-name">{user.permissao}</span>
                             </div>
                             <div id="bloquearDisplay">
-                                <button className="Desbloquear" onClick={() => handleSubmitUnblock(user.id)}>Desbloquear Usuário</button>
-                                <button className="bloquear" onClick={() => handleSubmit(user.id)}>Bloquear Usuário</button>
+                                <button className="Desbloquear" onClick={() => handleSubmitUnblock(user.id)}><img src={unblockIcon} alt="" /></button>
+                                <button className="bloquear" onClick={() => handleSubmit(user.id)}><img src={blockIcon} alt="" /></button>
+                                <button className="remuneracao"><img src={dolarIcon} alt="" /></button>
                             </div>
                         </li>
                     ))

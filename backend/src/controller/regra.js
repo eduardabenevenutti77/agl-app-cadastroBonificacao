@@ -108,7 +108,7 @@ class RegraController {
                     const createFunil = await fase.create({
                         id: fases.id,
                         fase: fases.NAME || 'Unknow',
-                        funilId: idFunil
+                        funilID: idFunil
                     });
                     return createFunil;
                 })
