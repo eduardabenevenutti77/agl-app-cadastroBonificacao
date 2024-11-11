@@ -24,4 +24,6 @@ router.get('/getVendasMensal', UserApi.findVendasMensal);
 
 router.get('/calculoOTE', UserApi.calculoOTE);
 
+router.post('/cadastroFixa', UserApi.cadastroFixa);
+
 module.exports = router;

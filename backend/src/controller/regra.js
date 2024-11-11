@@ -7,6 +7,7 @@ const funcionario = require('../model/funcionario');
 const grupo = require('../model/grupo');
 // const criterio = require('../model/criterio');
 const { Op } = require('sequelize');
+const user = require("./user");
 
 // regra.belongsTo(grupo, { foreignKey: 'grupoID' });
 
@@ -23,15 +24,15 @@ class RegraController {
         try {
             const createGrupo = await grupo.create({
                 timeID: selectedTime,
-                funcionarioId: selectFuncionario, 
+                funcionarioID: selectFuncionario, 
                 produtoID: selectedProduto,
-                quantidadeProduto: quantidade
+                funilID: selectFunil
             });
             if (createGrupo) {
                     const createRegra = await regra.create({
+                        criterio: criterioUm,
                         porcentagem: campoPorcento,
                         grupoID: createGrupo.id,
-                        criterioID: createCriterio.id
                     });
                     return createRegra;
             } else {
@@ -50,6 +51,35 @@ class RegraController {
         }
     }
 
+    async cadastroFixa(id, remuneracaoFixa) {
+        if (!remuneracaoFixa) {
+            console.log('O campo de remuneração fixa não foi informado. Por favor, arrume este campo e continue o cadastro!');
+        }
+        try {
+            const findUser = await user.findByPk(id);
+            if (findUser !== null) {
+                console.log('Não foi possível achar usuário.');
+            } else {
+                const updateUser = {
+                    email: email,
+                    senha: senha,
+                    bloqueado: bloqueado,
+                    permissao: permissao,
+                    remuneracaoFixa: user.remuneracaoFixa
+                }
+                await user.update(updateUser);
+            }
+        } catch (e) {
+            if (e.name === 'SequelizeValidationError') {
+                const validationErrors = e.errors.map(err => err.message);
+                console.error('Erro de validação ao criar a regra:', validationErrors);
+                throw new Error(`Erro de validação: ${validationErrors.join(', ')}`);
+            } else {
+                console.error('Erro ao processar a criação da regra:', e);
+                throw new Error(`Erro ao processar a criação da regra: ${e.message}`);
+            }
+        }
+    }
 
     async findFunil() {
         const findAll = await funil.findAll();
@@ -243,7 +273,7 @@ class RegraController {
             const allProdutosVendidos = await grupo.sum('quantidadeProduto');
             return allProdutosVendidos;
         } catch (e) {
-            console.error("Erro ao buscar dados de produtos vendidos ->", error.message);
+            console.e("Erro ao buscar dados de produtos vendidos ->", error.message);
         }
     }
 

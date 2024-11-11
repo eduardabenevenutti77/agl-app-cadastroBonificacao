@@ -44,3 +44,8 @@ export const cadastroRegra = async (regra) => {
     const response = await api.post(`/api/v1/user/cadastroRegra`, regra)
     return response.data
 }
+
+export const cadastroFixa = async (regra) => {
+    const response = await api.post(`/api/v1/regra/cadastroFixa`, regra);
+    return response.data
+}

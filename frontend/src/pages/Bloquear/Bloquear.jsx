@@ -1,16 +1,19 @@
 import { AuthContext } from "../../auth/Context";
 import { blockUser, findUser, unblock } from "../../api/user";
 import React, { useEffect, useState, useContext } from "react";
-// import CurrencyExchangeRoundedIcon from '@mui/icons-material/CurrencyExchangeRounded';
-import "./style-bloquear.css";
 import { toast } from "react-toastify";
-import blockIcon from "../../assets/svg/block.svg"
-import unblockIcon from "../../assets/svg/unblock.svg"
-import dolarIcon from "../../assets/svg/dollar.svg"
+import blockIcon from "../../assets/svg/block.svg";
+import unblockIcon from "../../assets/svg/unblock.svg";
+import dolarIcon from "../../assets/svg/dollar.svg";
+import { cadastroFixa } from "../../api/regra";
+import "./style-bloquear.css";
 
 export default function Bloquear() {
     const [users, setUsers] = useState([]);
     const { token, userId } = useContext(AuthContext); 
+    const [remuneracaoFixa, setRemuneracaoFixa] = useState('');
+    const [showForm, setShowForm] = useState(false);
+    const [currentUserId, setCurrentUserId] = useState(null);
 
     const handleSubmit = async (id) => {
         try {
@@ -26,12 +29,8 @@ export default function Bloquear() {
                 toast.error("Erro ao bloquear o usuário. [1]");
             }
         } catch (error) {
-            if (error.response && error.response.status === 403) {
-                toast.error("Sem permissão.");
-            } else {
-                toast.error("Erro ao bloquear o usuário. [2]");
-            }
-            console.log(error)
+            toast.error("Erro ao bloquear o usuário.");
+            console.error(error);
         }
     };
 
@@ -49,11 +48,28 @@ export default function Bloquear() {
                 toast.error("Erro ao desbloquear o usuário.");
             }
         } catch (error) {
-            if (error.response && error.response.status === 403) {
-                toast.error("Sem permissão.");
+            toast.error("Erro ao desbloquear o usuário.");
+        }
+    };
+
+    const handleUpdateClick = (id) => {
+        setCurrentUserId(id);
+        setShowForm(true); // Exibe o formulário ao clicar no botão
+    };
+
+    const handleUpdate = async () => {
+        try {
+            const response = await cadastroFixa(currentUserId, remuneracaoFixa);
+            if (response.message) {
+                console.log('Cadastro de remuneração realizado com sucesso');
+                toast.success('Cadastro de remuneração fixa realizado com sucesso!');
+                setShowForm(false); // Esconde o formulário após o envio
+                setRemuneracaoFixa('');
             } else {
-                toast.error("Erro ao desbloquear o usuário.");
+                toast.warning('O cadastro não foi concluído com sucesso.');
             }
+        } catch (error) {
+            toast.error("Erro ao atualizar a remuneração.");
         }
     };
 
@@ -62,16 +78,18 @@ export default function Bloquear() {
             if (!token) return;
             try {
                 const data = await findUser();
-                console.log(data);
                 const filteredUsers = data.filter(user => user.id !== userId);
-                setUsers(filteredUsers);
+                const roleUser = filteredUsers.filter(user => user.permissao === 'user');
+                setUsers(roleUser);
             } catch (error) {
-                console.error("Erro ao buscar usuários:", error.response?.data || error.message);
                 alert("Não foi possível carregar os usuários.");
             }
         };
         fetchUsers();
     }, [token, userId]);
+
+    // Encontra o usuário atual a ser editado
+    const currentUser = users.find(user => user.id === currentUserId);
 
     return (
         <div id="containerBloquear">
@@ -91,9 +109,9 @@ export default function Bloquear() {
                                 <span className="user-name">{user.permissao}</span>
                             </div>
                             <div id="bloquearDisplay">
-                                <button className="Desbloquear" onClick={() => handleSubmitUnblock(user.id)}><img src={unblockIcon} alt="" /></button>
-                                <button className="bloquear" onClick={() => handleSubmit(user.id)}><img src={blockIcon} alt="" /></button>
-                                <button className="remuneracao"><img src={dolarIcon} alt="" /></button>
+                                <button className="Desbloquear" onClick={() => handleSubmitUnblock(user.id)}><img src={unblockIcon} alt="Desbloquear" /></button>
+                                <button className="bloquear" onClick={() => handleSubmit(user.id)}><img src={blockIcon} alt="Bloquear" /></button>
+                                <button className="remuneracao" onClick={() => handleUpdateClick(user.id)}><img src={dolarIcon} alt="Atualizar Remuneração" /></button>
                             </div>
                         </li>
                     ))
@@ -101,6 +119,22 @@ export default function Bloquear() {
                     <li className="no-users">Nenhum usuário encontrado.</li>
                 )}
             </ul>
+
+            {/* Exibe o formulário para atualizar a remuneração fixa */}
+            {showForm && currentUser && (
+                <div id="updateForm">
+                    <p id="titleUpdate">Remuneração - {currentUser.email}</p>
+                    <input
+                        // type="number"
+                        id="remuneracao"
+                        value={remuneracaoFixa}
+                        onChange={(e) => setRemuneracaoFixa(e.target.value)}
+                        placeholder="remuneração fixa"
+                    />
+                    <button onClick={handleUpdate}>Salvar</button>
+                    <button onClick={() => setShowForm(false)}>Cancelar</button>
+                </div>
+            )}
         </div>
     );
 }

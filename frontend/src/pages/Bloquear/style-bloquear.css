@@ -135,3 +135,28 @@
   font-optical-sizing: auto;
   font-style: normal;
 }
+#updateForm {
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 4px;
+    width: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* gap: 15px; */
+    margin-bottom: 25px;
+}
+#titleUpdate {
+    font-family: 'Lexend Deca';
+    margin-right: 10px;
+    color: #336b91;
+    font-weight: 400;
+    font-size: 14px;
+}
+#remuneracao {
+    border-radius: 5px;
+    border: 1px solid #d3d3d3;
+}
+#remuneracao:active, #remuneracao:hover{
+    border: none;
+}
