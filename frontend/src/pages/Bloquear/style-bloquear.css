@@ -136,27 +136,55 @@
   font-style: normal;
 }
 #updateForm {
-    background-color: #e9ecef;
-    padding: 15px;
-    border-radius: 4px;
-    width: 600px;
+    background-color: #f8f9fa; /* cor de fundo mais clara para um visual empresarial */
+    padding: 20px;
+    border-radius: 8px; /* borda mais suave */
+    width: 100%;
+    max-width: 600px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    /* gap: 15px; */
-    margin-bottom: 25px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px; /* espaçamento consistente entre os elementos */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* sombra suave para destacar o formulário */
+    margin-bottom: 30px;
 }
+
 #titleUpdate {
-    font-family: 'Lexend Deca';
-    margin-right: 10px;
-    color: #336b91;
-    font-weight: 400;
-    font-size: 14px;
+    font-family: 'Lexend Deca', sans-serif;
+    color: #2c3e50; /* tom mais escuro para maior legibilidade */
+    font-weight: 500; /* leve ênfase para o título */
+    font-size: 16px;
+    margin-bottom: 10px;
+    text-align: center; /* centraliza o título para uma aparência mais equilibrada */
 }
+
 #remuneracao {
-    border-radius: 5px;
-    border: 1px solid #d3d3d3;
+    border-radius: 4px;
+    margin-left: 45px;
+    /* justify-content: center; */
+    border: 1px solid #ced4da; /* cor da borda mais sutil */
+    padding: 8px;
+    transition: border-color 0.3s ease; /* animação suave ao foco */
+    width: 500px; /* largura total para alinhar com outros campos */
 }
-#remuneracao:active, #remuneracao:hover{
+
+#remuneracao:focus, #remuneracao:hover {
+    border-color: #336b91; /* borda em azul suave ao focar */
+    outline: none; /* remove o outline padrão para um visual mais limpo */
+}
+#save {
+    background-color: #497148;
     border: none;
+    border-radius: 4px;
+    padding: 5px;
+    color: #fff;
+    font-family: "Lexend Deca";
+}
+#delete {
+    background-color: #721616;
+    border: none;
+    border-radius: 4px;
+    padding: 5px;
+    color: #fff;
+    font-family: "Lexend Deca";
 }

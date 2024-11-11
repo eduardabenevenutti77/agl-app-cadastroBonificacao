@@ -129,10 +129,10 @@ export default function Bloquear() {
                         id="remuneracao"
                         value={remuneracaoFixa}
                         onChange={(e) => setRemuneracaoFixa(e.target.value)}
-                        placeholder="remuneração fixa"
+                        placeholder="Informe o valor a ser cadastrado"
                     />
-                    <button onClick={handleUpdate}>Salvar</button>
-                    <button onClick={() => setShowForm(false)}>Cancelar</button>
+                    <button id="save" onClick={handleUpdate}>Salvar</button>
+                    <button id="delete" onClick={() => setShowForm(false)}>Cancelar</button>
                 </div>
             )}
         </div>
