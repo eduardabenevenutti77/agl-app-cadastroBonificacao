@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow-x: hidden; 
 }
 #titleBloquear {
     color: black;
@@ -40,12 +41,12 @@
     background-color: rgba(255, 0, 0, 0.1); 
     color: #ff0000; 
 }
-.user-name {
+.user-remuneracao {
     font-weight:600;
     color: #4f4f50; 
     font-size: 0.8rem; 
     font-family: "Jost";
-    margin-left: 5px;
+    /* margin-left: 5px; */
 }
 .user-email {
     color: #01638c; 
@@ -60,29 +61,157 @@
     font-family: "Jost";
 }
 #bloquearDisplay {
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 }
 .bloquear {
     border: none;
-    padding: 5px;
-    font-family: "Jost";
-    border-radius: 4px;
+    padding: 8px 12px;
+    font-family: "Jost", sans-serif;
+    border-radius: 8px;
     background-color: #571010;
     color: #f2f2f2;
-    font-weight: 400;
+    font-weight: 500;
     margin-left: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bloquear:hover {
+    background-color: #3e0c0c;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 .Desbloquear {
     border: none;
-    padding: 5px;
-    font-family: "Jost";
-    border-radius: 4px;
+    padding: 8px 12px;
+    font-family: "Jost", sans-serif;
+    border-radius: 8px;
     background-color: #5b865a;
     color: #f2f2f2;
-    font-weight: 400;
+    font-weight: 500;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Desbloquear:hover {
+    background-color: #497148;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+.remuneracao {
+    border: none;
+    padding: 8px 12px;
+    font-family: "Jost", sans-serif;
+    border-radius: 8px;
+    background-color: #4083b7;
+    color: #f2f2f2;
+    font-weight: 500;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.remuneracao:hover {
+    background-color: #336b91;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+.remuneracao img, .Desbloquear img, .bloquear img {
+    width: 20px;
+    height: 20px;
 }
 .lexend-deca {
   font-family: "Lexend Deca", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
+}
+#updateForm {
+    background-color: #f8f9fa; 
+    padding: 20px;
+    border-radius: 8px; 
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    margin-bottom: 30px;
+}
+#titleUpdate {
+    font-family: 'Lexend Deca', sans-serif;
+    color: #2c3e50; 
+    font-weight: 500; 
+    font-size: 16px;
+    margin-bottom: 10px;
+    text-align: center; 
+    margin-top: 0px;
+}
+#remuneracao {
+    border-radius: 4px;
+    margin-left: 45px;
+    /* justify-content: center; */
+    border: 1px solid #ced4da; 
+    padding: 8px;
+    transition: border-color 0.3s ease; 
+    width: 500px; 
+}
+#remuneracao:focus, #remuneracao:hover {
+    border-color: #336b91; 
+    outline: none; 
+}
+#save {
+    background-color: #497148;
+    border: none;
+    border-radius: 4px;
+    padding: 5px;
+    color: #fff;
+    width: 200px;
+    font-family: "Lexend Deca";
+}
+#save:hover {
+    background-color: #497148;
+    transform: scale(1.0);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+#delete {
+    background-color: #721616;
+    border: none;
+    border-radius: 4px;
+    padding: 5px;
+    color: #fff;
+    width: 200px;
+    font-family: "Lexend Deca";
+}
+#delete:hover {
+    background-color: #721616;
+    transform: scale(1.0);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+#displayButton {
+    display: flex;
+    justify-content: center; 
+    gap: 5px;
+}
+#closeRemuneracao {
+    border: none;
+    width: 30px;
+    color: #ebebeb;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: #610b0bbd;
+    border-radius: 80px;
+    margin-bottom: 0px;
+    /* text-align: right; */
 }

@@ -5,10 +5,13 @@ const produto = require('../model/produto');
 const time = require('../model/time');
 const funcionario = require('../model/funcionario');
 const grupo = require('../model/grupo');
+const user = require('../model/user');
 // const criterio = require('../model/criterio');
 const { Op } = require('sequelize');
+// const user = require("./user");
 
 // regra.belongsTo(grupo, { foreignKey: 'grupoID' });
+grupo.belongsTo(funil, { foreignKey: 'funilID' });
 
 class RegraController {
     async cadastroRegra(campoPorcento, criterioUm,  selectFunil, selectedProduto, quantidade, selectedTime, selectFuncionario) {
@@ -23,15 +26,15 @@ class RegraController {
         try {
             const createGrupo = await grupo.create({
                 timeID: selectedTime,
-                funcionarioId: selectFuncionario, 
+                funcionarioID: selectFuncionario, 
                 produtoID: selectedProduto,
-                quantidadeProduto: quantidade
+                funilID: selectFunil
             });
             if (createGrupo) {
                     const createRegra = await regra.create({
+                        criterio: criterioUm,
                         porcentagem: campoPorcento,
                         grupoID: createGrupo.id,
-                        criterioID: createCriterio.id
                     });
                     return createRegra;
             } else {
@@ -50,6 +53,51 @@ class RegraController {
         }
     }
 
+    async cadastroFixa(remuneracaoFixa, userId) {
+        console.log('bateu aqui - controller');
+        if (!remuneracaoFixa) {
+            console.log('O campo de remuneração fixa não foi informado. Por favor, arrume este campo e continue o cadastro!');
+            throw new Error('Remuneração fixa não informada.');
+        }
+        console.log('Remuneração:', remuneracaoFixa);
+    
+        try {
+            userId = parseInt(userId, 10); 
+            console.log(`Buscando usuário com ID: ${userId}`);
+    
+            const findUser = await user.findByPk(userId);
+            if (!findUser) {
+                console.log('Usuário não encontrado para o ID:', userId);
+                throw new Error('Usuário não encontrado.');
+            } else {
+                const updateUser = {
+                    remuneracaoFixa 
+                };
+    
+                const [updatedRows] = await user.update(updateUser, {
+                    where: { id: userId }
+                });
+    
+                if (updatedRows === 0) {
+                    console.log('Nenhuma linha foi atualizada. Verifique o userId ou os dados.');
+                } else {
+                    console.log('Remuneração fixa atualizada com sucesso!');
+                }
+    
+                return 'Remuneração fixa atualizada com sucesso!';
+            }
+        } catch (e) {
+            if (e.name === 'SequelizeValidationError') {
+                const validationErrors = e.errors.map(err => err.message);
+                console.error('Erro de validação ao atualizar a remuneração fixa:', validationErrors);
+                throw new Error(`Erro de validação: ${validationErrors.join(', ')}`);
+            } else {
+                console.error('Erro ao processar a atualização:', e);
+                throw new Error(`Erro ao processar a atualização: ${e.message}`);
+            }
+        }
+    }
+    
 
     async findFunil() {
         const findAll = await funil.findAll();
@@ -108,7 +156,7 @@ class RegraController {
                     const createFunil = await fase.create({
                         id: fases.id,
                         fase: fases.NAME || 'Unknow',
-                        funilId: idFunil
+                        funilID: idFunil
                     });
                     return createFunil;
                 })
@@ -240,13 +288,16 @@ class RegraController {
 
     async findProdutosVendidos() {
         try {
-            const allProdutosVendidos = await grupo.sum('quantidadeProduto');
+            const allProdutosVendidos = await grupo.count({
+                distinct: true,
+                col: 'funcionarioID' // Corrigido: use 'col' em vez de 'column'
+            });
             return allProdutosVendidos;
         } catch (e) {
-            console.error("Erro ao buscar dados de produtos vendidos ->", error.message);
+            console.error("Erro ao buscar dados de produtos vendidos ->", e.message);
         }
     }
-
+    
     async findVendasMensal() {
         try {
             const currentDate = new Date();
@@ -339,6 +390,44 @@ class RegraController {
             console.error("Detalhes ->", e);
         }
     }    
+
+    async chartsFunil() {
+        try {
+            // Primeiro, obtemos todos os registros de 'grupos' e 'funis'
+            const grupos = await grupo.findAll(); // ou algum método para buscar grupos
+            const funis = await funil.findAll();  // ou algum método para buscar funis
+    
+            // Cria um mapa para relacionar funilID com o nome do funil
+            const funisMap = funis.reduce((acc, funil) => {
+                acc[funil.id] = funil.funil;
+                return acc;
+            }, {});
+    
+            // Conta a ocorrência de cada funilID em grupos
+            const funilContagem = grupos.reduce((acc, grupo) => {
+                const funilID = grupo.funilID;
+                const nomeFunil = funisMap[funilID] || "Desconhecido";
+                
+                if (!acc[funilID]) {
+                    acc[funilID] = { nome: nomeFunil, totalGrupos: 0 };
+                }
+                acc[funilID].totalGrupos += 1;
+    
+                return acc;
+            }, {});
+    
+            // Converte o resultado em um array
+            const resultado = Object.values(funilContagem);
+            
+            return resultado; // Retorna a lista com os nomes dos funis e a contagem de grupos
+        } catch (error) {
+            console.error("Erro ao buscar dados de produtos vendidos ->", error.message);
+        }
+    }
+    
+    
+    
+    
 }
 
 function delay(ms) {

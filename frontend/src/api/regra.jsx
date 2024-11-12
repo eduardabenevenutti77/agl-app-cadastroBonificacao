@@ -44,3 +44,14 @@ export const cadastroRegra = async (regra) => {
     const response = await api.post(`/api/v1/user/cadastroRegra`, regra)
     return response.data
 }
+
+export const cadastroFixa = async ({remuneracaoFixa, userId}) => {
+    console.log('Dado recebido: ', {remuneracaoFixa, userId});
+    const response = await api.put(`/api/v1/regra/put/cadastroFixa/${userId}`, {remuneracaoFixa: remuneracaoFixa});
+    return response.data
+}
+
+export const chartFunil = async () => {
+    const response = await api.get('/api/v1/regra/chartFunil');
+    return response.data
+}
