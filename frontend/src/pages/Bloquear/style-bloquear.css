@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow-x: hidden; 
 }
 #titleBloquear {
     color: black;
@@ -40,12 +41,12 @@
     background-color: rgba(255, 0, 0, 0.1); 
     color: #ff0000; 
 }
-.user-name {
+.user-remuneracao {
     font-weight:600;
     color: #4f4f50; 
     font-size: 0.8rem; 
     font-family: "Jost";
-    margin-left: 5px;
+    /* margin-left: 5px; */
 }
 .user-email {
     color: #01638c; 
@@ -136,41 +137,39 @@
   font-style: normal;
 }
 #updateForm {
-    background-color: #f8f9fa; /* cor de fundo mais clara para um visual empresarial */
+    background-color: #f8f9fa; 
     padding: 20px;
-    border-radius: 8px; /* borda mais suave */
+    border-radius: 8px; 
     width: 100%;
     max-width: 600px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 15px; /* espaçamento consistente entre os elementos */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* sombra suave para destacar o formulário */
+    gap: 15px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     margin-bottom: 30px;
 }
-
 #titleUpdate {
     font-family: 'Lexend Deca', sans-serif;
-    color: #2c3e50; /* tom mais escuro para maior legibilidade */
-    font-weight: 500; /* leve ênfase para o título */
+    color: #2c3e50; 
+    font-weight: 500; 
     font-size: 16px;
     margin-bottom: 10px;
-    text-align: center; /* centraliza o título para uma aparência mais equilibrada */
+    text-align: center; 
+    margin-top: 0px;
 }
-
 #remuneracao {
     border-radius: 4px;
     margin-left: 45px;
     /* justify-content: center; */
-    border: 1px solid #ced4da; /* cor da borda mais sutil */
+    border: 1px solid #ced4da; 
     padding: 8px;
-    transition: border-color 0.3s ease; /* animação suave ao foco */
-    width: 500px; /* largura total para alinhar com outros campos */
+    transition: border-color 0.3s ease; 
+    width: 500px; 
 }
-
 #remuneracao:focus, #remuneracao:hover {
-    border-color: #336b91; /* borda em azul suave ao focar */
-    outline: none; /* remove o outline padrão para um visual mais limpo */
+    border-color: #336b91; 
+    outline: none; 
 }
 #save {
     background-color: #497148;
@@ -178,7 +177,13 @@
     border-radius: 4px;
     padding: 5px;
     color: #fff;
+    width: 200px;
     font-family: "Lexend Deca";
+}
+#save:hover {
+    background-color: #497148;
+    transform: scale(1.0);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 #delete {
     background-color: #721616;
@@ -186,5 +191,27 @@
     border-radius: 4px;
     padding: 5px;
     color: #fff;
+    width: 200px;
     font-family: "Lexend Deca";
+}
+#delete:hover {
+    background-color: #721616;
+    transform: scale(1.0);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+#displayButton {
+    display: flex;
+    justify-content: center; 
+    gap: 5px;
+}
+#closeRemuneracao {
+    border: none;
+    width: 30px;
+    color: #ebebeb;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: #610b0bbd;
+    border-radius: 80px;
+    margin-bottom: 0px;
+    /* text-align: right; */
 }

@@ -14,6 +14,8 @@ export default function Bloquear() {
     const [remuneracaoFixa, setRemuneracaoFixa] = useState('');
     const [showForm, setShowForm] = useState(false);
     const [currentUserId, setCurrentUserId] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
+    // const location = useLocation();
 
     const handleSubmit = async (id) => {
         try {
@@ -26,7 +28,7 @@ export default function Bloquear() {
                     )
                 );
             } else {
-                toast.error("Erro ao bloquear o usuário. [1]");
+                toast.error("Erro ao bloquear o usuário.");
             }
         } catch (error) {
             toast.error("Erro ao bloquear o usuário.");
@@ -54,23 +56,55 @@ export default function Bloquear() {
 
     const handleUpdateClick = (id) => {
         setCurrentUserId(id);
-        setShowForm(true); // Exibe o formulário ao clicar no botão
+        setShowForm(true);
+        setIsOpen(true);
+    };
+
+    const formatCurrency = (value) => {
+        const numericValue = parseFloat(value.replace(/[^\d]/g, "")) / 100;
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+        }).format(numericValue);
+    };
+
+    const handleFormatacaoFixa = (e) => {
+        const valor = e.target.value.replace(/[^0-9]/g, '');
+        setRemuneracaoFixa(formatCurrency(valor));
     };
 
     const handleUpdate = async () => {
         try {
-            const response = await cadastroFixa(currentUserId, remuneracaoFixa);
+            const cleanedRemuneracaoFixa = remuneracaoFixa
+                .replace('R$', '')     
+                .replace(/\./g, '')    
+                .replace(',', '.');    
+    
+            const value = parseFloat(cleanedRemuneracaoFixa);
+    
+            if (isNaN(value)) {
+                toast.error('O valor da remuneração fixa é inválido!');
+                return;
+            }
+    
+            const response = await cadastroFixa({ remuneracaoFixa: value, userId: currentUser.id });
+            
             if (response.message) {
                 console.log('Cadastro de remuneração realizado com sucesso');
                 toast.success('Cadastro de remuneração fixa realizado com sucesso!');
-                setShowForm(false); // Esconde o formulário após o envio
-                setRemuneracaoFixa('');
-            } else {
-                toast.warning('O cadastro não foi concluído com sucesso.');
-            }
+                setShowForm(false);
+                setIsOpen(false); 
+                setRemuneracaoFixa('');  
+            } 
         } catch (error) {
             toast.error("Erro ao atualizar a remuneração.");
         }
+    };
+    
+    
+    const closeRemuneracao = () => {
+        setIsOpen(false);
+        setShowForm(false); 
     };
 
     useEffect(() => {
@@ -80,7 +114,13 @@ export default function Bloquear() {
                 const data = await findUser();
                 const filteredUsers = data.filter(user => user.id !== userId);
                 const roleUser = filteredUsers.filter(user => user.permissao === 'user');
-                setUsers(roleUser);
+                
+                const formattedUsers = roleUser.map(user => ({
+                    ...user,
+                    remuneracaoFixa: formatCurrency(user.remuneracaoFixa.toString())
+                }));
+
+                setUsers(formattedUsers);
             } catch (error) {
                 alert("Não foi possível carregar os usuários.");
             }
@@ -88,7 +128,6 @@ export default function Bloquear() {
         fetchUsers();
     }, [token, userId]);
 
-    // Encontra o usuário atual a ser editado
     const currentUser = users.find(user => user.id === currentUserId);
 
     return (
@@ -105,8 +144,9 @@ export default function Bloquear() {
                             className={`user-item ${user.bloqueado ? 'blocked' : ''}`}
                         >
                             <div id="span">
-                                <span className="user-email">{user.email}</span>
-                                <span className="user-name">{user.permissao}</span>
+                                <span className="user-email">{user.email} | </span>
+                                {/* <span className="user-name">{user.permissao}</span> */}
+                                <span className="user-remuneracao">{user.remuneracaoFixa}</span>
                             </div>
                             <div id="bloquearDisplay">
                                 <button className="Desbloquear" onClick={() => handleSubmitUnblock(user.id)}><img src={unblockIcon} alt="Desbloquear" /></button>
@@ -120,19 +160,20 @@ export default function Bloquear() {
                 )}
             </ul>
 
-            {/* Exibe o formulário para atualizar a remuneração fixa */}
-            {showForm && currentUser && (
+            {showForm && currentUser && isOpen && (
                 <div id="updateForm">
-                    <p id="titleUpdate">Remuneração - {currentUser.email}</p>
+                    <button id="closeRemuneracao" onClick={closeRemuneracao}>x</button>
+                    <p id="titleUpdate">Remuneração: {currentUser.email}</p>
                     <input
-                        // type="number"
                         id="remuneracao"
                         value={remuneracaoFixa}
-                        onChange={(e) => setRemuneracaoFixa(e.target.value)}
+                        onChange={handleFormatacaoFixa}
                         placeholder="Informe o valor a ser cadastrado"
                     />
-                    <button id="save" onClick={handleUpdate}>Salvar</button>
-                    <button id="delete" onClick={() => setShowForm(false)}>Cancelar</button>
+                    <div id="displayButton">
+                        <button id="save" onClick={handleUpdate}>Salvar</button>
+                        <button id="delete" onClick={closeRemuneracao}>Cancelar</button>
+                    </div>
                 </div>
             )}
         </div>

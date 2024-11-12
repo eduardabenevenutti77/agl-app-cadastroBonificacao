@@ -237,12 +237,16 @@ class UserApi {
         }
     }
 
-    async cadastroFixa(req, res) {
+    async cadastroFixa(req, res, next) {
         try {
-            const result = await RegraController.cadastroFixa(id, remuneracaoFixa);
+            console.log(req.body)
+            console.log('bateu aqui - api')
+            const {remuneracaoFixa} = req.body;
+            const {userId} = req.params;
+            const result = await RegraController.cadastroFixa(remuneracaoFixa, userId);
             return res.status(200).send({result});
         } catch (e) {
-            console.log('Erro ao cadastrar a remuneração fixa do usuário -> ', e);
+            console.log('Erro ao cadastrar a remuneração fixa do usuário -> ', e.message);
             res.status(400).send({e: e.message});
         }
     }

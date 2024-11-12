@@ -5,9 +5,10 @@ const produto = require('../model/produto');
 const time = require('../model/time');
 const funcionario = require('../model/funcionario');
 const grupo = require('../model/grupo');
+const user = require('../model/user');
 // const criterio = require('../model/criterio');
 const { Op } = require('sequelize');
-const user = require("./user");
+// const user = require("./user");
 
 // regra.belongsTo(grupo, { foreignKey: 'grupoID' });
 
@@ -51,35 +52,51 @@ class RegraController {
         }
     }
 
-    async cadastroFixa(id, remuneracaoFixa) {
+    async cadastroFixa(remuneracaoFixa, userId) {
+        console.log('bateu aqui - controller');
         if (!remuneracaoFixa) {
             console.log('O campo de remuneração fixa não foi informado. Por favor, arrume este campo e continue o cadastro!');
+            throw new Error('Remuneração fixa não informada.');
         }
+        console.log('Remuneração:', remuneracaoFixa);
+    
         try {
-            const findUser = await user.findByPk(id);
-            if (findUser !== null) {
-                console.log('Não foi possível achar usuário.');
+            userId = parseInt(userId, 10); 
+            console.log(`Buscando usuário com ID: ${userId}`);
+    
+            const findUser = await user.findByPk(userId);
+            if (!findUser) {
+                console.log('Usuário não encontrado para o ID:', userId);
+                throw new Error('Usuário não encontrado.');
             } else {
                 const updateUser = {
-                    email: email,
-                    senha: senha,
-                    bloqueado: bloqueado,
-                    permissao: permissao,
-                    remuneracaoFixa: user.remuneracaoFixa
+                    remuneracaoFixa 
+                };
+    
+                const [updatedRows] = await user.update(updateUser, {
+                    where: { id: userId }
+                });
+    
+                if (updatedRows === 0) {
+                    console.log('Nenhuma linha foi atualizada. Verifique o userId ou os dados.');
+                } else {
+                    console.log('Remuneração fixa atualizada com sucesso!');
                 }
-                await user.update(updateUser);
+    
+                return 'Remuneração fixa atualizada com sucesso!';
             }
         } catch (e) {
             if (e.name === 'SequelizeValidationError') {
                 const validationErrors = e.errors.map(err => err.message);
-                console.error('Erro de validação ao criar a regra:', validationErrors);
+                console.error('Erro de validação ao atualizar a remuneração fixa:', validationErrors);
                 throw new Error(`Erro de validação: ${validationErrors.join(', ')}`);
             } else {
-                console.error('Erro ao processar a criação da regra:', e);
-                throw new Error(`Erro ao processar a criação da regra: ${e.message}`);
+                console.error('Erro ao processar a atualização:', e);
+                throw new Error(`Erro ao processar a atualização: ${e.message}`);
             }
         }
     }
+    
 
     async findFunil() {
         const findAll = await funil.findAll();

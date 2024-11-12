@@ -80,7 +80,7 @@ class UserController {
     async find() {
         try {
             const response = await userModel.findAll();
-            console.log("Dados recebidos -> ", response);
+            // console.log("Dados recebidos -> ", response);
             return response
         } catch (e) {
             console.log("deu pau aqui -> ", e)
