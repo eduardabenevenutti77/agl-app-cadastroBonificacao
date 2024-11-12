@@ -1,34 +1,37 @@
 #position-login {
     display: flex;
     justify-content: center;
-    align-items: center; 
-    height: 100vh; 
+    align-items: center;
+    height: 100vh;
     width: 100%;
     background-color: #51bdeb;
 }
+
 #login {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     background-color: #FBFBFB;
     width: 705px;
     height: 500px;
     border-radius: 24px;
 }
+
 #login-title {
     font-weight: bold;
     color: #0081B8;
-    font-family: "Lexend Deca"; 
-    /* text-transform: uppercase; */
-    font-size: 30px; 
+    font-family: "Lexend Deca";
+    font-size: 30px;
     margin-bottom: 20px;
-    text-align: center; 
+    text-align: center;
     background-color: #FBFBFB;
     margin-top: 60px;
 }
+
 #campos {
     margin-left: 40px;
     background-color: #FBFBFB;
 }
+
 .campo {
     font-weight: 600;
     color: #5B5B5B;
@@ -36,11 +39,13 @@
     font-size: 18px;
     background-color: #FBFBFB;
 }
+
 .khula-bold {
-  font-family: "Khula", sans-serif;
-  font-weight: 700;
-  font-style: normal;
+    font-family: "Khula", sans-serif;
+    font-weight: 700;
+    font-style: normal;
 }
+
 .email {
     background-color: #FBFBFB;
     width: 600px;
@@ -54,6 +59,7 @@
     letter-spacing: 1px;
     font-weight: 400;
 }
+
 .senha {
     background-color: #FBFBFB;
     width: 550px;
@@ -65,8 +71,9 @@
     font-family: "Jost";
     color: #024b6a;
     letter-spacing: 1px;
-    font-weight: 400; 
+    font-weight: 400;
 }
+
 ::placeholder {
     font-weight: 190;
     font-family: "Jost";
@@ -74,12 +81,14 @@
     padding: 5px;
     font-size: 14px;
 }
+
 #button {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 25px;
 }
+
 #acesso {
     width: 300px;
     height: 40px;
@@ -91,6 +100,7 @@
     font-weight: 500;
     font-size: 18px;
 }
+
 #cadastro-link {
     text-align: center;
     font-family: "Jost";
@@ -99,67 +109,81 @@
     color: #0081B8;
     margin-bottom: 0;
 }
+
 .input-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 15px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
+
 .logo-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
 .logo-container img {
-  width: 150px; 
-  height: auto; 
+    width: 150px;
+    height: auto;
 }
+
 #error-text {
     color: #c45476;
     font-weight: 400;
     font-size: small;
 }
+
 .lexend-deca {
-  font-family: "Lexend Deca", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+    font-family: "Lexend Deca", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
+
 @media (max-width: 600px) {
     #position {
-        flex-direction: column; 
+        flex-direction: column;
         align-items: center;
     }
+
     .logoZopu {
         display: none;
     }
+
     #login {
-        width: 90%; 
-        height: auto; 
+        width: 90%;
+        height: auto;
     }
+
     .logoAGL-login {
         margin-left: 50px;
     }
+
     .email {
         width: 280px;
     }
+
     .senha {
         width: 220px;
     }
+
     #login-title {
         font-weight: bold;
         color: #0081B8;
-        font-family: "Khula", sans-serif; 
+        font-family: "Khula", sans-serif;
         text-transform: uppercase;
-        font-size: 28px; 
+        font-size: 28px;
         margin-bottom: 20px;
-        text-align: center; 
+        text-align: center;
         background-color: #FBFBFB;
         margin-top: 60px;
     }
+
     .campo {
         font-size: 16px;
     }
+
     #cadastro-link {
         font-size: 14px;
     }
-}    
+}

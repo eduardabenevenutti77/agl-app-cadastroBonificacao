@@ -35,8 +35,8 @@ export default function ChartsFunil() {
                 console.log("Dados recebidos:", funilData);
 
                 if (funilData && Array.isArray(funilData)) {
-                    const seriesData = funilData.map(item => item.totalGrupos || 0); // Garantir valores numéricos
-                    const categories = funilData.map(item => item.nome || "Desconhecido"); // Garantir valores de rótulo
+                    const seriesData = funilData.map(item => item.totalGrupos || 0); 
+                    const categories = funilData.map(item => item.nome || "Desconhecido"); 
 
                     setChartData({
                         series: seriesData,

@@ -3,11 +3,13 @@
     justify-content: space-between;
     align-items: center;
 }
+
 #displayButton {
     display: flex;
-    justify-content:flex-end ;
+    justify-content: flex-end;
     width: 100%;
 }
+
 #download {
     padding: 10px;
     font-family: "Jost";
@@ -23,17 +25,19 @@
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
+
 #download img {
     margin-left: 5px;
     width: 16px;
     height: 16px;
 }
+
 #download:hover {
     background-color: #60a1b8;
     color: #ffffff;
     border-color: #4090a0;
-    /* fill: #ffffff; */
 }
+
 #displayGraficoNumerico {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -44,22 +48,24 @@
     margin-left: 130px;
     margin-top: 20px;
 }
+
 #backgroundNumerico1 {
     background-color: #f6f6f6;
-    /* gap: 15px; */
     width: 400px;
     height: 140px;
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
 }
+
 #backgroundNumerico1 img {
     position: absolute;
-    top: 16px; 
-    right: 20px; 
-    width: 20px; 
+    top: 16px;
+    right: 20px;
+    width: 20px;
     height: 20px;
 }
+
 .titleGrafico {
     color: #8A8686;
     text-align: center;
@@ -68,39 +74,44 @@
     font-weight: 500;
     margin-top: 25px;
 }
+
 #backgroundNumerico2 {
     background-color: #f6f6f6;
     color: #8A8686;
     width: 380px;
     height: 140px;
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     margin-right: 0px;
     position: relative;
 }
+
 #backgroundNumerico2 img {
     position: absolute;
-    top: 16px; 
-    right: 20px; 
-    width: 20px; 
+    top: 16px;
+    right: 20px;
+    width: 20px;
     height: 20px;
 }
+
 #backgroundNumerico3 {
     background-color: #f6f6f6;
     color: #8A8686;
     width: 440px;
     height: 140px;
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
 }
+
 #backgroundNumerico3 img {
     position: absolute;
-    top: 16px; 
-    right: 15px; 
-    width: 20px; 
+    top: 16px;
+    right: 15px;
+    width: 20px;
     height: 20px;
 }
+
 .campoGrafico {
     text-align: center;
     color: #5A9DB9;
@@ -108,33 +119,36 @@
     margin-top: 0px;
     text-shadow: 2px 2px 2px rgb(214, 228, 234);
 }
-/* Define a animação de pulinho */
+
 @keyframes jump {
     0% {
-        transform: translateY(0); /* Posição inicial */
+        transform: translateY(0);
     }
+
     50% {
-        transform: translateY(-10px); /* Sobe 10px */
+        transform: translateY(-10px);
     }
+
     100% {
-        transform: translateY(0); /* Volta à posição inicial */
+        transform: translateY(0);
     }
 }
 
-/* Classe que será adicionada ao clicar na imagem */
 .jump {
-    animation: jump 0.5s ease; /* Duração de 0.5 segundos */
+    animation: jump 0.5s ease;
 }
+
 #displayCharts {
-    /* width: 100%; */
     display: grid;
     grid-template-columns: repeat(1);
     margin-bottom: 30px;
     margin-left: 240px;
 }
+
 #container {
     width: 100%;
 }
+
 #subCharts {
     margin-top: 15px;
     margin-left: 130px;

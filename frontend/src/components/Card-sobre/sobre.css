@@ -5,6 +5,7 @@
     margin-left: 60px;
     margin-top: 50px;
 }
+
 #line {
     height: 2px;
     width: 330px;
@@ -12,10 +13,12 @@
     border-radius: 10px;
     margin-left: 72px;
 }
+
 #display-descricao {
     margin-left: 65px;
     margin-right: 40px;
 }
+
 .descricao {
     text-align: justify;
     color: rgb(110, 110, 110);
@@ -23,21 +26,25 @@
     font-size: 18px;
     margin-top: 25px;
 }
+
 #topicos {
     margin-left: 150px;
     margin-right: 80px;
 }
+
 #logo {
-    display: flex; 
-    justify-content: center; 
+    display: flex;
+    justify-content: center;
     gap: 10px;
     margin-bottom: 0px;
 }
+
 #logo img {
-    width: 170px; 
-    height: auto; 
+    width: 170px;
+    height: auto;
     margin-bottom: 0px;
 }
+
 #color {
     background-color: #FCFCF4;
     width: 70%;
@@ -46,6 +53,7 @@
     border-radius: 10px;
     margin-bottom: 25px;
 }
+
 .strong {
     color: #173c4d;
 }

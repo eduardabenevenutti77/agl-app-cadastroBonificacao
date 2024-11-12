@@ -1,12 +1,14 @@
 body {
     background-color: #F2F2E8;
 }
-.title-cadastro{
+
+.title-cadastro {
     font-weight: 400;
     color: #01638C;
-    font-size: 20px; 
+    font-size: 20px;
     text-align: center;
 }
+
 #aviso {
     font-size: small;
     color: #b2b2b2;

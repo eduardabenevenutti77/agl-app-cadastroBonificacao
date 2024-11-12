@@ -94,7 +94,7 @@ export default function DashboardGestor() {
     };
 
     const handleDownload = () => {
-        const element = document.getElementById('container'); // Seção da página que você quer exportar
+        const element = document.getElementById('container'); 
         const options = {
             margin: 0,
             filename: 'relatorio.pdf',

@@ -108,7 +108,6 @@ export default function Cadastrovenda() {
         }
     }
 
-    // para o fetch a seguir funcionar, preciso armazenar o id do funil selecionado e após disso passar no fetch daqui
     const fetchFase = async () => {
         setLoadingFase(true);
         try {

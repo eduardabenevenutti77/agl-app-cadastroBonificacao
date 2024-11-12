@@ -41,7 +41,7 @@ class UserController {
                 }
             });
             const userInDepartment = usersResponse.data.result.length > 0; // armazena num array
-        
+
             // se o usuário não está no departamento
             if (!userInDepartment) {
                 console.log("O usuário não está no departamento. Será cadastrado como usuário normal");
