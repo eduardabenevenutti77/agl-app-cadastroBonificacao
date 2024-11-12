@@ -23,6 +23,9 @@ class User {
                 validate: {
                     isIn: [["admin", "user"]],
                 },
+            },
+            remuneracaoFixa: {
+                type: database.db.Sequelize.DECIMAL,
             }
         });
     }

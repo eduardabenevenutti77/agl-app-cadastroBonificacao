@@ -1,16 +1,21 @@
 import { AuthContext } from "../../auth/Context";
 import { blockUser, findUser, unblock } from "../../api/user";
 import React, { useEffect, useState, useContext } from "react";
-// import CurrencyExchangeRoundedIcon from '@mui/icons-material/CurrencyExchangeRounded';
-import "./style-bloquear.css";
 import { toast } from "react-toastify";
-import blockIcon from "../../assets/svg/block.svg"
-import unblockIcon from "../../assets/svg/unblock.svg"
-import dolarIcon from "../../assets/svg/dollar.svg"
+import blockIcon from "../../assets/svg/block.svg";
+import unblockIcon from "../../assets/svg/unblock.svg";
+import dolarIcon from "../../assets/svg/dollar.svg";
+import { cadastroFixa } from "../../api/regra";
+import "./style-bloquear.css";
 
 export default function Bloquear() {
     const [users, setUsers] = useState([]);
     const { token, userId } = useContext(AuthContext); 
+    const [remuneracaoFixa, setRemuneracaoFixa] = useState('');
+    const [showForm, setShowForm] = useState(false);
+    const [currentUserId, setCurrentUserId] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
+    // const location = useLocation();
 
     const handleSubmit = async (id) => {
         try {
@@ -23,15 +28,11 @@ export default function Bloquear() {
                     )
                 );
             } else {
-                toast.error("Erro ao bloquear o usuário. [1]");
+                toast.error("Erro ao bloquear o usuário.");
             }
         } catch (error) {
-            if (error.response && error.response.status === 403) {
-                toast.error("Sem permissão.");
-            } else {
-                toast.error("Erro ao bloquear o usuário. [2]");
-            }
-            console.log(error)
+            toast.error("Erro ao bloquear o usuário.");
+            console.error(error);
         }
     };
 
@@ -49,12 +50,61 @@ export default function Bloquear() {
                 toast.error("Erro ao desbloquear o usuário.");
             }
         } catch (error) {
-            if (error.response && error.response.status === 403) {
-                toast.error("Sem permissão.");
-            } else {
-                toast.error("Erro ao desbloquear o usuário.");
-            }
+            toast.error("Erro ao desbloquear o usuário.");
         }
+    };
+
+    const handleUpdateClick = (id) => {
+        setCurrentUserId(id);
+        setShowForm(true);
+        setIsOpen(true);
+    };
+
+    const formatCurrency = (value) => {
+        const numericValue = parseFloat(value.replace(/[^\d]/g, "")) / 100;
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+        }).format(numericValue);
+    };
+
+    const handleFormatacaoFixa = (e) => {
+        const valor = e.target.value.replace(/[^0-9]/g, '');
+        setRemuneracaoFixa(formatCurrency(valor));
+    };
+
+    const handleUpdate = async () => {
+        try {
+            const cleanedRemuneracaoFixa = remuneracaoFixa
+                .replace('R$', '')     
+                .replace(/\./g, '')    
+                .replace(',', '.');    
+    
+            const value = parseFloat(cleanedRemuneracaoFixa);
+    
+            if (isNaN(value)) {
+                toast.error('O valor da remuneração fixa é inválido!');
+                return;
+            }
+    
+            const response = await cadastroFixa({ remuneracaoFixa: value, userId: currentUser.id });
+            
+            if (response.message) {
+                console.log('Cadastro de remuneração realizado com sucesso');
+                toast.success('Cadastro de remuneração fixa realizado com sucesso!');
+                setShowForm(false);
+                setIsOpen(false); 
+                setRemuneracaoFixa('');  
+            } 
+        } catch (error) {
+            toast.error("Erro ao atualizar a remuneração.");
+        }
+    };
+    
+    
+    const closeRemuneracao = () => {
+        setIsOpen(false);
+        setShowForm(false); 
     };
 
     useEffect(() => {
@@ -62,16 +112,23 @@ export default function Bloquear() {
             if (!token) return;
             try {
                 const data = await findUser();
-                console.log(data);
                 const filteredUsers = data.filter(user => user.id !== userId);
-                setUsers(filteredUsers);
+                const roleUser = filteredUsers.filter(user => user.permissao === 'user');
+                
+                const formattedUsers = roleUser.map(user => ({
+                    ...user,
+                    remuneracaoFixa: formatCurrency(user.remuneracaoFixa.toString())
+                }));
+
+                setUsers(formattedUsers);
             } catch (error) {
-                console.error("Erro ao buscar usuários:", error.response?.data || error.message);
                 alert("Não foi possível carregar os usuários.");
             }
         };
         fetchUsers();
     }, [token, userId]);
+
+    const currentUser = users.find(user => user.id === currentUserId);
 
     return (
         <div id="containerBloquear">
@@ -87,13 +144,14 @@ export default function Bloquear() {
                             className={`user-item ${user.bloqueado ? 'blocked' : ''}`}
                         >
                             <div id="span">
-                                <span className="user-email">{user.email}</span>
-                                <span className="user-name">{user.permissao}</span>
+                                <span className="user-email">{user.email} | </span>
+                                {/* <span className="user-name">{user.permissao}</span> */}
+                                <span className="user-remuneracao">{user.remuneracaoFixa}</span>
                             </div>
                             <div id="bloquearDisplay">
-                                <button className="Desbloquear" onClick={() => handleSubmitUnblock(user.id)}><img src={unblockIcon} alt="" /></button>
-                                <button className="bloquear" onClick={() => handleSubmit(user.id)}><img src={blockIcon} alt="" /></button>
-                                <button className="remuneracao"><img src={dolarIcon} alt="" /></button>
+                                <button className="Desbloquear" onClick={() => handleSubmitUnblock(user.id)}><img src={unblockIcon} alt="Desbloquear" /></button>
+                                <button className="bloquear" onClick={() => handleSubmit(user.id)}><img src={blockIcon} alt="Bloquear" /></button>
+                                <button className="remuneracao" onClick={() => handleUpdateClick(user.id)}><img src={dolarIcon} alt="Atualizar Remuneração" /></button>
                             </div>
                         </li>
                     ))
@@ -101,6 +159,23 @@ export default function Bloquear() {
                     <li className="no-users">Nenhum usuário encontrado.</li>
                 )}
             </ul>
+
+            {showForm && currentUser && isOpen && (
+                <div id="updateForm">
+                    <button id="closeRemuneracao" onClick={closeRemuneracao}>x</button>
+                    <p id="titleUpdate">Remuneração: {currentUser.email}</p>
+                    <input
+                        id="remuneracao"
+                        value={remuneracaoFixa}
+                        onChange={handleFormatacaoFixa}
+                        placeholder="Informe o valor a ser cadastrado"
+                    />
+                    <div id="displayButton">
+                        <button id="save" onClick={handleUpdate}>Salvar</button>
+                        <button id="delete" onClick={closeRemuneracao}>Cancelar</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
