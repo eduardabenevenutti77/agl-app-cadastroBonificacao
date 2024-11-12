@@ -5,12 +5,15 @@
     font-size: 18px;
     background-color: #FBFBFB;
 }
+
 .khula-bold {
-  font-family: "Khula", sans-serif;
-  font-weight: 700;
-  font-style: normal;
+    font-family: "Khula", sans-serif;
+    font-weight: 700;
+    font-style: normal;
 }
-.email, .senha {
+
+.email,
+.senha {
     background-color: #FBFBFB;
     width: 600px;
     margin-left: 20px;
@@ -19,6 +22,7 @@
     border: 1px solid rgba(0, 0, 0, 0.15);
     padding: 5px;
 }
+
 ::placeholder {
     font-weight: 190;
     font-family: "Jost";
@@ -26,47 +30,53 @@
     padding: 5px;
     font-size: 14px;
 }
+
 #position-cadastro {
     display: flex;
     justify-content: center;
-    align-items: center; 
-    height: 100vh; 
+    align-items: center;
+    height: 100vh;
     width: 100%;
     background-color: #51bdeb;
 }
+
 #logo-zopu {
-    margin-right: 40px; 
+    margin-right: 40px;
 }
+
 #cadastro {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     background-color: #FBFBFB;
     width: 705px;
     height: 580px;
     border-radius: 24px;
 }
+
 #cadastro-title {
     font-weight: bold;
     color: #0081B8;
-    font-family: "Lexend Deca"; 
-    /* text-transform: uppercase; */
-    font-size: 33px; 
-    text-align: center; 
+    font-family: "Lexend Deca";
+    font-size: 33px;
+    text-align: center;
     background-color: #FBFBFB;
     margin-top: 60px;
     margin-bottom: 10px;
 }
+
 #campos {
     margin-left: 40px;
     background-color: #FBFBFB;
     margin-top: 0px;
 }
+
 #button {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 25px;
 }
+
 #acesso {
     width: 350px;
     height: 40px;
@@ -81,16 +91,19 @@
     justify-content: center;
     align-items: center;
 }
+
 #logoAGL {
-    width: 140px; 
+    width: 140px;
     margin-top: 0px;
 }
+
 #position-logo {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%; 
+    width: 100%;
 }
+
 #login-link {
     text-align: center;
     font-family: "Jost";
@@ -99,8 +112,9 @@
     color: #0081B8;
     margin-bottom: 0;
 }
+
 .lexend-deca {
-  font-family: "Lexend Deca", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+    font-family: "Lexend Deca", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }

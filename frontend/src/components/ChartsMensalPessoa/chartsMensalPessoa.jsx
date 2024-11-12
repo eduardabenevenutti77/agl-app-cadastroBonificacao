@@ -12,13 +12,13 @@ export default function ChartsMensalPessoa() {
     },
     plotOptions: {
       bar: {
-        horizontal: false, // Gráfico de barras verticais
-        columnWidth: '55%', // Largura da coluna
-        endingShape: 'rounded', // Formato das extremidades das barras
+        horizontal: false, 
+        columnWidth: '55%', 
+        endingShape: 'rounded', 
       },
     },
     dataLabels: {
-      enabled: true, // Habilita rótulos nos dados
+      enabled: true, 
     },
     stroke: {
       show: true,
@@ -39,36 +39,36 @@ export default function ChartsMensalPessoa() {
         'Outubro',
         'Novembro',
         'Dezembro',
-      ], // Categorias no eixo X
+      ], 
     },
     yaxis: {
       title: {
-        text: 'Quantidade', // Título do eixo Y
+        text: 'Quantidade', 
       },
     },
     fill: {
-      opacity: 1, // Opacidade de preenchimento
+      opacity: 1, 
     },
     tooltip: {
       y: {
-        formatter: (val) => `${val} unidades`, // Formatação do tooltip
+        formatter: (val) => `${val} unidades`, 
       },
     },
-    colors: ['#01638C', '#90C1D6'], // Cores das barras
+    colors: ['#01638C', '#90C1D6'], 
   };
 
   const series = [
     {
       name: 'Produto A',
-      data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 90, 85, 95], // Dados para a série
+      data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 90, 85, 95], 
     },
     {
       name: 'Produto B',
-      data: [23, 30, 34, 20, 25, 30, 40, 50, 60, 70, 80, 90], // Dados para a série
+      data: [23, 30, 34, 20, 25, 30, 40, 50, 60, 70, 80, 90], 
     },
     {
       name: 'Produto C',
-      data: [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160], // Dados para a série
+      data: [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160], 
     },
   ];
 
