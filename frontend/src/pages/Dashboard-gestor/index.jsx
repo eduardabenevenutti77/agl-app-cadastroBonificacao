@@ -1,14 +1,10 @@
 import "./style-dash-gestor.css";
-import download from '../../assets/svg/cloud.svg';
 import refresh from '../../assets/svg/refresh.svg';
 import { findProdutosVendidos, findVendasAnual, findVendasMensal } from "../../api/regra";
 import { useEffect, useState } from "react";
-import ChartsAnual from "../../components/ChartsAnual/charts";
-import ChartsMensal from "../../components/ChartsMensal/chartsMensal";
 import html2pdf from "html2pdf.js";
-import ChartsMensalPessoa from "../../components/ChartsMensalPessoa/chartsMensalPessoa";
-import { toast } from "react-toastify";
 import ChartsRemunerecao from "../../components/ChartsRemuneracao/chartsRemuneracao";
+import ChartsFunil from "../../components/ChartsFunil/chartsFunil";
 
 export default function DashboardGestor() {
     const [vendasAnual, setVendasAnual] = useState(null);
@@ -121,28 +117,31 @@ export default function DashboardGestor() {
                 <div id="displayGraficoNumerico">
                     <div id="backgroundNumerico1">
                         <img src={refresh} alt="Refresh Icon" onClick={jump} />
-                        <p className="titleGrafico">Valor total de vendas - {year}</p>
+                        <p className="titleGrafico">Quantidade de bonificação em {year}</p>
                         <p className="campoGrafico">
                             {vendasAnual !== null ? vendasAnual : "Carregando..."}
                         </p>
                     </div>
                     <div id="backgroundNumerico2">
                         <img src={refresh} alt="Refresh Icon" onClick={jump2} />
-                        <p className="titleGrafico">Valor total de vendas - {month}/{year}</p>
+                        <p className="titleGrafico">Quantidade de bonificação - {month}/{year}</p>
                         <p className="campoGrafico">
                             {vendasMensal !== null ? vendasMensal : "Carregando..."}
                         </p>
                     </div>
                     <div id="backgroundNumerico3">
                         <img src={refresh} alt="Refresh Icon" onClick={jump3} />
-                        <p className="titleGrafico">Quantidades de produtos vendidos - {year}</p>
-                        {/* <p className="campoGrafico">
+                        <p className="titleGrafico">Quantidades de usuários bonificados em {year}</p>
+                        <p className="campoGrafico">
                             {vendasProduto !== null ? vendasProduto : "Carregando..."}
-                        </p> */}
+                        </p>
                     </div>
                 </div>
                 <div id='displayCharts'>
                     <ChartsRemunerecao />
+                </div>
+                <div id="subCharts">
+                    <ChartsFunil />
                 </div>
             </div>
         </>

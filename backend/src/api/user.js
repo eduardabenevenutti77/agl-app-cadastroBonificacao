@@ -250,6 +250,16 @@ class UserApi {
             res.status(400).send({e: e.message});
         }
     }
+
+    async chartsFunil(req, res) {
+        try {
+            const result = await RegraController.chartsFunil();
+            return res.status(200).send({result});
+        } catch (e) {
+            console.log('Erro ao buscar funis para o charts -> ', e.message);
+            res.status(400).send({e: e.message});
+        }
+    }
 }
 
 module.exports = new UserApi()

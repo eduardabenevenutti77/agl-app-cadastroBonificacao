@@ -51,7 +51,16 @@ export default function ChartsRemunerecao() {
                     formatter: (val) => `R$ ${val.toLocaleString('pt-BR')}`, // Formatação da tooltip
                 }
             },
-
+            title: {
+                text: 'ANÁLISE DE REMUNERAÇÕES FIXAS POR FUNCIONÁRIOS', // Título do gráfico
+                align: 'center',
+                style: {
+                    fontSize: '14px',
+                    // textTransform: 'uppercase',
+                    fontWeight: '500',
+                    color: '#8A8686'
+                }
+            },
             colors: ['#5A9DB9'], // Cor personalizada das barras
         }
     });
@@ -97,12 +106,12 @@ export default function ChartsRemunerecao() {
     }, []); // O array vazio garante que o useEffect seja executado apenas uma vez, na montagem do componente
 
     return (
-        <div style={{ padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px' }}>
+        <div style={{width: '950px', padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px' }}>
             <ApexCharts
                 options={chartData.options}
                 series={chartData.series}
                 type="bar"
-                width={980}
+                width={900}
                 height={300} // Ajustado para dar mais espaço ao gráfico
             />
         </div>

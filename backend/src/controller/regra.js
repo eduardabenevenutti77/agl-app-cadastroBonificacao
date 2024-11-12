@@ -11,6 +11,7 @@ const { Op } = require('sequelize');
 // const user = require("./user");
 
 // regra.belongsTo(grupo, { foreignKey: 'grupoID' });
+grupo.belongsTo(funil, { foreignKey: 'funilID' });
 
 class RegraController {
     async cadastroRegra(campoPorcento, criterioUm,  selectFunil, selectedProduto, quantidade, selectedTime, selectFuncionario) {
@@ -287,13 +288,16 @@ class RegraController {
 
     async findProdutosVendidos() {
         try {
-            const allProdutosVendidos = await grupo.sum('quantidadeProduto');
+            const allProdutosVendidos = await grupo.count({
+                distinct: true,
+                col: 'funcionarioID' // Corrigido: use 'col' em vez de 'column'
+            });
             return allProdutosVendidos;
         } catch (e) {
-            console.e("Erro ao buscar dados de produtos vendidos ->", error.message);
+            console.error("Erro ao buscar dados de produtos vendidos ->", e.message);
         }
     }
-
+    
     async findVendasMensal() {
         try {
             const currentDate = new Date();
@@ -386,6 +390,44 @@ class RegraController {
             console.error("Detalhes ->", e);
         }
     }    
+
+    async chartsFunil() {
+        try {
+            // Primeiro, obtemos todos os registros de 'grupos' e 'funis'
+            const grupos = await grupo.findAll(); // ou algum método para buscar grupos
+            const funis = await funil.findAll();  // ou algum método para buscar funis
+    
+            // Cria um mapa para relacionar funilID com o nome do funil
+            const funisMap = funis.reduce((acc, funil) => {
+                acc[funil.id] = funil.funil;
+                return acc;
+            }, {});
+    
+            // Conta a ocorrência de cada funilID em grupos
+            const funilContagem = grupos.reduce((acc, grupo) => {
+                const funilID = grupo.funilID;
+                const nomeFunil = funisMap[funilID] || "Desconhecido";
+                
+                if (!acc[funilID]) {
+                    acc[funilID] = { nome: nomeFunil, totalGrupos: 0 };
+                }
+                acc[funilID].totalGrupos += 1;
+    
+                return acc;
+            }, {});
+    
+            // Converte o resultado em um array
+            const resultado = Object.values(funilContagem);
+            
+            return resultado; // Retorna a lista com os nomes dos funis e a contagem de grupos
+        } catch (error) {
+            console.error("Erro ao buscar dados de produtos vendidos ->", error.message);
+        }
+    }
+    
+    
+    
+    
 }
 
 function delay(ms) {

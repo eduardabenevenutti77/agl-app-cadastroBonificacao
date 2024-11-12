@@ -50,3 +50,8 @@ export const cadastroFixa = async ({remuneracaoFixa, userId}) => {
     const response = await api.put(`/api/v1/regra/put/cadastroFixa/${userId}`, {remuneracaoFixa: remuneracaoFixa});
     return response.data
 }
+
+export const chartFunil = async () => {
+    const response = await api.get('/api/v1/regra/chartFunil');
+    return response.data
+}

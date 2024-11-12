@@ -26,4 +26,6 @@ router.get('/calculoOTE', UserApi.calculoOTE);
 
 router.put('/put/cadastroFixa/:userId', UserApi.cadastroFixa);
 
+router.get('/chartFunil', UserApi.chartsFunil);
+
 module.exports = router;
