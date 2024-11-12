@@ -160,7 +160,6 @@ export default function Cadastrocomissao() {
         }
     }
 
-    // para o fetch a seguir funcionar, preciso armazenar o id do funil selecionado e após disso passar no fetch daqui
     const fetchFase = async () => {
         setLoadingFase(true);
         try {
@@ -186,11 +185,11 @@ export default function Cadastrocomissao() {
     const removendoFormatacao = (campo) => {
         return campo.replace(/[^0-9]/g, '')
     }
-    const regra = { campoPorcento:  removendoFormatacao(campoPorcento), criterioUm: removendoFormatacao(criterioUm), selectFunil, selectFase, selectedProduto, quantidade, selectedTime, selectFuncionario};
+    const regra = { campoPorcento: removendoFormatacao(campoPorcento), criterioUm: removendoFormatacao(criterioUm), selectFunil, selectFase, selectedProduto, quantidade, selectedTime, selectFuncionario };
     const handleSubmitForms = async (e) => {
         e.preventDefault();
         try {
-            const response = await cadastroRegra({...regra});
+            const response = await cadastroRegra({ ...regra });
             if (response.id) {
                 toast.success('Cadastro de comissão bem-sucedido!');
                 setCampoForm('');
@@ -199,7 +198,7 @@ export default function Cadastrocomissao() {
                 setCriterioDois('');
                 setCriterioUm('');
                 setMultiplicador('');
-                setQuantidade('');  
+                setQuantidade('');
             } else {
                 toast.error('Cadastro de comissão falhou!')
             }
@@ -221,25 +220,25 @@ export default function Cadastrocomissao() {
                 <p className='title-cadastro'>Cadastro de Regra de Comissionamento</p>
                 <form>
                     <Grid container spacing={1}>
-                    {campos.map((campo, index) => (
-                        <Grid container spacing={1} key={campo.id}>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    label={`Critério 01 (valor) ${index + 1} *`}
-                                    variant="outlined"
-                                    size="small"
-                                    fullWidth
-                                    margin="normal"
-                                    value={criterioUm}
-                                    onChange={handleChangeCriterioUm}
-                                    sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
-                                />
+                        {campos.map((campo, index) => (
+                            <Grid container spacing={1} key={campo.id}>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        label={`Critério 01 (valor) ${index + 1} *`}
+                                        variant="outlined"
+                                        size="small"
+                                        fullWidth
+                                        margin="normal"
+                                        value={criterioUm}
+                                        onChange={handleChangeCriterioUm}
+                                        sx={{ '& .MuiInputLabel-root': { color: '#01638C' }, '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField label="% por critério *" variant="outlined" size="small" fullWidth margin="normal" value={campoPorcento} onChange={handleChangePorcento} sx={{ '& .MuiInputLabel-root': { color: '#01638C' }, '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }} />
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField label="% por critério *" variant="outlined" size="small" fullWidth margin="normal" value={campoPorcento} onChange={handleChangePorcento} sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}/>
-                            </Grid>
-                        </Grid>
-                    ))}
+                        ))}
                     </Grid>
                     <Button onClick={remove} variant="contained" style={{ marginTop: '16px', marginLeft: '10px', borderRadius: '100px', backgroundColor: '#3D7992' }}>
                         -
@@ -258,7 +257,7 @@ export default function Cadastrocomissao() {
                                 select
                                 value={selectFunil || ''}
                                 onChange={(e) => setSelectedFunil(e.target.value)}
-                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
+                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' }, '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
                             >
                                 <MenuItem value="">
                                     <em>Nenhum funil selecionado</em>
@@ -285,7 +284,7 @@ export default function Cadastrocomissao() {
                                 select
                                 value={selectFase || ''}
                                 onChange={(e) => setSelectedFase(e.target.value)}
-                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
+                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' }, '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
                             >
                                 <MenuItem value="">
                                     <em>Nenhuma fase selecionada</em>
@@ -327,17 +326,6 @@ export default function Cadastrocomissao() {
                                 )}
                             </TextField>
                         </Grid>
-                        {/* <Grid item xs={12} sm={4}>
-                            <TextField
-                                label="Quantidade de produto "
-                                variant="outlined"
-                                size="small"
-                                fullWidth
-                                margin="normal"
-                                value={quantidade}
-                                onChange={(e) => setQuantidade(e.target.value)}
-                            />
-                        </Grid> */}
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 label="Selecione o time *"
@@ -348,7 +336,7 @@ export default function Cadastrocomissao() {
                                 select
                                 value={selectedTime || ''}
                                 onChange={(e) => setSelectedTime(e.target.value)}
-                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
+                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' }, '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
                             >
                                 <MenuItem value="">
                                     <em>Nenhum time selecionado</em>

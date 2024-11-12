@@ -13,7 +13,7 @@ export default function ChartsRemunerecao() {
                 backgroundColor: '#f6f6f6',
                 fontFamily: 'Jost',
                 toolbar: {
-                    show: false // Esconde a barra de ferramentas do gráfico
+                    show: false 
                 }
             },
             plotOptions: {
@@ -23,11 +23,11 @@ export default function ChartsRemunerecao() {
                 }
             },
             dataLabels: {
-                enabled: false, // Habilitar ou desabilitar conforme permissão
-                formatter: (val) => `R$ ${val.toLocaleString('pt-BR')}`, // Formatação para valores monetários
+                enabled: false, 
+                formatter: (val) => `R$ ${val.toLocaleString('pt-BR')}`, 
                 style: {
-                    fontSize: '20px', // Tamanho da fonte do valor
-                    colors: ['#fff'], // Cor do texto
+                    fontSize: '20px', 
+                    colors: ['#fff'], 
                     fontFamily: 'Jost'
                 }
             },
@@ -35,24 +35,24 @@ export default function ChartsRemunerecao() {
                 categories: [],
                 labels: {
                     style: {
-                        fontSize: '12px', // Tamanho da fonte das categorias
+                        fontSize: '12px', 
                         colors: '#666',
                         fontFamily: 'Jost'
                     }
                 }
             },
             grid: {
-                borderColor: '#e7e7e7', // Cor das linhas de grade
-                strokeDashArray: 4, // Estilo das linhas da grade
+                borderColor: '#e7e7e7', 
+                strokeDashArray: 4, 
             },
             tooltip: {
                 enabled: true,
                 y: {
-                    formatter: (val) => `R$ ${val.toLocaleString('pt-BR')}`, // Formatação da tooltip
+                    formatter: (val) => `R$ ${val.toLocaleString('pt-BR')}`, 
                 }
             },
             title: {
-                text: 'ANÁLISE DE REMUNERAÇÕES FIXAS POR FUNCIONÁRIOS', // Título do gráfico
+                text: 'ANÁLISE DE REMUNERAÇÕES FIXAS POR FUNCIONÁRIOS', 
                 align: 'center',
                 style: {
                     fontSize: '14px',
@@ -61,7 +61,7 @@ export default function ChartsRemunerecao() {
                     color: '#8A8686'
                 }
             },
-            colors: ['#5A9DB9'], // Cor personalizada das barras
+            colors: ['#5A9DB9'], 
         }
     });
 
@@ -72,10 +72,9 @@ export default function ChartsRemunerecao() {
                 const roleUser = data.filter(user => user.permissao === 'user');
                 const formattedUsers = roleUser.map(user => ({
                     ...user,
-                    remuneracaoFixa: parseFloat(user.remuneracaoFixa), // Garantindo que seja número
+                    remuneracaoFixa: parseFloat(user.remuneracaoFixa), 
                 }));
 
-                // Verificar se o usuário é admin
                 const isAdmin = data.some(user => user.role === 'admin');
 
                 const seriesData = formattedUsers.map(user => user.remuneracaoFixa);
@@ -92,8 +91,7 @@ export default function ChartsRemunerecao() {
                             categories: categories
                         },
                         dataLabels: {
-                            enabled: isAdmin // Mostrar valores apenas para admin
-                            
+                            enabled: isAdmin 
                         }
                     }
                 });
@@ -101,9 +99,8 @@ export default function ChartsRemunerecao() {
                 alert("Não foi possível carregar os usuários.");
             }
         };
-
         fetchData();
-    }, []); // O array vazio garante que o useEffect seja executado apenas uma vez, na montagem do componente
+    }, []); 
 
     return (
         <div style={{width: '950px', padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px' }}>
@@ -112,7 +109,7 @@ export default function ChartsRemunerecao() {
                 series={chartData.series}
                 type="bar"
                 width={900}
-                height={300} // Ajustado para dar mais espaço ao gráfico
+                height={300} 
             />
         </div>
     );

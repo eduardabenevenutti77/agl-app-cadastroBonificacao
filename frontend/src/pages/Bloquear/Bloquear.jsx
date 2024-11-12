@@ -15,7 +15,6 @@ export default function Bloquear() {
     const [showForm, setShowForm] = useState(false);
     const [currentUserId, setCurrentUserId] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
-    // const location = useLocation();
 
     const handleSubmit = async (id) => {
         try {
@@ -101,7 +100,6 @@ export default function Bloquear() {
         }
     };
     
-    
     const closeRemuneracao = () => {
         setIsOpen(false);
         setShowForm(false); 
@@ -145,7 +143,6 @@ export default function Bloquear() {
                         >
                             <div id="span">
                                 <span className="user-email">{user.email} | </span>
-                                {/* <span className="user-name">{user.permissao}</span> */}
                                 <span className="user-remuneracao">{user.remuneracaoFixa}</span>
                             </div>
                             <div id="bloquearDisplay">

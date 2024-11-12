@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
 .menu {
     display: flex;
     justify-content: space-between;
@@ -10,9 +11,11 @@
     width: 100%;
     max-width: 1440px;
 }
+
 Link {
     text-decoration: none;
 }
+
 p {
     color: #fff;
     font-size: 20px;
@@ -20,29 +23,36 @@ p {
     font-weight: 500;
     padding-left: 15px;
 }
+
 .logout-icon {
     width: 24px;
     height: 24px;
     padding-right: 15px;
 }
+
 .icon-container {
     display: flex;
     align-items: center;
     gap: 20px;
 }
-#cadastrar-regra, #dashboardGestor {
+
+#cadastrar-regra,
+#dashboardGestor {
     font-size: 17px;
 }
+
+#titleHeader {
+    font-family: "Lexend Deca", sans-serif;
+}
+
 .jost {
     font-family: "Jost", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
 }
-#titleHeader {
-    font-family: "Lexend Deca", sans-serif;
-}
+
 .lexend-deca {
-  font-family: "Lexend Deca", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+    font-family: "Lexend Deca", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }

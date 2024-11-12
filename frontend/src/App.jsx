@@ -31,7 +31,6 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<Cadastro />} />
               <Route path="/permissao" element={<Autorizacao />} />
-
               {/* Rotas protegidas */}
               <Route element={<PrivateRoute />}>
                 <Route path="/dashboardgestor" element={<DashboardGestor />} />

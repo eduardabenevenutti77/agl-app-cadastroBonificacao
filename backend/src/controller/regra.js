@@ -6,11 +6,7 @@ const time = require('../model/time');
 const funcionario = require('../model/funcionario');
 const grupo = require('../model/grupo');
 const user = require('../model/user');
-// const criterio = require('../model/criterio');
 const { Op } = require('sequelize');
-// const user = require("./user");
-
-// regra.belongsTo(grupo, { foreignKey: 'grupoID' });
 grupo.belongsTo(funil, { foreignKey: 'funilID' });
 
 class RegraController {
@@ -290,7 +286,7 @@ class RegraController {
         try {
             const allProdutosVendidos = await grupo.count({
                 distinct: true,
-                col: 'funcionarioID' // Corrigido: use 'col' em vez de 'column'
+                col: 'funcionarioID' 
             });
             return allProdutosVendidos;
         } catch (e) {
@@ -393,17 +389,14 @@ class RegraController {
 
     async chartsFunil() {
         try {
-            // Primeiro, obtemos todos os registros de 'grupos' e 'funis'
-            const grupos = await grupo.findAll(); // ou algum método para buscar grupos
-            const funis = await funil.findAll();  // ou algum método para buscar funis
+            const grupos = await grupo.findAll(); 
+            const funis = await funil.findAll();  
     
-            // Cria um mapa para relacionar funilID com o nome do funil
             const funisMap = funis.reduce((acc, funil) => {
                 acc[funil.id] = funil.funil;
                 return acc;
             }, {});
     
-            // Conta a ocorrência de cada funilID em grupos
             const funilContagem = grupos.reduce((acc, grupo) => {
                 const funilID = grupo.funilID;
                 const nomeFunil = funisMap[funilID] || "Desconhecido";
@@ -415,19 +408,12 @@ class RegraController {
     
                 return acc;
             }, {});
-    
-            // Converte o resultado em um array
             const resultado = Object.values(funilContagem);
-            
-            return resultado; // Retorna a lista com os nomes dos funis e a contagem de grupos
+            return resultado; 
         } catch (error) {
             console.error("Erro ao buscar dados de produtos vendidos ->", error.message);
         }
     }
-    
-    
-    
-    
 }
 
 function delay(ms) {
