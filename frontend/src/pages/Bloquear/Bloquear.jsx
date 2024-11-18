@@ -26,6 +26,8 @@ export default function Bloquear() {
                         user.id === id ? { ...user, bloqueado: true } : user
                     )
                 );
+                toast.success('Usuário foi bloqueado com sucesso!');
+                location.reload();
             } else {
                 toast.error("Erro ao bloquear o usuário.");
             }
@@ -45,6 +47,8 @@ export default function Bloquear() {
                         user.id === id ? { ...user, bloqueado: false } : user
                     )
                 );
+                toast.success('Usuário desbloqueado com sucesso!');
+                location.reload();
             } else {
                 toast.error("Erro ao desbloquear o usuário.");
             }
@@ -89,11 +93,12 @@ export default function Bloquear() {
             const response = await cadastroFixa({ remuneracaoFixa: value, userId: currentUser.id });
             
             if (response.message) {
-                console.log('Cadastro de remuneração realizado com sucesso');
+                // console.log('Cadastro de remuneração realizado com sucesso');
                 toast.success('Cadastro de remuneração fixa realizado com sucesso!');
                 setShowForm(false);
                 setIsOpen(false); 
                 setRemuneracaoFixa('');  
+                location.reload();
             } 
         } catch (error) {
             toast.error("Erro ao atualizar a remuneração.");
@@ -158,19 +163,21 @@ export default function Bloquear() {
             </ul>
 
             {showForm && currentUser && isOpen && (
-                <div id="updateForm">
-                    <button id="closeRemuneracao" onClick={closeRemuneracao}>x</button>
-                    <p id="titleUpdate">Remuneração: {currentUser.email}</p>
-                    <input
-                        id="remuneracao"
-                        value={remuneracaoFixa}
-                        onChange={handleFormatacaoFixa}
-                        placeholder="Informe o valor a ser cadastrado"
-                    />
-                    <div id="displayButton">
-                        <button id="save" onClick={handleUpdate}>Salvar</button>
-                        <button id="delete" onClick={closeRemuneracao}>Cancelar</button>
-                    </div>
+                <div id="updateForm" onClick={handleUpdate}>
+                    <form>
+                        <button id="closeRemuneracao" onClick={closeRemuneracao}>x</button>
+                        <p id="titleUpdate">Remuneração: {currentUser.email}</p>
+                        <input
+                            id="remuneracao"
+                            value={remuneracaoFixa}
+                            onChange={handleFormatacaoFixa}
+                            placeholder="Informe o valor a ser cadastrado"
+                        />
+                        <div id="displayButton">
+                            <button id="save">Salvar</button>
+                            <button id="delete" onClick={closeRemuneracao}>Cancelar</button>
+                        </div>
+                    </form>
                 </div>
             )}
         </div>

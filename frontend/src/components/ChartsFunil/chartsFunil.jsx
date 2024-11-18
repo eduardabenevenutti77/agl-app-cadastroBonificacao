@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; 
 import ApexCharts from "react-apexcharts";
 import { chartFunil } from "../../api/regra";
 
@@ -14,15 +14,38 @@ export default function ChartsFunil() {
             dataLabels: {
                 enabled: false
             },
+            yaxis: {
+                show: false // Oculta os números do eixo radial
+            },
             legend: {
                 position: 'top',
+            },
+            title: {
+                text: 'ANÁLISE DE VENDAS POR ÁREAS', 
+                align: 'center',
+                style: {
+                    fontSize: '14px',
+                    // textTransform: 'uppercase',
+                    fontWeight: '500',
+                    marginBottom: '10px',
+                    color: '#8A8686'
+                }
             },
             tooltip: {
                 enabled: true,
                 y: {
                     formatter: (val) => `${val} Grupos`
                 }
-            }
+            },
+            colors: [
+                '#ADD8E6',  /* Azul Claro */
+                '#B0D6D6',  /* Azul Acinzentado Suave */
+                '#A2B9BC',  /* Azul Pálido */
+                '#4682B4',  /* Azul Médio */
+                '#88B6B0',  /* Azul Claro Esverdeado */
+                '#5F8C96',  /* Azul Suave mais escuro */
+                '#E6F0F1'   /* Azul Neve */
+            ]            
         }
     });
 
