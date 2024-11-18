@@ -160,10 +160,10 @@ export default function Cadastrocomissao() {
         }
     }
 
-    const fetchFase = async () => {
+    const fetchFase = async (selectFunil) => {
         setLoadingFase(true);
         try {
-            const response = await findFase();
+            const response = await findFase(selectFunil);
             if (!response) {
                 console.log('O objeto retornado da requisição de times está vazio!')
             }

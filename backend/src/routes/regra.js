@@ -7,7 +7,8 @@ router.post('/funil', UserApi.createFunil);
 router.get('/getFunil', UserApi.findFunil);
 
 router.post('/fase', UserApi.createFase);
-router.get('/getFase', UserApi.findFase);
+router.get('/getFase/selectFunil', UserApi.findFase);
+// http://localhost:3000/api/v1/regra/getFase/2
 
 router.post('/produto', UserApi.createProduto);
 router.get('/getProduto', UserApi.findProduto);

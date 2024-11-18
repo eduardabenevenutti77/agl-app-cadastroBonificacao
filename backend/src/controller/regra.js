@@ -128,15 +128,21 @@ class RegraController {
         }
     }
 
-    async findFase() {
-        const findAll = await fase.findAll();
-        return findAll;
+    async findFase(selectFunil) {
+        try {
+            const findAll = await fase.findOne(selectFunil);
+            console.log('Caiu no controller')
+            return findAll;
+        } catch (e) {
+            console.log(error)
+            console.error("Erro ao buscar fase por funil ->", error.message);
+        }
     }
 
     async createFase() {
         try {
             // 1 - vendas | 2 - bko | 10 - qualidade | 14 - controle | 22 - acompanhamento
-            const idFunil = 22
+            const idFunil = 2
             const response = await fetch(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.dealcategory.stage.list?id=${idFunil}`);
             const data = await response.json();
 
