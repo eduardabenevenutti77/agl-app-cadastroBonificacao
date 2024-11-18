@@ -5,8 +5,8 @@ export const findFunil = async () => {
     return response.data
 }
 
-export const findFase = async (selectFunil) => {
-    const response = await api.get(`/api/v1/regra/getFase/${selectFunil}`);
+export const findFase = async () => {
+    const response = await api.get(`/api/v1/regra/getFase`);
     return response.data
 }
 

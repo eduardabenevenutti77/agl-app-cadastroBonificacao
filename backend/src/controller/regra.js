@@ -128,9 +128,9 @@ class RegraController {
         }
     }
 
-    async findFase(selectFunil) {
+    async findFase() {
         try {
-            const findAll = await fase.findOne(selectFunil);
+            const findAll = await fase.findAll();
             console.log('Caiu no controller')
             return findAll;
         } catch (e) {
