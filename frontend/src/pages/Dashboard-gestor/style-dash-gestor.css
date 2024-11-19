@@ -153,7 +153,17 @@
     margin-top: 15px;
     margin-left: 130px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     margin-bottom: 15px;
-    gap: 15px;
+    /* gap: 15px; */
+    gap: 20px;
+}
+
+#chartsBorders {
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#chartsMensal {
+    margin-left: 240px;
 }

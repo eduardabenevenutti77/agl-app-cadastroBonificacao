@@ -129,14 +129,20 @@ class RegraController {
     }
 
     async findFase() {
-        const findAll = await fase.findAll();
-        return findAll;
+        try {
+            const findAll = await fase.findAll();
+            console.log('Caiu no controller')
+            return findAll;
+        } catch (e) {
+            console.log(error)
+            console.error("Erro ao buscar fase por funil ->", error.message);
+        }
     }
 
     async createFase() {
         try {
             // 1 - vendas | 2 - bko | 10 - qualidade | 14 - controle | 22 - acompanhamento
-            const idFunil = 22
+            const idFunil = 2
             const response = await fetch(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.dealcategory.stage.list?id=${idFunil}`);
             const data = await response.json();
 
@@ -412,6 +418,62 @@ class RegraController {
             return resultado; 
         } catch (error) {
             console.error("Erro ao buscar dados de produtos vendidos ->", error.message);
+        }
+    }
+
+    async findMonthTime() {
+        try {
+            const grupoMonth = await grupo.findAll();
+            const timeMonth = await time.findAll();
+
+            const timeMap = timeMonth.reduce((acc, time) => {
+                acc[time.id] = time.time;
+                return acc;
+            }, {});
+
+            const timeContagem = grupoMonth.reduce((acc, grupo) => {
+                const timeID = grupo.timeID;
+                const nomeTime = timeMap[timeID] || "Desconhecido";
+
+                if (!acc[timeID]) {
+                    acc[timeID] = { nome: nomeTime, totalGrupos: 0};
+                }
+                acc[timeID].totalGrupos += 1;
+
+                return acc;
+            }, {});
+            const findMonth = Object.values(timeContagem);
+            return findMonth;
+        } catch (e) {
+            console.error("Erro ao buscar vendas por times ->", e.message);
+        }
+    }
+
+    async findMonthFunc() {
+        try {
+            const grupoMonth = await grupo.findAll();
+            const funcMonth = await funcionario.findAll();
+
+            const funcMap = funcMonth.reduce((acc, funcionario) => {
+                acc[funcionario.id] = funcionario.funcionario;
+                return acc;
+            }, {});
+
+            const funcionarioContagem = grupoMonth.reduce((acc, grupo) => {
+                const funcionarioID = grupo.funcionarioID;
+                const nomeFunc = funcMap[funcionarioID] || "Desconhecido";
+
+                if (!acc[funcionarioID]) {
+                    acc[funcionarioID] = { nome: nomeFunc, totalGrupos: 0};
+                }
+                acc[funcionarioID].totalGrupos += 1;
+
+                return acc;
+            }, {});
+            const findMonth = Object.values(funcionarioContagem);
+            return findMonth;
+        } catch (e) {
+            console.error("Erro ao buscar vendas por times ->", e.message);
         }
     }
 }

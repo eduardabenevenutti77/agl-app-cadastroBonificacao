@@ -6,7 +6,7 @@ export const findFunil = async () => {
 }
 
 export const findFase = async () => {
-    const response = await api.get('/api/v1/regra/getFase');
+    const response = await api.get(`/api/v1/regra/getFase`);
     return response.data
 }
 
@@ -53,5 +53,15 @@ export const cadastroFixa = async ({remuneracaoFixa, userId}) => {
 
 export const chartFunil = async () => {
     const response = await api.get('/api/v1/regra/chartFunil');
+    return response.data
+}
+
+export const findMonthTime = async () => {
+    const response = await api.get('/api/v1/regra/getVendasMensalTime');
+    return response.data
+}
+
+export const findMonthFunc = async () => {
+    const response = await api.get('/api/v1/regra/getVendasMensalFunc');
     return response.data
 }
