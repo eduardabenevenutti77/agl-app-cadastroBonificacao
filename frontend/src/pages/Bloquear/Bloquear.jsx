@@ -83,10 +83,10 @@ export default function Bloquear() {
     
             const value = parseFloat(cleanedRemuneracaoFixa);
     
-            if (isNaN(value)) {
-                toast.error('O valor da remuneração fixa é inválido!');
-                return;
-            }
+            // if (isNaN(value)) {
+            //     toast.error('O valor da remuneração fixa é inválido!');
+            //     return;
+            // }
     
             const response = await cadastroFixa({ remuneracaoFixa: value, userId: currentUser.id });
             

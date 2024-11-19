@@ -23,6 +23,8 @@ router.get('/getValorVendasAnual', UserApi.findVendasAnual);
 router.get('/getProdutosVendidos', UserApi.findProdutosVendidos);
 router.get('/getVendasMensal', UserApi.findVendasMensal);
 
+router.get('/getVendasMensalTime', UserApi.findMonthTime);
+
 router.get('/calculoOTE', UserApi.calculoOTE);
 
 router.put('/put/cadastroFixa/:userId', UserApi.cadastroFixa);

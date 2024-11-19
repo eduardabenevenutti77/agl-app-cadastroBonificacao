@@ -420,6 +420,34 @@ class RegraController {
             console.error("Erro ao buscar dados de produtos vendidos ->", error.message);
         }
     }
+
+    async findMonthTime() {
+        try {
+            const grupoMonth = await grupo.findAll();
+            const timeMonth = await time.findAll();
+
+            const timeMap = timeMonth.reduce((acc, time) => {
+                acc[time.id] = time.time;
+                return acc;
+            }, {});
+
+            const timeContagem = grupoMonth.reduce((acc, grupo) => {
+                const timeID = grupo.timeID;
+                const nomeTime = timeMap[timeID] || "Desconhecido";
+
+                if (!acc[timeID]) {
+                    acc[timeID] = { nome: nomeTime, totalGrupos: 0};
+                }
+                acc[timeID].totalGrupos += 1;
+
+                return acc;
+            }, {});
+            const findMonth = Object.values(timeContagem);
+            return findMonth;
+        } catch (e) {
+            console.error("Erro ao buscar vendas por times ->", e.message);
+        }
+    }
 }
 
 function delay(ms) {

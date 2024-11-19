@@ -261,6 +261,16 @@ class UserApi {
             res.status(400).send({e: e.message});
         }
     }
+
+    async findMonthTime(req, res) {
+        try {
+            const findMonth = await RegraController.findMonthTime();
+            return res.status(200).send({findMonth});
+        } catch (e) {
+            console.log('Erro ao realizar a requisição para a busca de vendas por time, detalhes do erro -> ', e.message);
+            res.status(400).send({e: e.message});
+        }
+    }
 }
 
 module.exports = new UserApi()

@@ -15,7 +15,7 @@ export default function ChartsFunil() {
                 enabled: false
             },
             yaxis: {
-                show: false // Oculta os números do eixo radial
+                show: false 
             },
             legend: {
                 position: 'top',
@@ -38,13 +38,13 @@ export default function ChartsFunil() {
                 }
             },
             colors: [
-                '#ADD8E6',  /* Azul Claro */
-                '#B0D6D6',  /* Azul Acinzentado Suave */
-                '#A2B9BC',  /* Azul Pálido */
-                '#4682B4',  /* Azul Médio */
-                '#88B6B0',  /* Azul Claro Esverdeado */
-                '#5F8C96',  /* Azul Suave mais escuro */
-                '#E6F0F1'   /* Azul Neve */
+                '#ADD8E6',  
+                '#B0D6D6',  
+                '#A2B9BC',  
+                '#4682B4',  
+                '#88B6B0',  
+                '#5F8C96',  
+                '#E6F0F1'   
             ]            
         }
     });
@@ -82,7 +82,7 @@ export default function ChartsFunil() {
     }, []);
 
     return (
-        <div style={{ width: '500px', height: '260px', padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px', gap: '15px' }}>
+        <div style={{ width: '500px', height: '260px', padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px', gap: '15px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
             <ApexCharts
                 options={chartData.options}
                 series={chartData.series}

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
 import ChartsRemunerecao from "../../components/ChartsRemuneracao/chartsRemuneracao";
 import ChartsFunil from "../../components/ChartsFunil/chartsFunil";
+import ChartsMensalPessoa from "../../components/ChartsMensalPessoa/chartsMensalPessoa";
 
 export default function DashboardGestor() {
     const [vendasAnual, setVendasAnual] = useState(null);
@@ -138,7 +139,8 @@ export default function DashboardGestor() {
                     </div>
                 </div>
                 <div id='displayCharts'>
-                    <ChartsRemunerecao />
+                    <ChartsRemunerecao id='chartsBorders' />
+                    <ChartsMensalPessoa />
                 </div>
                 <div id="subCharts">
                     <ChartsFunil />

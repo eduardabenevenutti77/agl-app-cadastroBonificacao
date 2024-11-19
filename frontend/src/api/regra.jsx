@@ -55,3 +55,8 @@ export const chartFunil = async () => {
     const response = await api.get('/api/v1/regra/chartFunil');
     return response.data
 }
+
+export const findMonthTime = async () => {
+    const response = await api.get('/api/v1/regra/getVendasMensalTime');
+    return response.data
+}
