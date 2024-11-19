@@ -26,6 +26,7 @@ export default function Bloquear() {
                         user.id === id ? { ...user, bloqueado: true } : user
                     )
                 );
+                toast.success('Usuário foi bloqueado com sucesso!');
             } else {
                 toast.error("Erro ao bloquear o usuário.");
             }
@@ -45,6 +46,7 @@ export default function Bloquear() {
                         user.id === id ? { ...user, bloqueado: false } : user
                     )
                 );
+                toast.success('Usuário desbloqueado com sucesso!');
             } else {
                 toast.error("Erro ao desbloquear o usuário.");
             }
@@ -81,20 +83,19 @@ export default function Bloquear() {
     
             const value = parseFloat(cleanedRemuneracaoFixa);
     
-            if (isNaN(value)) {
-                toast.error('O valor da remuneração fixa é inválido!');
-                return;
-            }
+            // if (isNaN(value)) {
+            //     toast.error('O valor da remuneração fixa é inválido!');
+            //     return;
+            // }
     
             const response = await cadastroFixa({ remuneracaoFixa: value, userId: currentUser.id });
             
             if (response.message) {
-                console.log('Cadastro de remuneração realizado com sucesso');
                 toast.success('Cadastro de remuneração fixa realizado com sucesso!');
                 setShowForm(false);
                 setIsOpen(false); 
                 setRemuneracaoFixa('');  
-            } 
+            }
         } catch (error) {
             toast.error("Erro ao atualizar a remuneração.");
         }
@@ -113,12 +114,14 @@ export default function Bloquear() {
                 const filteredUsers = data.filter(user => user.id !== userId);
                 const roleUser = filteredUsers.filter(user => user.permissao === 'user');
                 
+                // Formatar usuários
                 const formattedUsers = roleUser.map(user => ({
                     ...user,
-                    remuneracaoFixa: formatCurrency(user.remuneracaoFixa.toString())
+                    remuneracaoFixa: user.remuneracaoFixa ? formatCurrency(user.remuneracaoFixa.toString()) : 'Não Definido'
                 }));
 
                 setUsers(formattedUsers);
+                console.log(formattedUsers); // Verificar os dados que chegaram
             } catch (error) {
                 alert("Não foi possível carregar os usuários.");
             }
@@ -137,18 +140,21 @@ export default function Bloquear() {
             <ul id="userList">
                 {users.length > 0 ? (
                     users.map((user) => (
-                        <li
-                            key={user.id}
-                            className={`user-item ${user.bloqueado ? 'blocked' : ''}`}
-                        >
+                        <li key={user.id} className={`user-item ${user.bloqueado ? 'blocked' : ''}`}>
                             <div id="span">
                                 <span className="user-email">{user.email} | </span>
                                 <span className="user-remuneracao">{user.remuneracaoFixa}</span>
                             </div>
                             <div id="bloquearDisplay">
-                                <button className="Desbloquear" onClick={() => handleSubmitUnblock(user.id)}><img src={unblockIcon} alt="Desbloquear" /></button>
-                                <button className="bloquear" onClick={() => handleSubmit(user.id)}><img src={blockIcon} alt="Bloquear" /></button>
-                                <button className="remuneracao" onClick={() => handleUpdateClick(user.id)}><img src={dolarIcon} alt="Atualizar Remuneração" /></button>
+                                <button className="Desbloquear" onClick={() => handleSubmitUnblock(user.id)}>
+                                    <img src={unblockIcon} alt="Desbloquear" />
+                                </button>
+                                <button className="bloquear" onClick={() => handleSubmit(user.id)}>
+                                    <img src={blockIcon} alt="Bloquear" />
+                                </button>
+                                <button className="remuneracao" onClick={() => handleUpdateClick(user.id)}>
+                                    <img src={dolarIcon} alt="Atualizar Remuneração" />
+                                </button>
                             </div>
                         </li>
                     ))
@@ -158,19 +164,21 @@ export default function Bloquear() {
             </ul>
 
             {showForm && currentUser && isOpen && (
-                <div id="updateForm">
-                    <button id="closeRemuneracao" onClick={closeRemuneracao}>x</button>
-                    <p id="titleUpdate">Remuneração: {currentUser.email}</p>
-                    <input
-                        id="remuneracao"
-                        value={remuneracaoFixa}
-                        onChange={handleFormatacaoFixa}
-                        placeholder="Informe o valor a ser cadastrado"
-                    />
-                    <div id="displayButton">
-                        <button id="save" onClick={handleUpdate}>Salvar</button>
-                        <button id="delete" onClick={closeRemuneracao}>Cancelar</button>
-                    </div>
+                <div id="updateForm" onClick={handleUpdate}>
+                    <form>
+                        <button id="closeRemuneracao" onClick={closeRemuneracao}>x</button>
+                        <p id="titleUpdate">Remuneração: {currentUser.email}</p>
+                        <input
+                            id="remuneracao"
+                            value={remuneracaoFixa}
+                            onChange={handleFormatacaoFixa}
+                            placeholder="Informe o valor a ser cadastrado"
+                        />
+                        <div id="displayButton">
+                            <button id="save">Salvar</button>
+                            <button id="delete" onClick={closeRemuneracao}>Cancelar</button>
+                        </div>
+                    </form>
                 </div>
             )}
         </div>

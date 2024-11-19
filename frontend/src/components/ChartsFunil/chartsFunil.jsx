@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; 
 import ApexCharts from "react-apexcharts";
 import { chartFunil } from "../../api/regra";
 
@@ -14,15 +14,38 @@ export default function ChartsFunil() {
             dataLabels: {
                 enabled: false
             },
+            yaxis: {
+                show: false 
+            },
             legend: {
                 position: 'top',
+            },
+            title: {
+                text: 'ANÁLISE DE VENDAS POR ÁREAS', 
+                align: 'center',
+                style: {
+                    fontSize: '14px',
+                    // textTransform: 'uppercase',
+                    fontWeight: '500',
+                    marginBottom: '10px',
+                    color: '#8A8686'
+                }
             },
             tooltip: {
                 enabled: true,
                 y: {
                     formatter: (val) => `${val} Grupos`
                 }
-            }
+            },
+            colors: [
+                '#ADD8E6',  
+                '#B0D6D6',  
+                '#A2B9BC',  
+                '#4682B4',  
+                '#88B6B0',  
+                '#5F8C96',  
+                '#E6F0F1'   
+            ]            
         }
     });
 
@@ -59,7 +82,7 @@ export default function ChartsFunil() {
     }, []);
 
     return (
-        <div style={{ width: '500px', height: '260px', padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px', gap: '15px' }}>
+        <div style={{ width: '500px', height: '260px', padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px', gap: '15px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
             <ApexCharts
                 options={chartData.options}
                 series={chartData.series}

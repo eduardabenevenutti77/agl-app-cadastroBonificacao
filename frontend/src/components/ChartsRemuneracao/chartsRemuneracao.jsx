@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ApexCharts from "react-apexcharts";
 import { findUser } from "../../api/user";
+import './style-remuneracao.css'
 
 export default function ChartsRemunerecao() {
     const [users, setUsers] = useState([]);
@@ -103,7 +104,7 @@ export default function ChartsRemunerecao() {
     }, []); 
 
     return (
-        <div style={{width: '950px', padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px' }}>
+        <div style={{width: '950px', padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
             <ApexCharts
                 options={chartData.options}
                 series={chartData.series}

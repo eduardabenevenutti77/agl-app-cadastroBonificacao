@@ -8,6 +8,7 @@ router.get('/getFunil', UserApi.findFunil);
 
 router.post('/fase', UserApi.createFase);
 router.get('/getFase', UserApi.findFase);
+// http://localhost:3000/api/v1/regra/getFase/2
 
 router.post('/produto', UserApi.createProduto);
 router.get('/getProduto', UserApi.findProduto);
@@ -21,6 +22,9 @@ router.get('/getFuncionario', UserApi.findFuncionario);
 router.get('/getValorVendasAnual', UserApi.findVendasAnual);
 router.get('/getProdutosVendidos', UserApi.findProdutosVendidos);
 router.get('/getVendasMensal', UserApi.findVendasMensal);
+
+router.get('/getVendasMensalTime', UserApi.findMonthTime);
+router.get('/getVendasMensalFunc', UserApi.findMonthFunc);
 
 router.get('/calculoOTE', UserApi.calculoOTE);
 

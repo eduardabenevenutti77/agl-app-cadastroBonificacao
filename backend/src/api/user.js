@@ -124,8 +124,10 @@ class UserApi {
     }
 
     async findFase(req, res) {
+        // const { selectFunil } = req.params
         try {
             const fase = await RegraController.findFase();
+            console.log('Caiu no API')
             console.log(res);
             return res.status(201).json(fase);
         } catch (e) {
@@ -256,6 +258,26 @@ class UserApi {
             return res.status(200).send({result});
         } catch (e) {
             console.log('Erro ao buscar funis para o charts -> ', e.message);
+            res.status(400).send({e: e.message});
+        }
+    }
+
+    async findMonthTime(req, res) {
+        try {
+            const findMonth = await RegraController.findMonthTime();
+            return res.status(200).send({findMonth});
+        } catch (e) {
+            console.log('Erro ao realizar a requisição para a busca de vendas por time, detalhes do erro -> ', e.message);
+            res.status(400).send({e: e.message});
+        }
+    }
+
+    async findMonthFunc(req, res) {
+        try {
+            const findMonthFunc = await RegraController.findMonthFunc();
+            return res.status(200).send({findMonthFunc});
+        } catch (e) {
+            console.log('Erro ao realizar a requisição para a busca de vendas por time, detalhes do erro -> ', e.message);
             res.status(400).send({e: e.message});
         }
     }
