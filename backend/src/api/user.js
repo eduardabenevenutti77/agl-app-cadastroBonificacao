@@ -201,7 +201,7 @@ class UserApi {
     async findVendasAnual(req, res) {
         try {
             const vendasAnual = await RegraController.findVendasAnual();
-            return res.status(200).send({vendasAnual})
+            return res.status(200).send({ vendasAnual })
         } catch (e) {
             console.log('Erro ao buscar vendas anuais [1] -> ', e);
             res.status(400).send({ e: e.message });
@@ -211,7 +211,7 @@ class UserApi {
     async findProdutosVendidos(req, res) {
         try {
             const produtosVendidos = await RegraController.findProdutosVendidos();
-            return res.status(200).send({produtosVendidos})
+            return res.status(200).send({ produtosVendidos })
         } catch (e) {
             console.log('Erro ao buscar quantidade de produtos vendidos [1] -> ', e);
             res.status(400).send({ e: e.message });
@@ -221,7 +221,7 @@ class UserApi {
     async findVendasMensal(req, res) {
         try {
             const vendasMensal = await RegraController.findVendasMensal();
-            return res.status(200).send({vendasMensal})
+            return res.status(200).send({ vendasMensal })
         } catch (e) {
             console.log('Erro ao buscar vendas mensal [1] -> ', e);
             res.status(400).send({ e: e.message });
@@ -231,7 +231,7 @@ class UserApi {
     async calculoOTE(req, res) {
         try {
             const resultadoOte = await RegraController.calculoOTE();
-            return res.status(200).send({resultadoOte}); 
+            return res.status(200).send({ resultadoOte });
         } catch (e) {
             console.log('Erro ao realizar os cáculos de OTE -> ', e);
             res.status(400).send({ e: e.message });
@@ -242,43 +242,43 @@ class UserApi {
         try {
             console.log(req.body)
             console.log('bateu aqui - api')
-            const {remuneracaoFixa} = req.body;
-            const {userId} = req.params;
+            const { remuneracaoFixa } = req.body;
+            const { userId } = req.params;
             const result = await RegraController.cadastroFixa(remuneracaoFixa, userId);
-            return res.status(200).send({result});
+            return res.status(200).send({ result });
         } catch (e) {
             console.log('Erro ao cadastrar a remuneração fixa do usuário -> ', e.message);
-            res.status(400).send({e: e.message});
+            res.status(400).send({ e: e.message });
         }
     }
 
     async chartsFunil(req, res) {
         try {
             const result = await RegraController.chartsFunil();
-            return res.status(200).send({result});
+            return res.status(200).send({ result });
         } catch (e) {
             console.log('Erro ao buscar funis para o charts -> ', e.message);
-            res.status(400).send({e: e.message});
+            res.status(400).send({ e: e.message });
         }
     }
 
     async findMonthTime(req, res) {
         try {
             const findMonth = await RegraController.findMonthTime();
-            return res.status(200).send({findMonth});
+            return res.status(200).send({ findMonth });
         } catch (e) {
             console.log('Erro ao realizar a requisição para a busca de vendas por time, detalhes do erro -> ', e.message);
-            res.status(400).send({e: e.message});
+            res.status(400).send({ e: e.message });
         }
     }
 
     async findMonthFunc(req, res) {
         try {
             const findMonthFunc = await RegraController.findMonthFunc();
-            return res.status(200).send({findMonthFunc});
+            return res.status(200).send({ findMonthFunc });
         } catch (e) {
             console.log('Erro ao realizar a requisição para a busca de vendas por time, detalhes do erro -> ', e.message);
-            res.status(400).send({e: e.message});
+            res.status(400).send({ e: e.message });
         }
     }
 }

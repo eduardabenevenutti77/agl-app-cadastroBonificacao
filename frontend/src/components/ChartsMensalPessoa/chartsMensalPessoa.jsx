@@ -60,7 +60,7 @@ export default function ChartsMensalPessoa() {
           color: '#8A8686'
         }
       },
-      colors: ['#5A9DB9'], 
+      colors: ['#5A9DB9'],
     }
   });
 
@@ -92,19 +92,19 @@ export default function ChartsMensalPessoa() {
         alert("Erro ao carregar dados do gráfico.");
       }
     };
-        
+
     fetchData();
-}, []);
+  }, []);
 
   return (
-    <div style={{ width: '660px', padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
+    <div style={{ width: '660px', padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
       <ApexChart
         options={chartData.options}
         series={chartData.series}
         type="bar"
         width={590}
         height={300}
-        style={{ marginLeft: '35px'}}
+        style={{ marginLeft: '35px' }}
       />
     </div>
   );

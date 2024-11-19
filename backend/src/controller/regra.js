@@ -10,29 +10,29 @@ const { Op } = require('sequelize');
 grupo.belongsTo(funil, { foreignKey: 'funilID' });
 
 class RegraController {
-    async cadastroRegra(campoPorcento, criterioUm,  selectFunil, selectedProduto, quantidade, selectedTime, selectFuncionario) {
+    async cadastroRegra(campoPorcento, criterioUm, selectFunil, selectedProduto, quantidade, selectedTime, selectFuncionario) {
         // primeiro realizar o cadastro do grupo => id do time, id do funcionário e id do produto 
         // cadastrar o 1º criterio, 2º criterio e o id do funil daquela criterio
         // em regra, cadastrar a remuneração fixa, a remuneração variável, a porcentagem, o id do critério e o id do grupo
         // cadastrar a informação normal e quando for puxar do banco realizar o cálculo
         // Validação de campos obrigatórios
-        if (!campoPorcento || !criterioUm || !selectedTime  || !selectedProduto || !selectFunil) {
+        if (!campoPorcento || !criterioUm || !selectedTime || !selectedProduto || !selectFunil) {
             throw new Error("Todos os campos são obrigatórios!");
         }
         try {
             const createGrupo = await grupo.create({
                 timeID: selectedTime,
-                funcionarioID: selectFuncionario, 
+                funcionarioID: selectFuncionario,
                 produtoID: selectedProduto,
                 funilID: selectFunil
             });
             if (createGrupo) {
-                    const createRegra = await regra.create({
-                        criterio: criterioUm,
-                        porcentagem: campoPorcento,
-                        grupoID: createGrupo.id,
-                    });
-                    return createRegra;
+                const createRegra = await regra.create({
+                    criterio: criterioUm,
+                    porcentagem: campoPorcento,
+                    grupoID: createGrupo.id,
+                });
+                return createRegra;
             } else {
                 console.log("Problema ao cadastrar grupo, revise os dados e tente novamente!");
             }
@@ -56,30 +56,30 @@ class RegraController {
             throw new Error('Remuneração fixa não informada.');
         }
         console.log('Remuneração:', remuneracaoFixa);
-    
+
         try {
-            userId = parseInt(userId, 10); 
+            userId = parseInt(userId, 10);
             console.log(`Buscando usuário com ID: ${userId}`);
-    
+
             const findUser = await user.findByPk(userId);
             if (!findUser) {
                 console.log('Usuário não encontrado para o ID:', userId);
                 throw new Error('Usuário não encontrado.');
             } else {
                 const updateUser = {
-                    remuneracaoFixa 
+                    remuneracaoFixa
                 };
-    
+
                 const [updatedRows] = await user.update(updateUser, {
                     where: { id: userId }
                 });
-    
+
                 if (updatedRows === 0) {
                     console.log('Nenhuma linha foi atualizada. Verifique o userId ou os dados.');
                 } else {
                     console.log('Remuneração fixa atualizada com sucesso!');
                 }
-    
+
                 return 'Remuneração fixa atualizada com sucesso!';
             }
         } catch (e) {
@@ -93,7 +93,7 @@ class RegraController {
             }
         }
     }
-    
+
 
     async findFunil() {
         const findAll = await funil.findAll();
@@ -292,20 +292,20 @@ class RegraController {
         try {
             const allProdutosVendidos = await grupo.count({
                 distinct: true,
-                col: 'funcionarioID' 
+                col: 'funcionarioID'
             });
             return allProdutosVendidos;
         } catch (e) {
             console.error("Erro ao buscar dados de produtos vendidos ->", e.message);
         }
     }
-    
+
     async findVendasMensal() {
         try {
             const currentDate = new Date();
             const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-            const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0); 
-    
+            const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+
             const vendasMensal = await regra.count({
                 where: {
                     createdAt: {
@@ -317,27 +317,27 @@ class RegraController {
         } catch (error) {
             console.error("Erro ao buscar dados das vendas mensal ->", error.message);
         }
-    }    
+    }
 
     async calculoOTE() {
         try {
             const criterioUm = await criterio.findAll({ attributes: ['id', 'criterioUm'] });
             const criterioDois = await criterio.findAll({ attributes: ['id', 'criterioDois'] });
 
-            const criteriosIniciais = criterioUm.map(item => item.criterioUm); 
-            const criteriosSecundarios = criterioDois.map(item => item.criterioDois); 
-    
+            const criteriosIniciais = criterioUm.map(item => item.criterioUm);
+            const criteriosSecundarios = criterioDois.map(item => item.criterioDois);
+
             const timeID = await regra.findAll({
                 attributes: ['id', 'grupoID'],
                 include: [{
                     model: grupo,
-                    required: false,  
+                    required: false,
                     attributes: ['id', 'timeID'],
                 }]
             });
 
             const identificadoresTimes = timeID.map(item => {
-                return item.grupo ? item.grupo.timeID : null; 
+                return item.grupo ? item.grupo.timeID : null;
             }).filter(timeID => timeID !== null);
 
             criteriosIniciais.forEach(criterioInicial => {
@@ -369,17 +369,17 @@ class RegraController {
                             console.log('Aplicar a validação aqui [1,0]');
                         } else if (criterioInicial > 3001 && identificadorTime === 9 || identificadorTime === 10) {
                             console.log('Aplicar a validação aqui [1,1]');
-                        } else if (criterioInicial < 500 && criterioSecundario === 700 && identificadorTime === 0 ) {
+                        } else if (criterioInicial < 500 && criterioSecundario === 700 && identificadorTime === 0) {
                             console.log('Aplicar a validação aqui [0,1]');
-                        } else if (criterioInicial < 701 && criterioSecundario === 900 && identificadorTime === 0 ) {
+                        } else if (criterioInicial < 701 && criterioSecundario === 900 && identificadorTime === 0) {
                             console.log('Aplicar a validação aqui [0,2]');
-                        } else if (criterioInicial < 901 && criterioSecundario === 1200 && identificadorTime === 0 ) {
+                        } else if (criterioInicial < 901 && criterioSecundario === 1200 && identificadorTime === 0) {
                             console.log('Aplicar a validação aqui [0,4]');
-                        } else if (criterioInicial < 1201 && criterioSecundario === 1500 && identificadorTime === 0 ) {
+                        } else if (criterioInicial < 1201 && criterioSecundario === 1500 && identificadorTime === 0) {
                             console.log('Aplicar a validação aqui [0,6]');
-                        } else if (criterioInicial < 1501 && criterioSecundario === 2000 && identificadorTime === 0 ) {
+                        } else if (criterioInicial < 1501 && criterioSecundario === 2000 && identificadorTime === 0) {
                             console.log('Aplicar a validação aqui [0,7]');
-                        } else if (criterioInicial > 2001 && identificadorTime === 0 ) {
+                        } else if (criterioInicial > 2001 && identificadorTime === 0) {
                             console.log('Aplicar a validação aqui [0,8]');
                         } else {
                             console.log('caiu fora da validação')
@@ -391,31 +391,31 @@ class RegraController {
             console.error("Erro ->", e.message);
             console.error("Detalhes ->", e);
         }
-    }    
+    }
 
     async chartsFunil() {
         try {
-            const grupos = await grupo.findAll(); 
-            const funis = await funil.findAll();  
-    
+            const grupos = await grupo.findAll();
+            const funis = await funil.findAll();
+
             const funisMap = funis.reduce((acc, funil) => {
                 acc[funil.id] = funil.funil;
                 return acc;
             }, {});
-    
+
             const funilContagem = grupos.reduce((acc, grupo) => {
                 const funilID = grupo.funilID;
                 const nomeFunil = funisMap[funilID] || "Desconhecido";
-                
+
                 if (!acc[funilID]) {
                     acc[funilID] = { nome: nomeFunil, totalGrupos: 0 };
                 }
                 acc[funilID].totalGrupos += 1;
-    
+
                 return acc;
             }, {});
             const resultado = Object.values(funilContagem);
-            return resultado; 
+            return resultado;
         } catch (error) {
             console.error("Erro ao buscar dados de produtos vendidos ->", error.message);
         }
@@ -436,7 +436,7 @@ class RegraController {
                 const nomeTime = timeMap[timeID] || "Desconhecido";
 
                 if (!acc[timeID]) {
-                    acc[timeID] = { nome: nomeTime, totalGrupos: 0};
+                    acc[timeID] = { nome: nomeTime, totalGrupos: 0 };
                 }
                 acc[timeID].totalGrupos += 1;
 
@@ -464,7 +464,7 @@ class RegraController {
                 const nomeFunc = funcMap[funcionarioID] || "Desconhecido";
 
                 if (!acc[funcionarioID]) {
-                    acc[funcionarioID] = { nome: nomeFunc, totalGrupos: 0};
+                    acc[funcionarioID] = { nome: nomeFunc, totalGrupos: 0 };
                 }
                 acc[funcionarioID].totalGrupos += 1;
 
