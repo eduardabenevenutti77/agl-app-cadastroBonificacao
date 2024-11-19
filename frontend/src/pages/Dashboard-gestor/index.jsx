@@ -6,6 +6,7 @@ import html2pdf from "html2pdf.js";
 import ChartsRemunerecao from "../../components/ChartsRemuneracao/chartsRemuneracao";
 import ChartsFunil from "../../components/ChartsFunil/chartsFunil";
 import ChartsMensalPessoa from "../../components/ChartsMensalPessoa/chartsMensalPessoa";
+import ChartsMensal from "../../components/ChartsMensal/chartsMensal";
 
 export default function DashboardGestor() {
     const [vendasAnual, setVendasAnual] = useState(null);
@@ -95,7 +96,7 @@ export default function DashboardGestor() {
     };
 
     const handleDownload = () => {
-        const element = document.getElementById('container'); 
+        const element = document.getElementById('container');
         const options = {
             margin: 0,
             filename: 'relatorio.pdf',
@@ -140,10 +141,11 @@ export default function DashboardGestor() {
                 </div>
                 <div id='displayCharts'>
                     <ChartsRemunerecao id='chartsBorders' />
-                    <ChartsMensalPessoa />
+                    <ChartsMensal />
                 </div>
                 <div id="subCharts">
                     <ChartsFunil />
+                    <ChartsMensalPessoa />
                 </div>
             </div>
         </>

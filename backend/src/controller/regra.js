@@ -448,6 +448,34 @@ class RegraController {
             console.error("Erro ao buscar vendas por times ->", e.message);
         }
     }
+
+    async findMonthFunc() {
+        try {
+            const grupoMonth = await grupo.findAll();
+            const funcMonth = await funcionario.findAll();
+
+            const funcMap = funcMonth.reduce((acc, funcionario) => {
+                acc[funcionario.id] = funcionario.funcionario;
+                return acc;
+            }, {});
+
+            const funcionarioContagem = grupoMonth.reduce((acc, grupo) => {
+                const funcionarioID = grupo.funcionarioID;
+                const nomeFunc = funcMap[funcionarioID] || "Desconhecido";
+
+                if (!acc[funcionarioID]) {
+                    acc[funcionarioID] = { nome: nomeFunc, totalGrupos: 0};
+                }
+                acc[funcionarioID].totalGrupos += 1;
+
+                return acc;
+            }, {});
+            const findMonth = Object.values(funcionarioContagem);
+            return findMonth;
+        } catch (e) {
+            console.error("Erro ao buscar vendas por times ->", e.message);
+        }
+    }
 }
 
 function delay(ms) {

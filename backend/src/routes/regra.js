@@ -24,6 +24,7 @@ router.get('/getProdutosVendidos', UserApi.findProdutosVendidos);
 router.get('/getVendasMensal', UserApi.findVendasMensal);
 
 router.get('/getVendasMensalTime', UserApi.findMonthTime);
+router.get('/getVendasMensalFunc', UserApi.findMonthFunc);
 
 router.get('/calculoOTE', UserApi.calculoOTE);
 

@@ -97,12 +97,12 @@ export default function ChartsMensalPessoa() {
 }, []);
 
   return (
-    <div style={{ width: '950px', padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', marginTop: '25px'}}>
+    <div style={{ width: '660px', padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
       <ApexChart
         options={chartData.options}
         series={chartData.series}
         type="bar"
-        width={820}
+        width={590}
         height={300}
         style={{ marginLeft: '35px'}}
       />
