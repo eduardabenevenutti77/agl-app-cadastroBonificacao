@@ -137,7 +137,7 @@ export default function Cadastrovenda() {
     const handleSubmitForms = async (e) => {
         e.preventDefault();
         try {
-            const response = await cadastroRegra({...regra});
+            const response = await cadastroRegra({ ...regra });
             if (response.id) {
                 toast.success('Cadastro de comissão bem-sucedido!');
                 setCampoForm('');
@@ -178,7 +178,7 @@ export default function Cadastrovenda() {
                                 select
                                 value={selectFunil || ''}
                                 onChange={(e) => setSelectedFunil(e.target.value)}
-                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
+                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' }, '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
                             >
                                 <MenuItem value="">
                                     <em>Nenhum funil selecionado</em>
@@ -205,7 +205,7 @@ export default function Cadastrovenda() {
                                 select
                                 value={selectFase || ''}
                                 onChange={(e) => setSelectedFase(e.target.value)}
-                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
+                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' }, '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
                             >
                                 <MenuItem value="">
                                     <em>Nenhuma fase selecionada</em>
@@ -231,7 +231,7 @@ export default function Cadastrovenda() {
                                 select
                                 value={selectedProduto || ''}
                                 onChange={(e) => setSelectedProduto(e.target.value)}
-                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
+                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' }, '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
                             >
                                 <MenuItem value="">
                                     <em>Nenhum produto selecionado</em>
@@ -269,7 +269,7 @@ export default function Cadastrovenda() {
                                 select
                                 value={selectedTime || ''}
                                 onChange={(e) => setSelectedTime(e.target.value)}
-                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' },  '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
+                                sx={{ '& .MuiInputLabel-root': { color: '#01638C' }, '& .MuiInputLabel-root.Mui-focused': { color: '#01638C' } }}
                             >
                                 <MenuItem value="">
                                     <em>Nenhum time selecionado</em>
@@ -313,16 +313,16 @@ export default function Cadastrovenda() {
                             </TextField>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Selecione a data da venda"
-                            variant="outlined"
-                            size="small"
-                            fullWidth
-                            margin="normal"
-                            type="date"
-                            value={data} 
-                            onChange={(e) => setData(e.target.value)} 
-                        />
+                            <TextField
+                                label="Selecione a data da venda"
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                margin="normal"
+                                type="date"
+                                value={data}
+                                onChange={(e) => setData(e.target.value)}
+                            />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
@@ -331,8 +331,8 @@ export default function Cadastrovenda() {
                                 size="small"
                                 fullWidth
                                 margin="normal"
-                                value={valorVenda || ''} 
-                                onChange={handleChange} 
+                                value={valorVenda || ''}
+                                onChange={handleChange}
                             />
                         </Grid>
                     </Grid>

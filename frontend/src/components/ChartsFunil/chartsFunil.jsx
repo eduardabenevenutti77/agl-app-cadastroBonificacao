@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"; 
+import { useEffect, useState } from "react";
 import ApexCharts from "react-apexcharts";
 import { chartFunil } from "../../api/regra";
 
@@ -15,13 +15,13 @@ export default function ChartsFunil() {
                 enabled: false
             },
             yaxis: {
-                show: false 
+                show: false
             },
             legend: {
                 position: 'top',
             },
             title: {
-                text: 'ANÁLISE DE VENDAS POR ÁREAS', 
+                text: 'ANÁLISE DE VENDAS POR ÁREAS',
                 align: 'center',
                 style: {
                     fontSize: '14px',
@@ -38,14 +38,14 @@ export default function ChartsFunil() {
                 }
             },
             colors: [
-                '#ADD8E6',  
-                '#B0D6D6',  
-                '#A2B9BC',  
-                '#4682B4',  
-                '#88B6B0',  
-                '#5F8C96',  
-                '#E6F0F1'   
-            ]            
+                '#ADD8E6',
+                '#B0D6D6',
+                '#A2B9BC',
+                '#4682B4',
+                '#88B6B0',
+                '#5F8C96',
+                '#E6F0F1'
+            ]
         }
     });
 
@@ -53,13 +53,13 @@ export default function ChartsFunil() {
         const fetchData = async () => {
             try {
                 const data = await chartFunil();
-                
+
                 const funilData = data.result;
                 console.log("Dados recebidos:", funilData);
 
                 if (funilData && Array.isArray(funilData)) {
-                    const seriesData = funilData.map(item => item.totalGrupos || 0); 
-                    const categories = funilData.map(item => item.nome || "Desconhecido"); 
+                    const seriesData = funilData.map(item => item.totalGrupos || 0);
+                    const categories = funilData.map(item => item.nome || "Desconhecido");
 
                     setChartData({
                         series: seriesData,
@@ -77,7 +77,7 @@ export default function ChartsFunil() {
                 alert("Erro ao carregar dados do gráfico.");
             }
         };
-        
+
         fetchData();
     }, []);
 

@@ -14,21 +14,21 @@ export default function ChartsRemunerecao() {
                 backgroundColor: '#f6f6f6',
                 fontFamily: 'Jost',
                 toolbar: {
-                    show: false 
+                    show: false
                 }
             },
             plotOptions: {
                 bar: {
-                    borderRadius: 8, 
+                    borderRadius: 8,
                     horizontal: true,
                 }
             },
             dataLabels: {
-                enabled: false, 
-                formatter: (val) => `R$ ${val.toLocaleString('pt-BR')}`, 
+                enabled: false,
+                formatter: (val) => `R$ ${val.toLocaleString('pt-BR')}`,
                 style: {
-                    fontSize: '20px', 
-                    colors: ['#fff'], 
+                    fontSize: '20px',
+                    colors: ['#fff'],
                     fontFamily: 'Jost'
                 }
             },
@@ -36,24 +36,24 @@ export default function ChartsRemunerecao() {
                 categories: [],
                 labels: {
                     style: {
-                        fontSize: '12px', 
+                        fontSize: '12px',
                         colors: '#666',
                         fontFamily: 'Jost'
                     }
                 }
             },
             grid: {
-                borderColor: '#e7e7e7', 
-                strokeDashArray: 4, 
+                borderColor: '#e7e7e7',
+                strokeDashArray: 4,
             },
             tooltip: {
                 enabled: true,
                 y: {
-                    formatter: (val) => `R$ ${val.toLocaleString('pt-BR')}`, 
+                    formatter: (val) => `R$ ${val.toLocaleString('pt-BR')}`,
                 }
             },
             title: {
-                text: 'ANÁLISE DE REMUNERAÇÕES FIXAS POR FUNCIONÁRIOS', 
+                text: 'ANÁLISE DE REMUNERAÇÕES FIXAS POR FUNCIONÁRIOS',
                 align: 'center',
                 style: {
                     fontSize: '14px',
@@ -62,7 +62,7 @@ export default function ChartsRemunerecao() {
                     color: '#8A8686'
                 }
             },
-            colors: ['#5A9DB9'], 
+            colors: ['#5A9DB9'],
         }
     });
 
@@ -73,7 +73,7 @@ export default function ChartsRemunerecao() {
                 const roleUser = data.filter(user => user.permissao === 'user');
                 const formattedUsers = roleUser.map(user => ({
                     ...user,
-                    remuneracaoFixa: parseFloat(user.remuneracaoFixa), 
+                    remuneracaoFixa: parseFloat(user.remuneracaoFixa),
                 }));
 
                 const isAdmin = data.some(user => user.role === 'admin');
@@ -92,7 +92,7 @@ export default function ChartsRemunerecao() {
                             categories: categories
                         },
                         dataLabels: {
-                            enabled: isAdmin 
+                            enabled: isAdmin
                         }
                     }
                 });
@@ -101,16 +101,16 @@ export default function ChartsRemunerecao() {
             }
         };
         fetchData();
-    }, []); 
+    }, []);
 
     return (
-        <div style={{width: '950px', padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
+        <div style={{ width: '950px', padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
             <ApexCharts
                 options={chartData.options}
                 series={chartData.series}
                 type="bar"
                 width={900}
-                height={300} 
+                height={300}
             />
         </div>
     );

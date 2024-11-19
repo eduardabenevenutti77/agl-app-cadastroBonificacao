@@ -15,6 +15,8 @@ export default function ChartsMensal() {
       chart: {
         type: 'area',
         height: 350,
+        fontFamily: 'Jost',
+        backgroundColor: '#f6f6f6',
         toolbar: { show: false },
         background: 'transparent',
       },
@@ -24,7 +26,7 @@ export default function ChartsMensal() {
         style: {
           fontSize: '14px',
           fontWeight: '500',
-          color: '#8A8686', 
+          color: '#8A8686',
         }
       },
       colors: ['#5A9DB9'],
@@ -33,24 +35,26 @@ export default function ChartsMensal() {
         enabled: true,
         style: {
           fontSize: '14px',
+          fontFamily: 'Jost',
           colors: ['#fff']
         }
       },
       grid: {
         show: true,
         borderColor: '#ddd',
-        strokeDashArray: 5, 
+        strokeDashArray: 5,
       },
       stroke: {
         curve: 'smooth',
-        width: 3, 
+        width: 3,
       },
       tooltip: {
         enabled: true,
         style: {
           fontSize: '12px',
-          backgroundColor: '#333', 
-          color: '#fff', 
+          backgroundColor: '#333',
+          color: '#fff',
+          fontFamily: 'Jost'
         }
       }
     }
@@ -63,16 +67,16 @@ export default function ChartsMensal() {
       try {
         const data = await findMonthFunc();
         console.log('Dados recebidos:', data);
-    
+
         if (Array.isArray(data.findMonthFunc)) {
           const funnelData = data.findMonthFunc.map(item => {
-            const yValue = item.totalGrupos && !isNaN(item.totalGrupos) ? item.totalGrupos : 0; 
+            const yValue = item.totalGrupos && !isNaN(item.totalGrupos) ? item.totalGrupos : 0;
             return {
               x: item.nome || 'Desconhecido',
               y: yValue
             };
           });
-    
+
           setChartData(prev => ({
             ...prev,
             series: [
@@ -82,7 +86,7 @@ export default function ChartsMensal() {
               }
             ]
           }));
-          setIsDataLoaded(true); 
+          setIsDataLoaded(true);
         } else {
           console.error('Dados no formato inesperado:', data);
           alert('Não foi possível carregar os dados do gráfico.');
@@ -91,24 +95,24 @@ export default function ChartsMensal() {
         console.error('Erro ao buscar dados do funil:', error.message);
         alert('Erro ao carregar dados.');
       }
-    };    
+    };
 
     fetchData();
-  }, []); 
+  }, []);
 
   if (!isDataLoaded) {
-    return <div>Carregando gráfico...</div>; 
+    return <div>Carregando gráfico...</div>;
   }
 
   return (
     <div
-    style={{width: '950px', padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', marginTop: '25px' }}
+      style={{ width: '950px', padding: '20px', backgroundColor: '#f6f6f6', borderRadius: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', marginTop: '25px' }}
     >
       <ApexChart
         options={chartData.options}
         series={chartData.series}
         type="area"
-        width={920} 
+        width={920}
         height={350}
       />
     </div>

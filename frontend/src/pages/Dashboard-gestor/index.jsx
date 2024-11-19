@@ -112,9 +112,6 @@ export default function DashboardGestor() {
         <>
             <div id="container">
                 <div id="display">
-                    {/* <div id="displayButton">
-                        <button id="download" onClick={handleDownload}>Download dos gráficos <img src={download} alt="Download Icon" /></button>
-                    </div> */}
                 </div>
                 <div id="displayGraficoNumerico">
                     <div id="backgroundNumerico1">

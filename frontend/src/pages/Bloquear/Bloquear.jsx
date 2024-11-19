@@ -10,7 +10,7 @@ import "./style-bloquear.css";
 
 export default function Bloquear() {
     const [users, setUsers] = useState([]);
-    const { token, userId } = useContext(AuthContext); 
+    const { token, userId } = useContext(AuthContext);
     const [remuneracaoFixa, setRemuneracaoFixa] = useState('');
     const [showForm, setShowForm] = useState(false);
     const [currentUserId, setCurrentUserId] = useState(null);
@@ -77,33 +77,33 @@ export default function Bloquear() {
     const handleUpdate = async () => {
         try {
             const cleanedRemuneracaoFixa = remuneracaoFixa
-                .replace('R$', '')     
-                .replace(/\./g, '')    
-                .replace(',', '.');    
-    
+                .replace('R$', '')
+                .replace(/\./g, '')
+                .replace(',', '.');
+
             const value = parseFloat(cleanedRemuneracaoFixa);
-    
+
             // if (isNaN(value)) {
             //     toast.error('O valor da remuneração fixa é inválido!');
             //     return;
             // }
-    
+
             const response = await cadastroFixa({ remuneracaoFixa: value, userId: currentUser.id });
-            
+
             if (response.message) {
                 toast.success('Cadastro de remuneração fixa realizado com sucesso!');
                 setShowForm(false);
-                setIsOpen(false); 
-                setRemuneracaoFixa('');  
+                setIsOpen(false);
+                setRemuneracaoFixa('');
             }
         } catch (error) {
             toast.error("Erro ao atualizar a remuneração.");
         }
     };
-    
+
     const closeRemuneracao = () => {
         setIsOpen(false);
-        setShowForm(false); 
+        setShowForm(false);
     };
 
     useEffect(() => {
@@ -113,7 +113,7 @@ export default function Bloquear() {
                 const data = await findUser();
                 const filteredUsers = data.filter(user => user.id !== userId);
                 const roleUser = filteredUsers.filter(user => user.permissao === 'user');
-                
+
                 // Formatar usuários
                 const formattedUsers = roleUser.map(user => ({
                     ...user,
