@@ -105,14 +105,6 @@ npm start
 3. **Visualize relatórios anuais** de vendas na seção apropriada.
 4. **Interaja com a interface** para garantir que as funcionalidades estão operando conforme esperado.
 
-#### Exemplo de Uso
-
-Após iniciar o aplicativo, você verá a tela inicial onde poderá:
-
-- Cadastrar uma nova bonificação ao clicar em "Adicionar Bonificação".
-- Visualizar as bonificações cadastradas em uma lista.
-- Editar ou excluir bonificações existentes.
-
 ### Estrutura do Projeto
 
 ```plaintext
@@ -136,15 +128,5 @@ agl-app-cadastroBonificacao/
 │
 └── README.md                 # Documentação do projeto
 ```
-
-### Contribuição
-
-Contribuições são bem-vindas! Para contribuir, siga estas etapas:
-
-1. Faça um fork do repositório.
-2. Crie uma nova branch (`git checkout -b feature/YourFeature`).
-3. Faça suas alterações e commit (`git commit -m 'Add some feature'`).
-4. Envie para o repositório remoto (`git push origin feature/YourFeature`).
-5. Abra um Pull Request.
 
 ---
