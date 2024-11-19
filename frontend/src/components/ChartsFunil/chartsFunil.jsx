@@ -25,7 +25,6 @@ export default function ChartsFunil() {
                 align: 'center',
                 style: {
                     fontSize: '14px',
-                    // textTransform: 'uppercase',
                     fontWeight: '500',
                     marginBottom: '10px',
                     color: '#8A8686'

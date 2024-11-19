@@ -24,7 +24,6 @@ export default function ChartsMensalPessoa() {
       },
       dataLabels: {
         enabled: false,
-        // formatter: (val) => `R$ ${val.toLocaleString('pt-BR')}`,
         style: {
           fontSize: '20px',
           colors: ['#fff'],
@@ -47,9 +46,6 @@ export default function ChartsMensalPessoa() {
       },
       tooltip: {
         enabled: true,
-        // y: {
-        //   formatter: (val) => `R$ ${val.toLocaleString('pt-BR')}`,
-        // }
       },
       title: {
         text: 'ANÁLISE DE VENDAS ANUAIS POR TIME',

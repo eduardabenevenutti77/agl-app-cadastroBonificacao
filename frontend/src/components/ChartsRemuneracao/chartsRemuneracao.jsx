@@ -57,7 +57,6 @@ export default function ChartsRemunerecao() {
                 align: 'center',
                 style: {
                     fontSize: '14px',
-                    // textTransform: 'uppercase',
                     fontWeight: '500',
                     color: '#8A8686'
                 }

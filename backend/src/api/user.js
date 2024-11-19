@@ -124,7 +124,6 @@ class UserApi {
     }
 
     async findFase(req, res) {
-        // const { selectFunil } = req.params
         try {
             const fase = await RegraController.findFase();
             console.log('Caiu no API')
