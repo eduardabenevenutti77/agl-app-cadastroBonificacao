@@ -15,6 +15,8 @@ export default function ChartsMensal() {
       chart: {
         type: 'area',
         height: 350,
+        fontFamily: 'Jost',
+        backgroundColor: '#f6f6f6',
         toolbar: { show: false },
         background: 'transparent',
       },
@@ -33,6 +35,7 @@ export default function ChartsMensal() {
         enabled: true,
         style: {
           fontSize: '14px',
+          fontFamily: 'Jost',
           colors: ['#fff']
         }
       },
@@ -51,6 +54,7 @@ export default function ChartsMensal() {
           fontSize: '12px',
           backgroundColor: '#333', 
           color: '#fff', 
+          fontFamily: 'Jost'
         }
       }
     }
