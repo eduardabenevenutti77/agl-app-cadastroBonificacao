@@ -33,7 +33,7 @@ export default function ChartsFunil() {
             tooltip: {
                 enabled: true,
                 y: {
-                    formatter: (val) => `${val} Grupos`
+                    formatter: (val) => `${val} Vendas Realizadas`
                 }
             },
             colors: [

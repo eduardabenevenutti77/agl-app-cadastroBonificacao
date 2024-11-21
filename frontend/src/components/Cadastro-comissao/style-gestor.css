@@ -14,3 +14,18 @@ body {
     color: #b2b2b2;
     font-weight: 400;
 }
+
+#display-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-comissao {
+    width: 1000px;
+    margin-top: 40px; 
+    margin: 'auto'; 
+    background: '#FCFCF4';
+    border-radius: 25px;
+    margin-bottom: 30px;
+}

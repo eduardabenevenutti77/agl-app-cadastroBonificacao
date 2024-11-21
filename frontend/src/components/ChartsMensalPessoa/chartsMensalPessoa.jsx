@@ -70,7 +70,7 @@ export default function ChartsMensalPessoa() {
           const categories = data.findMonth.map(item => item.nome || "Desconhecido");
 
           setChartData({
-            series: [{ name: "Total Grupos", data: seriesData }],
+            series: [{ name: "Vendas Realizadas", data: seriesData }],
             options: {
               ...chartData.options,
               xaxis: {

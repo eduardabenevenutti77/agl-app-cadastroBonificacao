@@ -80,7 +80,7 @@ export default function ChartsMensal() {
             ...prev,
             series: [
               {
-                name: 'Etapas do Funil',
+                name: 'Quantidade de vendas realizadas',
                 data: funnelData
               }
             ]

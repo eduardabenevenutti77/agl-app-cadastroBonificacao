@@ -49,9 +49,12 @@ export default function ChartsRemunerecao() {
             tooltip: {
                 enabled: true,
                 y: {
-                    formatter: (val) => `R$ ${val.toLocaleString('pt-BR')}`,
+                    title: {
+                        formatter: () => "Remuneração Fixa",
+                    },
+                    formatter: (val) => `R$ ${val.toLocaleString('pt-BR')}`, 
                 }
-            },
+            },            
             title: {
                 text: 'ANÁLISE DE REMUNERAÇÕES FIXAS POR FUNCIONÁRIOS',
                 align: 'center',
