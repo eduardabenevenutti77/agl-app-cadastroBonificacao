@@ -19,7 +19,7 @@ export default function Bloquear() {
     const handleSubmit = async (id) => {
         try {
             const response = await blockUser(id);
-            location.reload();
+            // location.reload();
             if (response.message) {
                 console.log('Usuário Bloqueado!');
                 setUsers(prevUsers =>

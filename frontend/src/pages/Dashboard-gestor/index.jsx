@@ -137,7 +137,7 @@ export default function DashboardGestor() {
                     </div>
                 </div>
                 <div id='displayCharts'>
-                    <ChartsRemunerecao id='chartsBorders' />
+                    {/* <ChartsRemunerecao id='chartsBorders' /> */}
                     <ChartsMensal />
                 </div>
                 <div id="subCharts">

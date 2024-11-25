@@ -200,7 +200,7 @@ export default function Cadastrocomissao() {
                 // setCriterioUm('');
                 // setMultiplicador('');
                 // setQuantidade('');
-                location.reload();
+                // location.reload();
             } else {
                 toast.error('Cadastro de comissão falhou!')
             }
