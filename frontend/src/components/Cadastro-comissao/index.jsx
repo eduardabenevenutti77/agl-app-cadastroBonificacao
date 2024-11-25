@@ -185,7 +185,16 @@ export default function Cadastrocomissao() {
     const removendoFormatacao = (campo) => {
         return campo.replace(/[^0-9]/g, '')
     }
-    const regra = { campoPorcento: removendoFormatacao(campoPorcento), criterioUm: removendoFormatacao(criterioUm), selectFunil, selectFase, selectedProduto, quantidade, selectedTime, selectFuncionario };
+    const regra = { 
+        campoPorcento: removendoFormatacao(campoPorcento), 
+        criterioUm: removendoFormatacao(criterioUm), 
+        selectFunil, 
+        selectFase, 
+        selectedProduto, 
+        selectedTime, 
+        funcionarioID: selectFuncionario, // Verifique se está enviando como `funcionario` 
+    };
+    console.log('Regra enviada para o cadastro -> ', regra);
     const handleSubmitForms = async (e) => {
         e.preventDefault();
         try {
@@ -193,14 +202,6 @@ export default function Cadastrocomissao() {
             const response = await cadastroRegra({ ...regra });
             if (response.id) {
                 toast.success('Cadastro de comissão bem-sucedido!');
-                // setCampoForm('');
-                // setCampoPorcento('');
-                // setCampoVariavel('');
-                // setCriterioDois('');
-                // setCriterioUm('');
-                // setMultiplicador('');
-                // setQuantidade('');
-                // location.reload();
             } else {
                 toast.error('Cadastro de comissão falhou!')
             }
@@ -364,7 +365,7 @@ export default function Cadastrocomissao() {
                                     fullWidth
                                     margin="normal"
                                     select
-                                    value={selectFuncionario || ''}
+                                    value={selectFuncionario}
                                     onChange={(e) => setSelectedFuncionario(e.target.value)}
                                 >
                                     <MenuItem value="">

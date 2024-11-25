@@ -10,7 +10,7 @@ const { Op } = require('sequelize');
 grupo.belongsTo(funil, { foreignKey: 'funilID' });
 
 class RegraController {
-    async cadastroRegra(campoPorcento, criterioUm, selectFunil, selectedProduto, quantidade, selectedTime, selectFuncionario) {
+    async cadastroRegra(campoPorcento, criterioUm, selectFunil, selectedProduto, quantidade, selectedTime, funcionarioID) {
         if (!campoPorcento || !criterioUm || !selectedTime || !selectedProduto || !selectFunil) {
             throw new Error("Todos os campos são obrigatórios!");
         }
@@ -22,12 +22,12 @@ class RegraController {
                 selectedProduto,
                 quantidade,
                 selectedTime,
-                selectFuncionario,
+                funcionarioID,
             });
 
             console.log("Criando grupo com os dados:", {
                 timeID: selectedTime,
-                funcionarioID: selectFuncionario,
+                funcionarioID: funil,
                 produtoID: selectedProduto,
                 funilID: selectFunil,
             });
@@ -39,7 +39,7 @@ class RegraController {
     
             const createGrupo = await grupo.create({
                 timeID: selectedTime,
-                funcionarioID: selectFuncionario,
+                funcionarioID: funcionarioID,
                 produtoID: selectedProduto,
                 funilID: selectFunil,
             });
