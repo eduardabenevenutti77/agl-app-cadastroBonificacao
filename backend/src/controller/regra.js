@@ -11,22 +11,41 @@ grupo.belongsTo(funil, { foreignKey: 'funilID' });
 
 class RegraController {
     async cadastroRegra(campoPorcento, criterioUm, selectFunil, selectedProduto, quantidade, selectedTime, selectFuncionario) {
-        // primeiro realizar o cadastro do grupo => id do time, id do funcionário e id do produto 
-        // cadastrar o 1º criterio, 2º criterio e o id do funil daquela criterio
-        // em regra, cadastrar a remuneração fixa, a remuneração variável, a porcentagem, o id do critério e o id do grupo
-        // cadastrar a informação normal e quando for puxar do banco realizar o cálculo
-        // Validação de campos obrigatórios
         if (!campoPorcento || !criterioUm || !selectedTime || !selectedProduto || !selectFunil) {
             throw new Error("Todos os campos são obrigatórios!");
         }
         try {
+            console.log("Valores recebidos:", {
+                campoPorcento,
+                criterioUm,
+                selectFunil,
+                selectedProduto,
+                quantidade,
+                selectedTime,
+                selectFuncionario,
+            });
+
+            console.log("Criando grupo com os dados:", {
+                timeID: selectedTime,
+                funcionarioID: selectFuncionario,
+                produtoID: selectedProduto,
+                funilID: selectFunil,
+            });
+    
+            const timeExists = await time.findByPk(selectedTime);
+            if (!timeExists) {
+                throw new Error(`O time com ID ${selectedTime} não existe no banco de dados!`);
+            }
+    
             const createGrupo = await grupo.create({
                 timeID: selectedTime,
                 funcionarioID: selectFuncionario,
                 produtoID: selectedProduto,
-                funilID: selectFunil
+                funilID: selectFunil,
             });
+    
             if (createGrupo) {
+                console.log("Grupo criado com sucesso:", createGrupo);
                 const createRegra = await regra.create({
                     criterio: criterioUm,
                     porcentagem: campoPorcento,
@@ -34,20 +53,17 @@ class RegraController {
                 });
                 return createRegra;
             } else {
-                console.log("Problema ao cadastrar grupo, revise os dados e tente novamente!");
+                throw new Error("Problema ao cadastrar grupo, revise os dados e tente novamente!");
             }
-            throw new Error("Erro ao criar o grupo ou critério, tente novamente.");
         } catch (error) {
+            console.error('Erro ao processar a criação da regra:', error.message);
             if (error.name === 'SequelizeValidationError') {
                 const validationErrors = error.errors.map(err => err.message);
-                console.error('Erro de validação ao criar a regra:', validationErrors);
-                throw new Error(`Erro de validação: ${validationErrors.join(', ')}`);
-            } else {
-                console.error('Erro ao processar a criação da regra:', error);
-                throw new Error(`Erro ao processar a criação da regra: ${error.message}`);
+                console.error('Erro de validação:', validationErrors);
             }
         }
     }
+    
 
     async cadastroFixa(remuneracaoFixa, userId) {
         console.log('bateu aqui - controller');

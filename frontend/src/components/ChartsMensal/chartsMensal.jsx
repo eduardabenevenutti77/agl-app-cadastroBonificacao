@@ -30,7 +30,6 @@ export default function ChartsMensal() {
         }
       },
       colors: ['#5A9DB9'],
-      // colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'],
       dataLabels: {
         enabled: true,
         style: {
@@ -81,7 +80,7 @@ export default function ChartsMensal() {
             ...prev,
             series: [
               {
-                name: 'Etapas do Funil',
+                name: 'Quantidade de vendas realizadas',
                 data: funnelData
               }
             ]

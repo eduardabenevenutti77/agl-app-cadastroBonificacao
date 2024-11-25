@@ -24,7 +24,6 @@ export default function ChartsMensalPessoa() {
       },
       dataLabels: {
         enabled: false,
-        // formatter: (val) => `R$ ${val.toLocaleString('pt-BR')}`,
         style: {
           fontSize: '20px',
           colors: ['#fff'],
@@ -47,9 +46,6 @@ export default function ChartsMensalPessoa() {
       },
       tooltip: {
         enabled: true,
-        // y: {
-        //   formatter: (val) => `R$ ${val.toLocaleString('pt-BR')}`,
-        // }
       },
       title: {
         text: 'ANÁLISE DE VENDAS ANUAIS POR TIME',
@@ -74,7 +70,7 @@ export default function ChartsMensalPessoa() {
           const categories = data.findMonth.map(item => item.nome || "Desconhecido");
 
           setChartData({
-            series: [{ name: "Total Grupos", data: seriesData }],
+            series: [{ name: "Vendas Realizadas", data: seriesData }],
             options: {
               ...chartData.options,
               xaxis: {
