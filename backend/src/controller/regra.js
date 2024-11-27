@@ -10,38 +10,37 @@ const { Op } = require('sequelize');
 grupo.belongsTo(funil, { foreignKey: 'funilID' });
 
 class RegraController {
-    async cadastroRegra(campoPorcento, criterioUm, selectFunil, selectedProduto, quantidade, selectedTime, funcionarioID) {
-        if (!campoPorcento || !criterioUm || !selectedTime || !selectedProduto || !selectFunil) {
+    async cadastroRegra(timeID, funcionarioID, produtoID, funilID, campoPorcento, criterioUm) {
+        if (!campoPorcento || !criterioUm || !timeID || !produtoID || !funilID) {
             throw new Error("Todos os campos são obrigatórios!");
         }
         try {
             console.log("Valores recebidos:", {
                 campoPorcento,
                 criterioUm,
-                selectFunil,
-                selectedProduto,
-                quantidade,
-                selectedTime,
+                funilID,
+                produtoID,
+                timeID,
                 funcionarioID,
             });
 
             console.log("Criando grupo com os dados:", {
-                timeID: selectedTime,
-                funcionarioID: funil,
-                produtoID: selectedProduto,
-                funilID: selectFunil,
+                timeID,
+                funcionarioID,
+                produtoID,
+                funilID
             });
     
-            const timeExists = await time.findByPk(selectedTime);
+            const timeExists = await time.findByPk(timeID);
             if (!timeExists) {
-                throw new Error(`O time com ID ${selectedTime} não existe no banco de dados!`);
+                throw new Error(`O time com ID ${timeID} não existe no banco de dados!`);
             }
     
             const createGrupo = await grupo.create({
-                timeID: selectedTime,
-                funcionarioID: funcionarioID,
-                produtoID: selectedProduto,
-                funilID: selectFunil,
+                timeID,
+                funcionarioID,
+                produtoID,
+                funilID,
             });
     
             if (createGrupo) {
@@ -63,7 +62,6 @@ class RegraController {
             }
         }
     }
-    
 
     async cadastroFixa(remuneracaoFixa, userId) {
         console.log('bateu aqui - controller');

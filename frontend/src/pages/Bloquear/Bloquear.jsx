@@ -96,7 +96,8 @@ export default function Bloquear() {
                 setRemuneracaoFixa('');
             }
         } catch (error) {
-            toast.error("Erro ao atualizar a remuneração.");
+            // toast.error("Erro ao atualizar a remuneração.");
+            console.log('Erro')
         }
     };
 

@@ -60,9 +60,15 @@ class UserApi {
         // cadastrar o 1º criterio, 2º criterio e o id do funil daquela criterio
         // em regra, cadastrar a remuneração fixa, a remuneração variável, a porcentagem, o id do critério e o id do grupo
         // cadastrar a informação normal e quando for puxar do banco realizar o cálculo
-        const { campoPorcento, criterioUm, selectFunil, selectedProduto, selectedTime, funcionarioID } = req.body
+        const timeID = req.body.selectedTime;
+        const funcionarioID = req.body.selectFuncionario;
+        const produtoID = req.body.selectedProduto;
+        const funilID = req.body.selectFunil;
+        const campoPorcento = req.body.campoPorcento;
+        const criterioUm = req.body.criterioUm;
+        console.log("Dados recebidos no backend (req.body):", req.body);
         try {
-            const regra = await RegraController.cadastroRegra(campoPorcento, criterioUm, selectFunil, selectedProduto, selectedTime, funcionarioID)
+            const regra = await RegraController.cadastroRegra(timeID, funcionarioID, produtoID, funilID, campoPorcento, criterioUm);
             return res.status(201).send(regra)
         } catch (e) {
             res.status(400).send({ error: e.message })

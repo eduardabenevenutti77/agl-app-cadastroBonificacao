@@ -7,25 +7,6 @@ import { cadastroRegra, findFase, findFuncionario, findFunil, findProduto, findT
 import { toast } from 'react-toastify';
 
 export default function Cadastrocomissao() {
-    const [campoFormatacao, setCampoForm] = useState('');
-    const handleChange = (event) => {
-        const valor = event.target.value.replace(/[^0-9]/g, '');
-        const formatado = new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-        }).format(valor / 100);
-        setCampoForm(formatado);
-    }
-
-    const [campoVariavel, setCampoVariavel] = useState('');
-    const handleChangeVariavel = (event) => {
-        const valor = event.target.value.replace(/[^0-9]/g, '');
-        const formatado = new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-        }).format(valor / 100);
-        setCampoVariavel(formatado);
-    }
 
     const [campoPorcento, setCampoPorcento] = useState('');
     const handleChangePorcento = (event) => {
@@ -44,22 +25,6 @@ export default function Cadastrocomissao() {
         setCriterioUm(formatado);
     }
 
-    const [criterioDois, setCriterioDois] = useState('');
-    const handleChangeCriterioDois = (event) => {
-        const valor = event.target.value.replace(/[^0-9]/g, '');
-        const formatado = new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-        }).format(valor / 100);
-        setCriterioDois(formatado);
-    }
-
-    const [multiplicador, setMultiplicador] = useState('');
-    const handleChangeMulti = (event) => {
-        const valor = event.target.value.replace(/[^0-9]/g, '');
-        const formatado = valor ? `${valor}%` : '';
-        setMultiplicador(formatado);
-    }
 
     const [campos, setCampos] = useState([{ id: 1 }]);
     const add = () => {
@@ -192,13 +157,15 @@ export default function Cadastrocomissao() {
         selectFase, 
         selectedProduto, 
         selectedTime, 
-        funcionarioID: selectFuncionario, // Verifique se está enviando como `funcionario` 
+        selectFuncionario, 
     };
-    console.log('Regra enviada para o cadastro -> ', regra);
+    console.log('Identificador do funcionário selecionado ->', selectFuncionario);
+    console.log('Identificador do time enviado -> ', selectedTime);
     const handleSubmitForms = async (e) => {
         e.preventDefault();
         try {
-            console.log('Funcionário enviado -> ', selectFuncionario);
+            console.log('Regra enviada para o cadastro -> ', regra);
+            // console.log('Funcionário enviado -> ', selectFuncionario);
             const response = await cadastroRegra({ ...regra });
             if (response.id) {
                 toast.success('Cadastro de comissão bem-sucedido!');
