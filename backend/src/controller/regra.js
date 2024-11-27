@@ -335,72 +335,7 @@ class RegraController {
 
     async calculoOTE() {
         try {
-            const criterioUm = await criterio.findAll({ attributes: ['id', 'criterioUm'] });
-            const criterioDois = await criterio.findAll({ attributes: ['id', 'criterioDois'] });
-
-            const criteriosIniciais = criterioUm.map(item => item.criterioUm);
-            const criteriosSecundarios = criterioDois.map(item => item.criterioDois);
-
-            const timeID = await regra.findAll({
-                attributes: ['id', 'grupoID'],
-                include: [{
-                    model: grupo,
-                    required: false,
-                    attributes: ['id', 'timeID'],
-                }]
-            });
-
-            const identificadoresTimes = timeID.map(item => {
-                return item.grupo ? item.grupo.timeID : null;
-            }).filter(timeID => timeID !== null);
-
-            criteriosIniciais.forEach(criterioInicial => {
-                criteriosSecundarios.forEach(criterioSecundario => {
-                    identificadoresTimes.forEach(identificadorTime => {
-                        if (criterioInicial < 1000 && criterioSecundario === 1000 && identificadorTime === 5) {
-                            console.log('Aplicar a validação aqui [0]');
-                        } else if (criterioInicial < 1001 && criterioSecundario === 1500 && identificadorTime === 5) {
-                            console.log('Aplicar a validação aqui [0,3]');
-                        } else if (criterioInicial < 1501 && criterioSecundario === 1999 && identificadorTime === 5) {
-                            console.log('Aplicar a validação aqui [0,5]');
-                        } else if (criterioInicial < 2000 && criterioSecundario === 2499 && identificadorTime === 5) {
-                            console.log('Aplicar a validação aqui [0,6]');
-                        } else if (criterioInicial < 2500 && criterioSecundario === 2999 && identificadorTime === 5) {
-                            console.log('Aplicar a validação aqui [1,0]');
-                        } else if (criterioInicial < 3000 && criterioSecundario === 3999 && identificadorTime === 5) {
-                            console.log('Aplicar a validação aqui [1,5]');
-                        } else if (criterioInicial > 4000 && identificadorTime === 5) {
-                            console.log('Aplicar a validação aqui [1,7]');
-                        } else if (criterioInicial < 500 && criterioSecundario === 1000 && identificadorTime === 9 || identificadorTime === 10) {
-                            console.log('Aplicar a validação aqui [0,2]');
-                        } else if (criterioInicial < 1001 && criterioSecundario === 1500 && identificadorTime === 9 || identificadorTime === 10) {
-                            console.log('Aplicar a validação aqui [0,35]');
-                        } else if (criterioInicial < 1501 && criterioSecundario === 2000 && identificadorTime === 9 || identificadorTime === 10) {
-                            console.log('Aplicar a validação aqui [0,50]');
-                        } else if (criterioInicial < 2001 && criterioSecundario === 2500 && identificadorTime === 9 || identificadorTime === 10) {
-                            console.log('Aplicar a validação aqui [0,80]');
-                        } else if (criterioInicial < 2501 && criterioSecundario === 3000 && identificadorTime === 9 || identificadorTime === 10) {
-                            console.log('Aplicar a validação aqui [1,0]');
-                        } else if (criterioInicial > 3001 && identificadorTime === 9 || identificadorTime === 10) {
-                            console.log('Aplicar a validação aqui [1,1]');
-                        } else if (criterioInicial < 500 && criterioSecundario === 700 && identificadorTime === 0) {
-                            console.log('Aplicar a validação aqui [0,1]');
-                        } else if (criterioInicial < 701 && criterioSecundario === 900 && identificadorTime === 0) {
-                            console.log('Aplicar a validação aqui [0,2]');
-                        } else if (criterioInicial < 901 && criterioSecundario === 1200 && identificadorTime === 0) {
-                            console.log('Aplicar a validação aqui [0,4]');
-                        } else if (criterioInicial < 1201 && criterioSecundario === 1500 && identificadorTime === 0) {
-                            console.log('Aplicar a validação aqui [0,6]');
-                        } else if (criterioInicial < 1501 && criterioSecundario === 2000 && identificadorTime === 0) {
-                            console.log('Aplicar a validação aqui [0,7]');
-                        } else if (criterioInicial > 2001 && identificadorTime === 0) {
-                            console.log('Aplicar a validação aqui [0,8]');
-                        } else {
-                            console.log('caiu fora da validação')
-                        }
-                    });
-                });
-            });
+           // aplicar o cálculo aqui [parte finallllllllllllll]
         } catch (e) {
             console.error("Erro ->", e.message);
             console.error("Detalhes ->", e);

@@ -2,13 +2,11 @@ const express = require('express');
 const router = express.Router();
 const UserApi = require('../api/user')
 
-// rotas de fetch para o wehook do bitrix24
 router.post('/funil', UserApi.createFunil);
 router.get('/getFunil', UserApi.findFunil);
 
 router.post('/fase', UserApi.createFase);
 router.get('/getFase', UserApi.findFase);
-// http://localhost:3000/api/v1/regra/getFase/2
 
 router.post('/produto', UserApi.createProduto);
 router.get('/getProduto', UserApi.findProduto);
@@ -26,10 +24,10 @@ router.get('/getVendasMensal', UserApi.findVendasMensal);
 router.get('/getVendasMensalTime', UserApi.findMonthTime);
 router.get('/getVendasMensalFunc', UserApi.findMonthFunc);
 
-router.get('/calculoOTE', UserApi.calculoOTE);
-
 router.put('/put/cadastroFixa/:userId', UserApi.cadastroFixa);
 
 router.get('/chartFunil', UserApi.chartsFunil);
+
+router.get('/api/v1/regra/getChartsCalculo', UserApi.calculoOTE)
 
 module.exports = router;
