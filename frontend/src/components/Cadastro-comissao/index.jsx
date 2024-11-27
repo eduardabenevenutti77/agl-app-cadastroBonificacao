@@ -150,14 +150,14 @@ export default function Cadastrocomissao() {
     const removendoFormatacao = (campo) => {
         return campo.replace(/[^0-9]/g, '')
     }
-    const regra = { 
-        campoPorcento: removendoFormatacao(campoPorcento), 
-        criterioUm: removendoFormatacao(criterioUm), 
-        selectFunil, 
-        selectFase, 
-        selectedProduto, 
-        selectedTime, 
-        selectFuncionario, 
+    const regra = {
+        campoPorcento: removendoFormatacao(campoPorcento),
+        criterioUm: removendoFormatacao(criterioUm),
+        selectFunil,
+        selectFase,
+        selectedProduto,
+        selectedTime,
+        selectFuncionario,
     };
     console.log('Identificador do funcionário selecionado ->', selectFuncionario);
     console.log('Identificador do time enviado -> ', selectedTime);
@@ -186,7 +186,7 @@ export default function Cadastrocomissao() {
 
     return (
         <div id="display-card">
-            <Card className='card-comissao' variant="outlined">
+            <Card className='card-comissao' variant="outlined" style={{ borderRadius: '8px' }}>
                 <CardContent style={{ padding: '28px' }}>
                     <p className='title-cadastro'>Cadastro de Regra de Comissionamento</p>
                     <form>

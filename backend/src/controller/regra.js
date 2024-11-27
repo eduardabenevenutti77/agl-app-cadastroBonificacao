@@ -30,19 +30,19 @@ class RegraController {
                 produtoID,
                 funilID
             });
-    
+
             const timeExists = await time.findByPk(timeID);
             if (!timeExists) {
                 throw new Error(`O time com ID ${timeID} não existe no banco de dados!`);
             }
-    
+
             const createGrupo = await grupo.create({
                 timeID,
                 funcionarioID,
                 produtoID,
                 funilID,
             });
-    
+
             if (createGrupo) {
                 console.log("Grupo criado com sucesso:", createGrupo);
                 const createRegra = await regra.create({
@@ -335,7 +335,7 @@ class RegraController {
 
     async calculoOTE() {
         try {
-           // aplicar o cálculo aqui [parte finallllllllllllll]
+            // aplicar o cálculo aqui [parte finallllllllllllll]
         } catch (e) {
             console.error("Erro ->", e.message);
             console.error("Detalhes ->", e);
