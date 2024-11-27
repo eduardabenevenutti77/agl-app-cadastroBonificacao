@@ -65,3 +65,8 @@ export const findMonthFunc = async () => {
     const response = await api.get('/api/v1/regra/getVendasMensalFunc');
     return response.data
 }
+
+export const chartsCalculo = async () => {
+    const response = await api.get('/api/v1/regra/getChartsCalculo');
+    return response.data
+}

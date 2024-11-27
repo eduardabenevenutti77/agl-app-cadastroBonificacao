@@ -7,6 +7,7 @@ import ChartsRemunerecao from "../../components/ChartsRemuneracao/chartsRemunera
 import ChartsFunil from "../../components/ChartsFunil/chartsFunil";
 import ChartsMensalPessoa from "../../components/ChartsMensalPessoa/chartsMensalPessoa";
 import ChartsMensal from "../../components/ChartsMensal/chartsMensal";
+import ChartsCalculo from "../../components/ChartsCalculoRegra";
 
 export default function DashboardGestor() {
     const [vendasAnual, setVendasAnual] = useState(null);
@@ -144,6 +145,7 @@ export default function DashboardGestor() {
                     <ChartsFunil />
                     <ChartsMensalPessoa />
                 </div>
+                <ChartsCalculo />
             </div>
         </>
     );

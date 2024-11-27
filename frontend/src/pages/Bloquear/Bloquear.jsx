@@ -19,7 +19,7 @@ export default function Bloquear() {
     const handleSubmit = async (id) => {
         try {
             const response = await blockUser(id);
-            location.reload();
+            // location.reload();
             if (response.message) {
                 console.log('Usuário Bloqueado!');
                 setUsers(prevUsers =>
@@ -96,7 +96,8 @@ export default function Bloquear() {
                 setRemuneracaoFixa('');
             }
         } catch (error) {
-            toast.error("Erro ao atualizar a remuneração.");
+            // toast.error("Erro ao atualizar a remuneração.");
+            console.log('Erro')
         }
     };
 
