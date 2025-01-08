@@ -133,7 +133,7 @@ export default function Cadastrovenda() {
     const removendoFormatacao = (campo) => {
         return campo.replace(/[^0-9]/g, '')
     }
-    // const regra = { campoFormatacao: removendoFormatacao(campoFormatacao), campoVariavel: removendoFormatacao(campoVariavel), campoPorcento:  removendoFormatacao(campoPorcento), criterioUm: removendoFormatacao(criterioUm), criterioDois: removendoFormatacao(criterioDois), multiplicador: removendoFormatacao(multiplicador), selectFunil, selectFase, selectedProduto, quantidade, selectedTime, selectFuncionario};
+
     const handleSubmitForms = async (e) => {
         e.preventDefault();
         try {

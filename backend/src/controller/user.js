@@ -4,9 +4,11 @@ const jwt = require("jsonwebtoken");
 const axios = require("axios");
 const SECRET_KEY = "bonificacao"
 const SALT_VALUE = 10;
+
 const validando = (email) => {
     return email.endsWith('@agltelecom.com');
 };
+
 const validando_senha = (senha) => {
     const teste = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
     return teste.test(senha);

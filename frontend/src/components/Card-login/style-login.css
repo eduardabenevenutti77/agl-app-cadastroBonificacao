@@ -54,6 +54,7 @@
     border-radius: 4px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     padding: 5px;
+    padding-left: 10px;
     font-family: "Jost";
     color: #024b6a;
     letter-spacing: 1px;
@@ -68,6 +69,7 @@
     border-radius: 4px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     padding: 5px;
+    padding-left: 10px;
     font-family: "Jost";
     color: #024b6a;
     letter-spacing: 1px;

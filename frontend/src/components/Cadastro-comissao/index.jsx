@@ -165,7 +165,7 @@ export default function Cadastrocomissao() {
         e.preventDefault();
         try {
             console.log('Regra enviada para o cadastro -> ', regra);
-            // console.log('Funcionário enviado -> ', selectFuncionario);
+            
             const response = await cadastroRegra({ ...regra });
             if (response.id) {
                 toast.success('Cadastro de comissão bem-sucedido!');

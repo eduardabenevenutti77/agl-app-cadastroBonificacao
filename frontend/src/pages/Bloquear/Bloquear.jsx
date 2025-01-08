@@ -19,7 +19,6 @@ export default function Bloquear() {
     const handleSubmit = async (id) => {
         try {
             const response = await blockUser(id);
-            // location.reload();
             if (response.message) {
                 console.log('Usuário Bloqueado!');
                 setUsers(prevUsers =>
@@ -82,11 +81,6 @@ export default function Bloquear() {
 
             const value = parseFloat(cleanedRemuneracaoFixa);
 
-            // if (isNaN(value)) {
-            //     toast.error('O valor da remuneração fixa é inválido!');
-            //     return;
-            // }
-
             const response = await cadastroFixa({ remuneracaoFixa: value, userId: currentUser.id });
 
             if (response.message) {
@@ -96,7 +90,6 @@ export default function Bloquear() {
                 setRemuneracaoFixa('');
             }
         } catch (error) {
-            // toast.error("Erro ao atualizar a remuneração.");
             console.log('Erro')
         }
     };
@@ -114,14 +107,13 @@ export default function Bloquear() {
                 const filteredUsers = data.filter(user => user.id !== userId);
                 const roleUser = filteredUsers.filter(user => user.permissao === 'user');
 
-                // Formatar usuários
                 const formattedUsers = roleUser.map(user => ({
                     ...user,
                     remuneracaoFixa: user.remuneracaoFixa ? formatCurrency(user.remuneracaoFixa.toString()) : 'Não Definido'
                 }));
 
                 setUsers(formattedUsers);
-                console.log(formattedUsers); // Verificar os dados que chegaram
+                console.log(formattedUsers); 
             } catch (error) {
                 alert("Não foi possível carregar os usuários.");
             }

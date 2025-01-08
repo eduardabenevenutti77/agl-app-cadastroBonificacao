@@ -25,6 +25,7 @@ app.post("/api/v1/user/loginUser", UserApi.loginUser);
 app.listen(3000, () => {
   console.log('Servidor rodando na porta 3000');
 });
+
 (async () => {
   try {
     await database.db.authenticate();

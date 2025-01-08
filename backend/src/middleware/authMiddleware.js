@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const user = require('../controller/user');
+
 function authMiddleware(roles = []) {
   return async (req, res, next) => {
     const token = req.headers["authorization"];

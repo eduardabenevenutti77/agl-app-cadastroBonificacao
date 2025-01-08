@@ -35,7 +35,6 @@ function App() {
               <Route element={<PrivateRoute />}>
                 <Route path="/dashboardgestor" element={<DashboardGestor />} />
                 <Route path="/cadastrogestor" element={<Cadastrogestor />} />
-                {/* <Route path="/cadastrovenda" element={<CadastroVenda />} /> */}
                 <Route path="/gestao" element={<Bloquear />} />
                 <Route path="/sobre" element={<Sobre />} />
               </Route>
