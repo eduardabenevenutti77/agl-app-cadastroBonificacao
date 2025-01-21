@@ -2,43 +2,43 @@
 
 .menu {
     display: flex;
+    /* flex-direction: column; */
     justify-content: space-between;
     align-items: center;
     background-color: #5A9DB9;
     border-radius: 15px;
     margin: 15px auto;
-    padding: 10px;
+    padding: 20px;
     width: 100%;
     max-width: 1440px;
+    box-sizing: border-box;
 }
 
-Link {
-    text-decoration: none;
+.menu .icon-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap; 
 }
 
 p {
     color: #fff;
     font-size: 20px;
-    font-family: "Jost";
+    font-family: "Jost", sans-serif;
     font-weight: 500;
-    padding-left: 15px;
+    text-align: center;
+    margin: 0;
 }
 
 .logout-icon {
     width: 24px;
     height: 24px;
-    padding-right: 15px;
-}
-
-.icon-container {
-    display: flex;
-    align-items: center;
-    gap: 20px;
 }
 
 #cadastrar-regra,
 #dashboardGestor {
     font-size: 17px;
+    text-align: center;
 }
 
 #titleHeader {
@@ -55,4 +55,48 @@ p {
     font-family: "Lexend Deca", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
+}
+
+@media (max-width: 768px) {
+    .menu {
+        padding: 15px;
+    }
+
+    p {
+        font-size: 16px; 
+    }
+
+    .icon-container {
+        gap: 15px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .menu {
+        padding: 10px;
+    }
+
+    p {
+        font-size: 14px; 
+    }
+
+    .icon-container {
+        flex-direction: column; 
+        align-items: center;
+        gap: 10px;
+    }
+
+    .logout-icon {
+        width: 20px;
+        height: 20px; 
+    }
+
+    #cadastrar-regra,
+    #dashboardGestor {
+        font-size: 14px;
+    }
+
+    #titleHeader {
+        font-size: 20px;
+    }
 }

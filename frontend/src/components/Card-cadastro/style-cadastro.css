@@ -3,7 +3,11 @@
     color: #5B5B5B;
     font-family: "Jost";
     font-size: 18px;
+    text-align: left;
+    margin-left: 18px;
     background-color: #FBFBFB;
+    margin-top: 15px;
+    margin-bottom: 5px;
 }
 
 .khula-bold {
@@ -21,7 +25,8 @@
     border-radius: 4px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     padding: 5px;
-    padding-left: 10px;
+    padding-left: 5px;
+    margin-right: 15px;
 }
 
 ::placeholder {
@@ -48,6 +53,8 @@
 #cadastro {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background-color: #FBFBFB;
     width: 705px;
     height: 580px;
@@ -61,12 +68,12 @@
     font-size: 33px;
     text-align: center;
     background-color: #FBFBFB;
-    margin-top: 60px;
-    margin-bottom: 10px;
+    /* margin-top: 60px; */
+    margin-bottom: 20px;
 }
 
 #campos {
-    margin-left: 40px;
+    margin-left: 20px;
     background-color: #FBFBFB;
     margin-top: 0px;
 }
@@ -93,11 +100,6 @@
     align-items: center;
 }
 
-#logoAGL {
-    width: 140px;
-    margin-top: 0px;
-}
-
 #position-logo {
     display: flex;
     justify-content: center;
@@ -112,6 +114,7 @@
     font-size: 15px;
     color: #0081B8;
     margin-bottom: 0;
+    margin-top: 15px;
 }
 
 .lexend-deca {

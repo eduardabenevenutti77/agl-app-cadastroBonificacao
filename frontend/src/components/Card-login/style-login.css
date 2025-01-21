@@ -110,6 +110,7 @@
     font-size: 18px;
     color: #0081B8;
     margin-bottom: 0;
+    margin-top: 15px;
 }
 
 .input-container {
@@ -117,17 +118,6 @@
     display: flex;
     align-items: center;
     gap: 15px;
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.logo-container img {
-    width: 150px;
-    height: auto;
 }
 
 #error-text {

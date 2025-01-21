@@ -1,11 +1,11 @@
+import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../auth/Context";
 import { blockUser, findUser, unblock } from "../../api/user";
-import React, { useEffect, useState, useContext } from "react";
+import { cadastroFixa } from "../../api/regra";
 import { toast } from "react-toastify";
 import blockIcon from "../../assets/svg/block.svg";
 import unblockIcon from "../../assets/svg/unblock.svg";
 import dolarIcon from "../../assets/svg/dollar.svg";
-import { cadastroFixa } from "../../api/regra";
 import "./style-bloquear.css";
 
 export default function Bloquear() {
@@ -20,14 +20,13 @@ export default function Bloquear() {
         try {
             const response = await blockUser(id);
             if (response.message) {
-                console.log('Usuário Bloqueado!');
-                setUsers(prevUsers =>
-                    prevUsers.map(user =>
+                setUsers((prevUsers) =>
+                    prevUsers.map((user) =>
                         user.id === id ? { ...user, bloqueado: true } : user
                     )
                 );
-                toast.success('Usuário foi bloqueado com sucesso!');
-            } 
+                toast.success("Usuário foi bloqueado com sucesso!");
+            }
         } catch (error) {
             toast.error("Erro ao bloquear o usuário.");
             console.error(error);
@@ -38,13 +37,12 @@ export default function Bloquear() {
         try {
             const response = await unblock(id);
             if (response.message) {
-                console.log('Usuário Desbloqueado!');
-                setUsers(prevUsers =>
-                    prevUsers.map(user =>
+                setUsers((prevUsers) =>
+                    prevUsers.map((user) =>
                         user.id === id ? { ...user, bloqueado: false } : user
                     )
                 );
-                toast.success('Usuário desbloqueado com sucesso!');
+                toast.success("Usuário desbloqueado com sucesso!");
             } else {
                 toast.error("Erro ao desbloquear o usuário.");
             }
@@ -60,10 +58,11 @@ export default function Bloquear() {
     };
 
     const formatCurrency = (value) => {
-        const numericValue = parseFloat(value.replace(/[^\d]/g, "")) / 100;
-        return new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
+        if (!value) return '';
+        const numericValue = parseFloat(value.replace(/[^\d]/g, ""));
+        return new Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL",
         }).format(numericValue);
     };
 
@@ -75,22 +74,21 @@ export default function Bloquear() {
     const handleUpdate = async () => {
         try {
             const cleanedRemuneracaoFixa = remuneracaoFixa
-                .replace('R$', '')
-                .replace(/\./g, '')
+                .replace(/[R$.\s]/g, '')
                 .replace(',', '.');
-
             const value = parseFloat(cleanedRemuneracaoFixa);
 
             const response = await cadastroFixa({ remuneracaoFixa: value, userId: currentUser.id });
 
             if (response.message) {
-                toast.success('Cadastro de remuneração fixa realizado com sucesso!');
+                toast.success("Cadastro de remuneração fixa realizado com sucesso!");
                 setShowForm(false);
                 setIsOpen(false);
                 setRemuneracaoFixa('');
             }
         } catch (error) {
-            console.log('Erro')
+            console.error("Erro ao cadastrar remuneração fixa:", error);
+            toast.error("Erro ao cadastrar remuneração fixa.");
         }
     };
 
@@ -104,16 +102,17 @@ export default function Bloquear() {
             if (!token) return;
             try {
                 const data = await findUser();
-                const filteredUsers = data.filter(user => user.id !== userId);
-                const roleUser = filteredUsers.filter(user => user.permissao === 'user');
+                const filteredUsers = data.filter((user) => user.id !== userId);
+                const roleUser = filteredUsers.filter((user) => user.permissao === "user");
 
-                const formattedUsers = roleUser.map(user => ({
+                const formattedUsers = roleUser.map((user) => ({
                     ...user,
-                    remuneracaoFixa: user.remuneracaoFixa ? formatCurrency(user.remuneracaoFixa.toString()) : 'Não Definido'
+                    remuneracaoFixa: user.remuneracaoFixa
+                        ? formatCurrency(user.remuneracaoFixa.toString())
+                        : "Não Definido",
                 }));
 
                 setUsers(formattedUsers);
-                console.log(formattedUsers); 
             } catch (error) {
                 alert("Não foi possível carregar os usuários.");
             }
@@ -121,13 +120,15 @@ export default function Bloquear() {
         fetchUsers();
     }, [token, userId]);
 
-    const currentUser = users.find(user => user.id === currentUserId);
+    const currentUser = users.find((user) => user.id === currentUserId);
 
     return (
         <div id="containerBloquear">
             <p id="titleBloquear">Gestão de Usuários</p>
             <div>
-                <p id="subtitle">Essa tela é responsável pela visualização dos usuários cadastrados no banco de dados da AGL. Nela, é possível bloquear e desbloquear o acesso à aplicação.</p>
+                <p id="subtitle">
+                    Essa tela é responsável pela visualização dos usuários cadastrados no banco de dados da AGL. Nela, é possível bloquear e desbloquear o acesso à aplicação.
+                </p>
             </div>
             <ul id="userList">
                 {users.length > 0 ? (
@@ -158,7 +159,9 @@ export default function Bloquear() {
             {showForm && currentUser && isOpen && (
                 <div id="updateForm" onClick={handleUpdate}>
                     <form>
-                        <button id="closeRemuneracao" onClick={closeRemuneracao}>x</button>
+                        <button id="closeRemuneracao" onClick={closeRemuneracao}>
+                            x
+                        </button>
                         <p id="titleUpdate">Remuneração: {currentUser.email}</p>
                         <input
                             id="remuneracao"
@@ -167,8 +170,12 @@ export default function Bloquear() {
                             placeholder="Informe o valor a ser cadastrado"
                         />
                         <div id="displayButton">
-                            <button id="save">Salvar</button>
-                            <button id="delete" onClick={closeRemuneracao}>Cancelar</button>
+                            <button id="save" onClick={handleUpdate}>
+                                Salvar
+                            </button>
+                            <button id="delete" onClick={closeRemuneracao}>
+                                Cancelar
+                            </button>
                         </div>
                     </form>
                 </div>
