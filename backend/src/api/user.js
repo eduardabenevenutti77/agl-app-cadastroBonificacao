@@ -257,6 +257,21 @@ class UserApi {
         }
     }
 
+    async cadastroMeta(req, res) {
+        try {
+            console.log(req.body)
+            console.log("Body recebido:", req.body);
+            console.log("Params recebidos:", req.params);
+            const { meta } = req.body;
+            const { userId } = req.params;
+            const response = await RegraController.cadastroMeta(meta, userId);
+            return res.status(200).send({ response });
+        } catch (e) {
+            console.log('Erro ao cadastrar a remuneração fixa do usuário -> ', e.message);
+            res.status(400).send({ e: e.message });
+        }
+    }
+
     async chartsFunil(req, res) {
         try {
             const result = await RegraController.chartsFunil();

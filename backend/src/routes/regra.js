@@ -30,4 +30,7 @@ router.get('/chartFunil', UserApi.chartsFunil);
 
 router.get('/api/v1/regra/getChartsCalculo', UserApi.calculoOTE)
 
+router.post('/metas/:userId', UserApi.cadastroMeta)
+
+
 module.exports = router;

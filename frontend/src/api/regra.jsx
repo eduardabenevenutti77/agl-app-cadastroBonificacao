@@ -51,6 +51,13 @@ export const cadastroFixa = async ({ remuneracaoFixa, userId }) => {
     return response.data
 }
 
+export const cadastroMeta = async ({ meta, userId }) => {
+    console.log('Dados recebidos para o cadastro de meta: ', { meta, userId });
+    const response = await api.post(`/api/v1/regra/metas/${userId}`, { meta });
+    return response.data;
+};
+
+
 export const chartFunil = async () => {
     const response = await api.get('/api/v1/regra/chartFunil');
     return response.data

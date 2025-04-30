@@ -139,6 +139,8 @@ export default function Cadastrovenda() {
         try {
             const response = await cadastroRegra({ ...regra });
             if (response.id) {
+                const calculoOTE = await chartsCalculo();
+                toast.success('Teste');
                 toast.success('Cadastro de comissão bem-sucedido!');
                 setCampoForm('');
                 setCampoPorcento('');

@@ -4,7 +4,7 @@ export default function Footer() {
     return (
         <>
             <footer>
-                <p id="footer-title">&copy; 2024 - Todos os direitos reservados</p>
+                <p id="footer-title">Sistema de bonificação - Zopu Consultoria e Implementação</p>
             </footer>
         </>
     )

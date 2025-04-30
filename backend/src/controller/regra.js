@@ -6,8 +6,12 @@ const time = require('../model/time');
 const funcionario = require('../model/funcionario');
 const grupo = require('../model/grupo');
 const user = require('../model/user');
+const meta = require('../model/meta');
 const { Op } = require('sequelize');
+const math = require('mathjs');
 grupo.belongsTo(funil, { foreignKey: 'funilID' });
+require('dotenv').config();
+const bitrix24 = process.env.BITRIX24_TOKEN
 
 class RegraController {
     async cadastroRegra(timeID, funcionarioID, produtoID, funilID, campoPorcento, criterioUm) {
@@ -30,19 +34,19 @@ class RegraController {
                 produtoID,
                 funilID
             });
-    
+
             const timeExists = await time.findByPk(timeID);
             if (!timeExists) {
                 throw new Error(`O time com ID ${timeID} não existe no banco de dados!`);
             }
-    
+
             const createGrupo = await grupo.create({
                 timeID,
                 funcionarioID,
                 produtoID,
                 funilID,
             });
-    
+
             if (createGrupo) {
                 console.log("Grupo criado com sucesso:", createGrupo);
                 const createRegra = await regra.create({
@@ -93,6 +97,9 @@ class RegraController {
                 } else {
                     console.log('Remuneração fixa atualizada com sucesso!');
                 }
+                const resultadoOTE = await this.calculoOTE();
+
+                console.log("Cálculo OTE:", resultadoOTE);
 
                 return 'Remuneração fixa atualizada com sucesso!';
             }
@@ -117,7 +124,10 @@ class RegraController {
     async createFunil() {
         try {
             let findFunil = await funil.findAll();
-            const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.category.list?entityTypeId=2');
+            const metodoFase = 'crm.category.list'
+            const filtro = 2
+            const url = `${bitrix24}${metodoFase}?entityTypeId=${filtro}`
+            const response = await fetch(url)
             const data = await response.json();
 
             const funilsArray = data?.result?.categories || [];
@@ -157,7 +167,9 @@ class RegraController {
         try {
             // 1 - vendas | 2 - bko | 10 - qualidade | 14 - controle | 22 - acompanhamento
             const idFunil = 2
-            const response = await fetch(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.dealcategory.stage.list?id=${idFunil}`);
+            const metodoFase = 'crm.dealcategory.stage.list'
+            const url = `${bitrix24}${metodoFase}?id=${idFunil}`
+            const response = await fetch(url)
             const data = await response.json();
 
             console.log("Dados recebidos:", JSON.stringify(data, null, 2));
@@ -191,7 +203,9 @@ class RegraController {
 
     async createProduto() {
         try {
-            const response = await fetch("https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.product.list");
+            const metodoFase = 'crm.product.list'
+            const url = `${bitrix24}${metodoFase}`
+            const response = await fetch(url)
             const data = await response.json();
 
             console.log("Dados recebidos:", JSON.stringify(data, null, 2));
@@ -232,7 +246,10 @@ class RegraController {
 
     async createTime() {
         try {
-            const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/department.get?select[]=name');
+            const metodoFase = 'department.get'
+            const select_opcao = 'name'
+            const url = `${bitrix24}${metodoFase}?select[]=${select_opcao}`
+            const response = await fetch(url)
             const data = await response.json();
 
             const timeArray = data?.result || [];
@@ -264,7 +281,9 @@ class RegraController {
 
     async createFuncionario() {
         try {
-            const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/user.get');
+            const metodoFase = 'user.get'
+            const url = `${bitrix24}${metodoFase}`
+            const response = await fetch(url)
             const data = await response.json();
 
             const funcArray = data?.result || [];
@@ -333,12 +352,46 @@ class RegraController {
         }
     }
 
-    async calculoOTE() {
+    async calcularOTE(userId) {
         try {
-           // aplicar o cálculo aqui [parte finallllllllllllll]
+            const usuario = await User.findByPk(userId);
+
+            if (!usuario) {
+                throw new Error("Usuário não encontrado.");
+            }
+
+            const meta = await Meta.findByPk(usuario.metaID);
+            const regra = await Regra.findOne(); 
+
+            if (!meta || !regra) {
+                throw new Error("Meta ou regra não encontrada.");
+            }
+
+            const remuneracaoFixa = parseFloat(usuario.remuneracaoFixa);
+            const criterio = parseFloat(regra.criterio);
+            const porcentagem = parseFloat(regra.porcentagem);
+
+            if (isNaN(remuneracaoFixa) || isNaN(criterio) || isNaN(porcentagem)) {
+                throw new Error("Valores inválidos para cálculo.");
+            }
+
+            const bonus = (criterio * porcentagem) / 100;
+
+            const OTE = remuneracaoFixa + bonus;
+
+            return {
+                usuario: usuario.email,
+                meta: parseFloat(meta.meta),
+                criterio,
+                porcentagem,
+                remuneracaoFixa,
+                bonusEsperado: bonus.toFixed(2),
+                OTE: OTE.toFixed(2)
+            };
+
         } catch (e) {
-            console.error("Erro ->", e.message);
-            console.error("Detalhes ->", e);
+            console.error("Erro no cálculo de OTE:", e.message);
+            throw new Error("Erro ao calcular OTE.");
         }
     }
 
@@ -425,6 +478,52 @@ class RegraController {
             console.error("Erro ao buscar vendas por times ->", e.message);
         }
     }
+
+    async cadastroMeta(metaData, userId) {
+        console.log('bateu aqui - controller');
+        console.log('metaData:', metaData, '| userId:', userId);
+
+        if (!metaData) {
+            console.log('O campo de Meta não foi informado. Por favor, arrume este campo e continue o cadastro!');
+            throw new Error('Meta não informada.');
+        }
+
+        console.log('Meta recebida:', metaData);
+
+        try {
+            userId = parseInt(userId, 10);
+            console.log(`Buscando usuário com ID: ${userId}`);
+
+            const findUser = await user.findByPk(userId);
+            if (!findUser) {
+                console.log('Usuário não encontrado para o ID:', userId);
+                throw new Error('Usuário não encontrado.');
+            }
+
+            const createdMeta = await meta.create({
+                meta: metaData
+            });
+
+            if (createdMeta && createdMeta.id) {
+                await user.update(
+                    { metaID: createdMeta.id },
+                    { where: { id: userId } }
+                );
+            }
+
+            return createdMeta;
+        } catch (e) {
+            if (e.name === 'SequelizeValidationError') {
+                const validationErrors = e.errors.map(err => err.message);
+                console.error('Erro de validação ao cadastrar a meta:', validationErrors);
+                throw new Error(`Erro de validação: ${validationErrors.join(', ')}`);
+            } else {
+                console.error('Erro ao processar o cadastro da meta:', e);
+                throw new Error(`Erro ao processar o cadastro da meta: ${e.message}`);
+            }
+        }
+    }
+
 }
 
 function delay(ms) {

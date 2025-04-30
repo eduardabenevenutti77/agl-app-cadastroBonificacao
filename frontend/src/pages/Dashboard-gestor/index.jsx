@@ -25,7 +25,7 @@ export default function DashboardGestor() {
                 if (data && data.vendasAnual) {
                     setVendasAnual(data.vendasAnual);
                 } else {
-                    setVendasAnual("Dados não disponíveis");
+                    setVendasAnual("0");
                 }
             } catch (error) {
                 setVendasAnual("Erro ao carregar dados");
@@ -138,6 +138,7 @@ export default function DashboardGestor() {
                     </div>
                 </div>
                 <div id='displayCharts'>
+                    <ChartsCalculo />
                     <ChartsRemunerecao id='chartsBorders' />
                     <ChartsMensal />
                 </div>
@@ -145,7 +146,6 @@ export default function DashboardGestor() {
                     <ChartsFunil />
                     <ChartsMensalPessoa />
                 </div>
-                <ChartsCalculo />
             </div>
         </>
     );

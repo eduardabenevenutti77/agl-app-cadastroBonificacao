@@ -1,4 +1,5 @@
 const database = require("../config/database")
+const metaID = require('../model/meta')
 
 class User {
     constructor() {
@@ -26,6 +27,13 @@ class User {
             },
             remuneracaoFixa: {
                 type: database.db.Sequelize.DECIMAL,
+            },
+            metaID: {
+                type: database.db.Sequelize.INTEGER,
+                references: {
+                    model: 'metas',
+                    key: 'id'
+                }
             }
         });
     }
