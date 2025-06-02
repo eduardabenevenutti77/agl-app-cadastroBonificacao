@@ -21,6 +21,10 @@ class Grupo {
             },
             funcionarioID: {
                 type: database.db.Sequelize.INTEGER,
+                references: {
+                    model: 'funcionarios',
+                    key: 'id'
+                }
             },
             produtoID: {
                 type: database.db.Sequelize.INTEGER,

@@ -1,6 +1,6 @@
-## AGL - App de Cadastro de Bonificações 🚀🪙
+## App de Cadastro de Bonificações 🚀🪙
 
-Bem-vindo ao repositório do **AGL - App de Cadastro de Bonificações**! Este aplicativo foi desenvolvido para gerenciar e registrar bonificações de vendas, permitindo um controle eficaz e a visualização das métricas de desempenho.
+Bem-vindo ao repositório do **App de Cadastro de Bonificações**! Este aplicativo foi desenvolvido para gerenciar e registrar bonificações de vendas, permitindo um controle eficaz e a visualização das métricas de desempenho.
 
 ### Tabela de Conteúdos
 
@@ -13,7 +13,7 @@ Bem-vindo ao repositório do **AGL - App de Cadastro de Bonificações**! Este a
 
 ### Sobre
 
-O AGL é uma aplicação desenvolvida para facilitar o cadastro e a visualização de bonificações. Com funcionalidades que permitem adicionar, editar e excluir registros, a aplicação também fornece relatórios anuais de vendas, tornando-a uma ferramenta essencial para equipes de vendas.
+O App de Cadastro de Bonificações é uma aplicação desenvolvida para facilitar o cadastro e a visualização de bonificações. Com funcionalidades que permitem adicionar, editar e excluir registros, a aplicação também fornece relatórios anuais de vendas, tornando-a uma ferramenta essencial para equipes de vendas.
 
 ### Funcionalidades
 
@@ -23,7 +23,7 @@ O AGL é uma aplicação desenvolvida para facilitar o cadastro e a visualizaç�
 
 #### Tecnologias Utilizadas
 
-- **Front-end**: React.js, Bootstrap
+- **Front-end**: React.js
 - **Back-end**: Node.js, Express.js
 - **Banco de Dados**: MySQL
 - **ORM**: Sequelize
@@ -35,13 +35,6 @@ O AGL é uma aplicação desenvolvida para facilitar o cadastro e a visualizaç�
 
 Certifique-se de ter o [Node.js](https://nodejs.org/) e o [MySQL](https://www.mysql.com/) instalados em sua máquina.
 
-#### Clonando o Repositório
-
-```bash
-git clone https://github.com/ZopuBitrix/agl-app-cadastroBonificacao.git
-cd agl-app-cadastroBonificacao
-```
-
 #### Instalação das Dependências
 
 Para instalar as dependências do front-end e back-end, execute os seguintes comandos:
@@ -49,37 +42,7 @@ Para instalar as dependências do front-end e back-end, execute os seguintes com
 ```bash
 # No diretório raiz do projeto
 npm install
-
-# Acesse o diretório do servidor
-cd backend
-npm install
 ```
-
-#### Configuração do Banco de Dados
-
-1. **Crie um banco de dados** no MySQL.
-   ```sql
-   CREATE DATABASE agl_bonificacoes;
-   ```
-
-2. **Configure as credenciais** do banco de dados no arquivo `backend/config/config.json`:
-   ```json
-   {
-     "development": {
-       "username": "seu_usuario",
-       "password": "sua_senha",
-       "database": "agl_bonificacoes",
-       "host": "127.0.0.1",
-       "dialect": "mysql"
-     }
-   }
-   ```
-
-3. **Migrações**: Execute as migrações para criar as tabelas necessárias.
-   ```bash
-   cd backend
-   npx sequelize-cli db:migrate
-   ```
 
 #### Executando o Projeto
 

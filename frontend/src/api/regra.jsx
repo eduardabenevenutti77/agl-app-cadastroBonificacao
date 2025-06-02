@@ -45,11 +45,18 @@ export const cadastroRegra = async (regra) => {
     return response.data
 }
 
-export const cadastroFixa = async ({remuneracaoFixa, userId}) => {
-    console.log('Dado recebido: ', {remuneracaoFixa, userId});
-    const response = await api.put(`/api/v1/regra/put/cadastroFixa/${userId}`, {remuneracaoFixa: remuneracaoFixa});
+export const cadastroFixa = async ({ remuneracaoFixa, userId }) => {
+    console.log('Dado recebido: ', { remuneracaoFixa, userId });
+    const response = await api.put(`/api/v1/regra/put/cadastroFixa/${userId}`, { remuneracaoFixa: remuneracaoFixa });
     return response.data
 }
+
+export const cadastroMeta = async ({ meta, userId }) => {
+    console.log('Dados recebidos para o cadastro de meta: ', { meta, userId });
+    const response = await api.post(`/api/v1/regra/metas/${userId}`, { meta });
+    return response.data;
+};
+
 
 export const chartFunil = async () => {
     const response = await api.get('/api/v1/regra/chartFunil');
@@ -63,5 +70,10 @@ export const findMonthTime = async () => {
 
 export const findMonthFunc = async () => {
     const response = await api.get('/api/v1/regra/getVendasMensalFunc');
+    return response.data
+}
+
+export const chartsCalculo = async () => {
+    const response = await api.get('/api/v1/regra/getChartsCalculo');
     return response.data
 }

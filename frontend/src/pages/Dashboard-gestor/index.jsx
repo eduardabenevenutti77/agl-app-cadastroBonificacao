@@ -7,6 +7,7 @@ import ChartsRemunerecao from "../../components/ChartsRemuneracao/chartsRemunera
 import ChartsFunil from "../../components/ChartsFunil/chartsFunil";
 import ChartsMensalPessoa from "../../components/ChartsMensalPessoa/chartsMensalPessoa";
 import ChartsMensal from "../../components/ChartsMensal/chartsMensal";
+import ChartsCalculo from "../../components/ChartsCalculoRegra";
 
 export default function DashboardGestor() {
     const [vendasAnual, setVendasAnual] = useState(null);
@@ -24,7 +25,7 @@ export default function DashboardGestor() {
                 if (data && data.vendasAnual) {
                     setVendasAnual(data.vendasAnual);
                 } else {
-                    setVendasAnual("Dados não disponíveis");
+                    setVendasAnual("0");
                 }
             } catch (error) {
                 setVendasAnual("Erro ao carregar dados");
@@ -112,9 +113,6 @@ export default function DashboardGestor() {
         <>
             <div id="container">
                 <div id="display">
-                    {/* <div id="displayButton">
-                        <button id="download" onClick={handleDownload}>Download dos gráficos <img src={download} alt="Download Icon" /></button>
-                    </div> */}
                 </div>
                 <div id="displayGraficoNumerico">
                     <div id="backgroundNumerico1">
@@ -140,6 +138,7 @@ export default function DashboardGestor() {
                     </div>
                 </div>
                 <div id='displayCharts'>
+                    <ChartsCalculo />
                     <ChartsRemunerecao id='chartsBorders' />
                     <ChartsMensal />
                 </div>

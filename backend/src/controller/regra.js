@@ -6,45 +6,63 @@ const time = require('../model/time');
 const funcionario = require('../model/funcionario');
 const grupo = require('../model/grupo');
 const user = require('../model/user');
+const meta = require('../model/meta');
 const { Op } = require('sequelize');
+const math = require('mathjs');
 grupo.belongsTo(funil, { foreignKey: 'funilID' });
+require('dotenv').config();
+const bitrix24 = process.env.BITRIX24_TOKEN
 
 class RegraController {
-    async cadastroRegra(campoPorcento, criterioUm,  selectFunil, selectedProduto, quantidade, selectedTime, selectFuncionario) {
-        // primeiro realizar o cadastro do grupo => id do time, id do funcionário e id do produto 
-        // cadastrar o 1º criterio, 2º criterio e o id do funil daquela criterio
-        // em regra, cadastrar a remuneração fixa, a remuneração variável, a porcentagem, o id do critério e o id do grupo
-        // cadastrar a informação normal e quando for puxar do banco realizar o cálculo
-        // Validação de campos obrigatórios
-        if (!campoPorcento || !criterioUm || !selectedTime  || !selectedProduto || !selectFunil) {
+    async cadastroRegra(timeID, funcionarioID, produtoID, funilID, campoPorcento, criterioUm) {
+        if (!campoPorcento || !criterioUm || !timeID || !produtoID || !funilID) {
             throw new Error("Todos os campos são obrigatórios!");
         }
         try {
-            const createGrupo = await grupo.create({
-                timeID: selectedTime,
-                funcionarioID: selectFuncionario, 
-                produtoID: selectedProduto,
-                funilID: selectFunil
+            console.log("Valores recebidos:", {
+                campoPorcento,
+                criterioUm,
+                funilID,
+                produtoID,
+                timeID,
+                funcionarioID,
             });
-            if (createGrupo) {
-                    const createRegra = await regra.create({
-                        criterio: criterioUm,
-                        porcentagem: campoPorcento,
-                        grupoID: createGrupo.id,
-                    });
-                    return createRegra;
-            } else {
-                console.log("Problema ao cadastrar grupo, revise os dados e tente novamente!");
+
+            console.log("Criando grupo com os dados:", {
+                timeID,
+                funcionarioID,
+                produtoID,
+                funilID
+            });
+
+            const timeExists = await time.findByPk(timeID);
+            if (!timeExists) {
+                throw new Error(`O time com ID ${timeID} não existe no banco de dados!`);
             }
-            throw new Error("Erro ao criar o grupo ou critério, tente novamente.");
+
+            const createGrupo = await grupo.create({
+                timeID,
+                funcionarioID,
+                produtoID,
+                funilID,
+            });
+
+            if (createGrupo) {
+                console.log("Grupo criado com sucesso:", createGrupo);
+                const createRegra = await regra.create({
+                    criterio: criterioUm,
+                    porcentagem: campoPorcento,
+                    grupoID: createGrupo.id,
+                });
+                return createRegra;
+            } else {
+                throw new Error("Problema ao cadastrar grupo, revise os dados e tente novamente!");
+            }
         } catch (error) {
+            console.error('Erro ao processar a criação da regra:', error.message);
             if (error.name === 'SequelizeValidationError') {
                 const validationErrors = error.errors.map(err => err.message);
-                console.error('Erro de validação ao criar a regra:', validationErrors);
-                throw new Error(`Erro de validação: ${validationErrors.join(', ')}`);
-            } else {
-                console.error('Erro ao processar a criação da regra:', error);
-                throw new Error(`Erro ao processar a criação da regra: ${error.message}`);
+                console.error('Erro de validação:', validationErrors);
             }
         }
     }
@@ -56,30 +74,33 @@ class RegraController {
             throw new Error('Remuneração fixa não informada.');
         }
         console.log('Remuneração:', remuneracaoFixa);
-    
+
         try {
-            userId = parseInt(userId, 10); 
+            userId = parseInt(userId, 10);
             console.log(`Buscando usuário com ID: ${userId}`);
-    
+
             const findUser = await user.findByPk(userId);
             if (!findUser) {
                 console.log('Usuário não encontrado para o ID:', userId);
                 throw new Error('Usuário não encontrado.');
             } else {
                 const updateUser = {
-                    remuneracaoFixa 
+                    remuneracaoFixa
                 };
-    
+
                 const [updatedRows] = await user.update(updateUser, {
                     where: { id: userId }
                 });
-    
+
                 if (updatedRows === 0) {
                     console.log('Nenhuma linha foi atualizada. Verifique o userId ou os dados.');
                 } else {
                     console.log('Remuneração fixa atualizada com sucesso!');
                 }
-    
+                const resultadoOTE = await this.calculoOTE();
+
+                console.log("Cálculo OTE:", resultadoOTE);
+
                 return 'Remuneração fixa atualizada com sucesso!';
             }
         } catch (e) {
@@ -93,7 +114,7 @@ class RegraController {
             }
         }
     }
-    
+
 
     async findFunil() {
         const findAll = await funil.findAll();
@@ -103,7 +124,10 @@ class RegraController {
     async createFunil() {
         try {
             let findFunil = await funil.findAll();
-            const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.category.list?entityTypeId=2');
+            const metodoFase = 'crm.category.list'
+            const filtro = 2
+            const url = `${bitrix24}${metodoFase}?entityTypeId=${filtro}`
+            const response = await fetch(url)
             const data = await response.json();
 
             const funilsArray = data?.result?.categories || [];
@@ -143,7 +167,9 @@ class RegraController {
         try {
             // 1 - vendas | 2 - bko | 10 - qualidade | 14 - controle | 22 - acompanhamento
             const idFunil = 2
-            const response = await fetch(`https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.dealcategory.stage.list?id=${idFunil}`);
+            const metodoFase = 'crm.dealcategory.stage.list'
+            const url = `${bitrix24}${metodoFase}?id=${idFunil}`
+            const response = await fetch(url)
             const data = await response.json();
 
             console.log("Dados recebidos:", JSON.stringify(data, null, 2));
@@ -177,7 +203,9 @@ class RegraController {
 
     async createProduto() {
         try {
-            const response = await fetch("https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/crm.product.list");
+            const metodoFase = 'crm.product.list'
+            const url = `${bitrix24}${metodoFase}`
+            const response = await fetch(url)
             const data = await response.json();
 
             console.log("Dados recebidos:", JSON.stringify(data, null, 2));
@@ -218,7 +246,10 @@ class RegraController {
 
     async createTime() {
         try {
-            const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/department.get?select[]=name');
+            const metodoFase = 'department.get'
+            const select_opcao = 'name'
+            const url = `${bitrix24}${metodoFase}?select[]=${select_opcao}`
+            const response = await fetch(url)
             const data = await response.json();
 
             const timeArray = data?.result || [];
@@ -250,7 +281,9 @@ class RegraController {
 
     async createFuncionario() {
         try {
-            const response = await fetch('https://agltelecom.bitrix24.com.br/rest/8/m4fwz47k43hly413/user.get');
+            const metodoFase = 'user.get'
+            const url = `${bitrix24}${metodoFase}`
+            const response = await fetch(url)
             const data = await response.json();
 
             const funcArray = data?.result || [];
@@ -292,20 +325,20 @@ class RegraController {
         try {
             const allProdutosVendidos = await grupo.count({
                 distinct: true,
-                col: 'funcionarioID' 
+                col: 'funcionarioID'
             });
             return allProdutosVendidos;
         } catch (e) {
             console.error("Erro ao buscar dados de produtos vendidos ->", e.message);
         }
     }
-    
+
     async findVendasMensal() {
         try {
             const currentDate = new Date();
             const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-            const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0); 
-    
+            const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+
             const vendasMensal = await regra.count({
                 where: {
                     createdAt: {
@@ -317,105 +350,74 @@ class RegraController {
         } catch (error) {
             console.error("Erro ao buscar dados das vendas mensal ->", error.message);
         }
-    }    
+    }
 
-    async calculoOTE() {
+    async calcularOTE(userId) {
         try {
-            const criterioUm = await criterio.findAll({ attributes: ['id', 'criterioUm'] });
-            const criterioDois = await criterio.findAll({ attributes: ['id', 'criterioDois'] });
+            const usuario = await User.findByPk(userId);
 
-            const criteriosIniciais = criterioUm.map(item => item.criterioUm); 
-            const criteriosSecundarios = criterioDois.map(item => item.criterioDois); 
-    
-            const timeID = await regra.findAll({
-                attributes: ['id', 'grupoID'],
-                include: [{
-                    model: grupo,
-                    required: false,  
-                    attributes: ['id', 'timeID'],
-                }]
-            });
+            if (!usuario) {
+                throw new Error("Usuário não encontrado.");
+            }
 
-            const identificadoresTimes = timeID.map(item => {
-                return item.grupo ? item.grupo.timeID : null; 
-            }).filter(timeID => timeID !== null);
+            const meta = await Meta.findByPk(usuario.metaID);
+            const regra = await Regra.findOne(); 
 
-            criteriosIniciais.forEach(criterioInicial => {
-                criteriosSecundarios.forEach(criterioSecundario => {
-                    identificadoresTimes.forEach(identificadorTime => {
-                        if (criterioInicial < 1000 && criterioSecundario === 1000 && identificadorTime === 5) {
-                            console.log('Aplicar a validação aqui [0]');
-                        } else if (criterioInicial < 1001 && criterioSecundario === 1500 && identificadorTime === 5) {
-                            console.log('Aplicar a validação aqui [0,3]');
-                        } else if (criterioInicial < 1501 && criterioSecundario === 1999 && identificadorTime === 5) {
-                            console.log('Aplicar a validação aqui [0,5]');
-                        } else if (criterioInicial < 2000 && criterioSecundario === 2499 && identificadorTime === 5) {
-                            console.log('Aplicar a validação aqui [0,6]');
-                        } else if (criterioInicial < 2500 && criterioSecundario === 2999 && identificadorTime === 5) {
-                            console.log('Aplicar a validação aqui [1,0]');
-                        } else if (criterioInicial < 3000 && criterioSecundario === 3999 && identificadorTime === 5) {
-                            console.log('Aplicar a validação aqui [1,5]');
-                        } else if (criterioInicial > 4000 && identificadorTime === 5) {
-                            console.log('Aplicar a validação aqui [1,7]');
-                        } else if (criterioInicial < 500 && criterioSecundario === 1000 && identificadorTime === 9 || identificadorTime === 10) {
-                            console.log('Aplicar a validação aqui [0,2]');
-                        } else if (criterioInicial < 1001 && criterioSecundario === 1500 && identificadorTime === 9 || identificadorTime === 10) {
-                            console.log('Aplicar a validação aqui [0,35]');
-                        } else if (criterioInicial < 1501 && criterioSecundario === 2000 && identificadorTime === 9 || identificadorTime === 10) {
-                            console.log('Aplicar a validação aqui [0,50]');
-                        } else if (criterioInicial < 2001 && criterioSecundario === 2500 && identificadorTime === 9 || identificadorTime === 10) {
-                            console.log('Aplicar a validação aqui [0,80]');
-                        } else if (criterioInicial < 2501 && criterioSecundario === 3000 && identificadorTime === 9 || identificadorTime === 10) {
-                            console.log('Aplicar a validação aqui [1,0]');
-                        } else if (criterioInicial > 3001 && identificadorTime === 9 || identificadorTime === 10) {
-                            console.log('Aplicar a validação aqui [1,1]');
-                        } else if (criterioInicial < 500 && criterioSecundario === 700 && identificadorTime === 0 ) {
-                            console.log('Aplicar a validação aqui [0,1]');
-                        } else if (criterioInicial < 701 && criterioSecundario === 900 && identificadorTime === 0 ) {
-                            console.log('Aplicar a validação aqui [0,2]');
-                        } else if (criterioInicial < 901 && criterioSecundario === 1200 && identificadorTime === 0 ) {
-                            console.log('Aplicar a validação aqui [0,4]');
-                        } else if (criterioInicial < 1201 && criterioSecundario === 1500 && identificadorTime === 0 ) {
-                            console.log('Aplicar a validação aqui [0,6]');
-                        } else if (criterioInicial < 1501 && criterioSecundario === 2000 && identificadorTime === 0 ) {
-                            console.log('Aplicar a validação aqui [0,7]');
-                        } else if (criterioInicial > 2001 && identificadorTime === 0 ) {
-                            console.log('Aplicar a validação aqui [0,8]');
-                        } else {
-                            console.log('caiu fora da validação')
-                        }
-                    });
-                });
-            });
+            if (!meta || !regra) {
+                throw new Error("Meta ou regra não encontrada.");
+            }
+
+            const remuneracaoFixa = parseFloat(usuario.remuneracaoFixa);
+            const criterio = parseFloat(regra.criterio);
+            const porcentagem = parseFloat(regra.porcentagem);
+
+            if (isNaN(remuneracaoFixa) || isNaN(criterio) || isNaN(porcentagem)) {
+                throw new Error("Valores inválidos para cálculo.");
+            }
+
+            const bonus = (criterio * porcentagem) / 100;
+
+            const OTE = remuneracaoFixa + bonus;
+
+            return {
+                usuario: usuario.email,
+                meta: parseFloat(meta.meta),
+                criterio,
+                porcentagem,
+                remuneracaoFixa,
+                bonusEsperado: bonus.toFixed(2),
+                OTE: OTE.toFixed(2)
+            };
+
         } catch (e) {
-            console.error("Erro ->", e.message);
-            console.error("Detalhes ->", e);
+            console.error("Erro no cálculo de OTE:", e.message);
+            throw new Error("Erro ao calcular OTE.");
         }
-    }    
+    }
 
     async chartsFunil() {
         try {
-            const grupos = await grupo.findAll(); 
-            const funis = await funil.findAll();  
-    
+            const grupos = await grupo.findAll();
+            const funis = await funil.findAll();
+
             const funisMap = funis.reduce((acc, funil) => {
                 acc[funil.id] = funil.funil;
                 return acc;
             }, {});
-    
+
             const funilContagem = grupos.reduce((acc, grupo) => {
                 const funilID = grupo.funilID;
                 const nomeFunil = funisMap[funilID] || "Desconhecido";
-                
+
                 if (!acc[funilID]) {
                     acc[funilID] = { nome: nomeFunil, totalGrupos: 0 };
                 }
                 acc[funilID].totalGrupos += 1;
-    
+
                 return acc;
             }, {});
             const resultado = Object.values(funilContagem);
-            return resultado; 
+            return resultado;
         } catch (error) {
             console.error("Erro ao buscar dados de produtos vendidos ->", error.message);
         }
@@ -436,7 +438,7 @@ class RegraController {
                 const nomeTime = timeMap[timeID] || "Desconhecido";
 
                 if (!acc[timeID]) {
-                    acc[timeID] = { nome: nomeTime, totalGrupos: 0};
+                    acc[timeID] = { nome: nomeTime, totalGrupos: 0 };
                 }
                 acc[timeID].totalGrupos += 1;
 
@@ -464,7 +466,7 @@ class RegraController {
                 const nomeFunc = funcMap[funcionarioID] || "Desconhecido";
 
                 if (!acc[funcionarioID]) {
-                    acc[funcionarioID] = { nome: nomeFunc, totalGrupos: 0};
+                    acc[funcionarioID] = { nome: nomeFunc, totalGrupos: 0 };
                 }
                 acc[funcionarioID].totalGrupos += 1;
 
@@ -476,6 +478,52 @@ class RegraController {
             console.error("Erro ao buscar vendas por times ->", e.message);
         }
     }
+
+    async cadastroMeta(metaData, userId) {
+        console.log('bateu aqui - controller');
+        console.log('metaData:', metaData, '| userId:', userId);
+
+        if (!metaData) {
+            console.log('O campo de Meta não foi informado. Por favor, arrume este campo e continue o cadastro!');
+            throw new Error('Meta não informada.');
+        }
+
+        console.log('Meta recebida:', metaData);
+
+        try {
+            userId = parseInt(userId, 10);
+            console.log(`Buscando usuário com ID: ${userId}`);
+
+            const findUser = await user.findByPk(userId);
+            if (!findUser) {
+                console.log('Usuário não encontrado para o ID:', userId);
+                throw new Error('Usuário não encontrado.');
+            }
+
+            const createdMeta = await meta.create({
+                meta: metaData
+            });
+
+            if (createdMeta && createdMeta.id) {
+                await user.update(
+                    { metaID: createdMeta.id },
+                    { where: { id: userId } }
+                );
+            }
+
+            return createdMeta;
+        } catch (e) {
+            if (e.name === 'SequelizeValidationError') {
+                const validationErrors = e.errors.map(err => err.message);
+                console.error('Erro de validação ao cadastrar a meta:', validationErrors);
+                throw new Error(`Erro de validação: ${validationErrors.join(', ')}`);
+            } else {
+                console.error('Erro ao processar o cadastro da meta:', e);
+                throw new Error(`Erro ao processar o cadastro da meta: ${e.message}`);
+            }
+        }
+    }
+
 }
 
 function delay(ms) {

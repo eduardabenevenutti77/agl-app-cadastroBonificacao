@@ -5,14 +5,17 @@ import { toast } from "react-toastify";
 import blockIcon from "../../assets/svg/block.svg";
 import unblockIcon from "../../assets/svg/unblock.svg";
 import dolarIcon from "../../assets/svg/dollar.svg";
-import { cadastroFixa } from "../../api/regra";
+import sales from "../../assets/svg/sales.svg";
+import { cadastroFixa, cadastroMeta } from "../../api/regra";
 import "./style-bloquear.css";
 
 export default function Bloquear() {
     const [users, setUsers] = useState([]);
-    const { token, userId } = useContext(AuthContext); 
+    const { token, userId } = useContext(AuthContext);
     const [remuneracaoFixa, setRemuneracaoFixa] = useState('');
+    const [meta, setMeta] = useState('');
     const [showForm, setShowForm] = useState(false);
+    const [showFormMeta, setShowFormMeta] = useState(false);
     const [currentUserId, setCurrentUserId] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
 
@@ -20,19 +23,15 @@ export default function Bloquear() {
         try {
             const response = await blockUser(id);
             if (response.message) {
-                console.log('Usuário Bloqueado!');
                 setUsers(prevUsers =>
                     prevUsers.map(user =>
                         user.id === id ? { ...user, bloqueado: true } : user
                     )
                 );
                 toast.success('Usuário foi bloqueado com sucesso!');
-            } else {
-                toast.error("Erro ao bloquear o usuário.");
             }
         } catch (error) {
             toast.error("Erro ao bloquear o usuário.");
-            console.error(error);
         }
     };
 
@@ -40,7 +39,6 @@ export default function Bloquear() {
         try {
             const response = await unblock(id);
             if (response.message) {
-                console.log('Usuário Desbloqueado!');
                 setUsers(prevUsers =>
                     prevUsers.map(user =>
                         user.id === id ? { ...user, bloqueado: false } : user
@@ -61,6 +59,12 @@ export default function Bloquear() {
         setIsOpen(true);
     };
 
+    const handleMetaClick = (id) => {
+        setCurrentUserId(id);
+        setShowFormMeta(true);
+        setIsOpen(true);
+    };
+
     const formatCurrency = (value) => {
         const numericValue = parseFloat(value.replace(/[^\d]/g, "")) / 100;
         return new Intl.NumberFormat('pt-BR', {
@@ -74,36 +78,51 @@ export default function Bloquear() {
         setRemuneracaoFixa(formatCurrency(valor));
     };
 
+    const handleFormatacaoMeta = (e) => {
+        const valor = e.target.value.replace(/[^0-9]/g, '');
+        setMeta(formatCurrency(valor));
+    };
+
     const handleUpdate = async () => {
         try {
-            const cleanedRemuneracaoFixa = remuneracaoFixa
-                .replace('R$', '')     
-                .replace(/\./g, '')    
-                .replace(',', '.');    
-    
-            const value = parseFloat(cleanedRemuneracaoFixa);
-    
-            // if (isNaN(value)) {
-            //     toast.error('O valor da remuneração fixa é inválido!');
-            //     return;
-            // }
-    
+            const cleaned = remuneracaoFixa.replace('R$', '').replace(/\./g, '').replace(',', '.');
+            const value = parseFloat(cleaned);
             const response = await cadastroFixa({ remuneracaoFixa: value, userId: currentUser.id });
-            
             if (response.message) {
                 toast.success('Cadastro de remuneração fixa realizado com sucesso!');
                 setShowForm(false);
-                setIsOpen(false); 
-                setRemuneracaoFixa('');  
+                setIsOpen(false);
+                setRemuneracaoFixa('');
             }
         } catch (error) {
             toast.error("Erro ao atualizar a remuneração.");
         }
     };
-    
+
+    const handleMetaSubmit = async () => {
+        try {
+            const cleaned = meta.replace('R$', '').replace(/\./g, '').replace(',', '.');
+            const value = parseFloat(cleaned);
+            const response = await cadastroMeta({ meta: value, userId: currentUser.id });
+            if (response.message) {
+                toast.success('Cadastro de meta realizado com sucesso!');
+                setShowFormMeta(false);
+                setIsOpen(false);
+                setMeta('');
+            }
+        } catch (error) {
+            toast.error("Erro ao cadastrar meta.");
+        }
+    };
+
     const closeRemuneracao = () => {
         setIsOpen(false);
-        setShowForm(false); 
+        setShowForm(false);
+    };
+
+    const closeMeta = () => {
+        setIsOpen(false);
+        setShowFormMeta(false);
     };
 
     useEffect(() => {
@@ -113,17 +132,13 @@ export default function Bloquear() {
                 const data = await findUser();
                 const filteredUsers = data.filter(user => user.id !== userId);
                 const roleUser = filteredUsers.filter(user => user.permissao === 'user');
-                
-                // Formatar usuários
                 const formattedUsers = roleUser.map(user => ({
                     ...user,
                     remuneracaoFixa: user.remuneracaoFixa ? formatCurrency(user.remuneracaoFixa.toString()) : 'Não Definido'
                 }));
-
                 setUsers(formattedUsers);
-                console.log(formattedUsers); // Verificar os dados que chegaram
             } catch (error) {
-                alert("Não foi possível carregar os usuários.");
+                toast.error("Não foi possível carregar os usuários.");
             }
         };
         fetchUsers();
@@ -134,9 +149,7 @@ export default function Bloquear() {
     return (
         <div id="containerBloquear">
             <p id="titleBloquear">Gestão de Usuários</p>
-            <div>
-                <p id="subtitle">Essa tela é responsável pela visualização dos usuários cadastrados no banco de dados da AGL. Nela, é possível bloquear e desbloquear o acesso à aplicação.</p>
-            </div>
+            <p id="subtitle">Essa tela é responsável pela visualização dos usuários cadastrados no banco de dados da AGL. Nela, é possível bloquear e desbloquear o acesso à aplicação.</p>
             <ul id="userList">
                 {users.length > 0 ? (
                     users.map((user) => (
@@ -155,6 +168,9 @@ export default function Bloquear() {
                                 <button className="remuneracao" onClick={() => handleUpdateClick(user.id)}>
                                     <img src={dolarIcon} alt="Atualizar Remuneração" />
                                 </button>
+                                <button className="sales" onClick={() => handleMetaClick(user.id)}>
+                                    <img src={sales} alt="Atualizar Meta" />
+                                </button>
                             </div>
                         </li>
                     ))
@@ -164,9 +180,9 @@ export default function Bloquear() {
             </ul>
 
             {showForm && currentUser && isOpen && (
-                <div id="updateForm" onClick={handleUpdate}>
-                    <form>
-                        <button id="closeRemuneracao" onClick={closeRemuneracao}>x</button>
+                <div id="updateForm">
+                    <form onSubmit={(e) => { e.preventDefault(); handleUpdate(); }}>
+                        <button id="closeRemuneracao" type="button" onClick={closeRemuneracao}>x</button>
                         <p id="titleUpdate">Remuneração: {currentUser.email}</p>
                         <input
                             id="remuneracao"
@@ -175,8 +191,27 @@ export default function Bloquear() {
                             placeholder="Informe o valor a ser cadastrado"
                         />
                         <div id="displayButton">
-                            <button id="save">Salvar</button>
-                            <button id="delete" onClick={closeRemuneracao}>Cancelar</button>
+                            <button id="save" type="submit">Salvar</button>
+                            <button id="delete" type="button" onClick={closeRemuneracao}>Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            )}
+
+            {showFormMeta && currentUser && isOpen && (
+                <div id="updateForm">
+                    <form onSubmit={(e) => { e.preventDefault(); handleMetaSubmit(); }}>
+                        <button id="closeRemuneracao" type="button" onClick={closeMeta}>x</button>
+                        <p id="titleUpdate">Meta: {currentUser.email}</p>
+                        <input
+                            id="meta"
+                            value={meta}
+                            onChange={handleFormatacaoMeta}
+                            placeholder="Informe o valor da meta"
+                        />
+                        <div id="displayButton">
+                            <button id="save" type="submit">Salvar</button>
+                            <button id="delete" type="button" onClick={closeMeta}>Cancelar</button>
                         </div>
                     </form>
                 </div>
